@@ -1,0 +1,38 @@
+# OneDrive / temp
+.tmp.driveupload/
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# Big archives
+*.tgz
+*.tar.gz
+*.zip
+*.7z
+
+# Big bio data (keep out of normal git)
+*.fna
+*.fasta
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+*.bam
+*.cram
+*.sam
+
+# Common big outputs
+primer_assess_results/
+cluster_family*/
+masking_output/
+RepeatMasker*/
+RepeatModeler*/
+
+# R clutter
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS junk
+.DS_Store
+Thumbs.db
