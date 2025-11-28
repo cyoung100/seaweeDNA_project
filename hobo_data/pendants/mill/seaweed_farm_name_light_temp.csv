@@ -1,0 +1,6 @@
+﻿"Plot Title: seaweed_farm_name_"
+"#","Date Time, GMT+01:00","Temp, °F (LGR S/N: 22202659, SEN S/N: 22202659, LBL: temp_farm_name)","Intensity, lum/ft² (LGR S/N: 22202659, SEN S/N: 22202659, LBL: light_farm_name)","Coupler Detached (LGR S/N: 22202659)","Coupler Attached (LGR S/N: 22202659)","Host Connected (LGR S/N: 22202659)","Stopped (LGR S/N: 22202659)","End Of File (LGR S/N: 22202659)"
+1,15/08/25 14:22:33,81.797,0.0,,,,,
+2,15/08/25 14:22:38,,,Logged,,,,
+3,15/08/25 14:39:23,,,,Logged,Logged,,
+4,15/08/25 14:39:41,,,,,,Logged,Logged

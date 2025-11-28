@@ -1,0 +1,25 @@
+repeat masker trf
+
+so many reads of other stuff its to hard to pick up small quants of target species - qPCR
+quantitative pcr - specific primer which amplifies target species or group - this provides much better quantitativer signal - by designing good primers/probes (shjort olignonucluetoides) whihc bind and amplify region of interest
+
+when using classic primers (mitochondiral) have poor sensitivity - if we know how many lice on pfish - the number of dna molecules go up - but they dont - so we are now going to design better markers - 
+
+to do this going to look for repeat sequences - inverts are repeat rich - most sensitive markers are those thst target these regoins as therei is so many of them beczuse it gives better sensitivity as the priemr is more likely to bump into the marker as it is more ubiquitous - 
+
+in some instances - genome is availbel online - pathogen genome is alrady sequnecend - in my case i have to seq myself - oxford nano 0 cheap and straightforward 
+
+develop bioinformatic pipeline to go from genome to bioinformatic markers which we can test in lab 0 dilute to test limit of sensitivity - mix target organism with backgrounnd to see if marks other stuff - 
+
+then pcr to see if all amplicon sre targe sequence 
+
+emma - develop pipelines and benchmark different pipelines - different species might need slighlty different pipelines - may not be one size fits all - 
+
+
+150 bp most ideal for primer design for qpcr
+
+nested pcr - for use when bp too many
+
+set up std pcr with these primers and receive one pcr product and sanger seq to check amplifying right thing - then see how sensitivity compares - standard marker from lit and new ones we've made - 
+
+microsats are tandem repeats - low complexity repeats e.g. TTTTTTTTT - not useful, cant develop a primer - can mutate when replicates - useful for bioelectrophoresis - not useful for us as need hihger complexity and not predate emergence of species in terms of evolutionary divergence - want specialised to sp. 

@@ -1,0 +1,113 @@
+# Load packages
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(BiocManager)
+library(ComplexHeatmap)
+library(viridis)
+
+```
+
+
+```{r}
+kelpcroft_full <- read.csv("raw_data/focal_species.csv")
+klpcrft_otu <- read.csv("raw_data/kelpcroft_otu.csv")
+
+kelpcrofting_samples <- clean_names(kelpcroft_full)
+
+kelpcrofting_samples %>% filter(!is.na(percent_blade_hydrozoans))
+kelpcrofting_otu <- clean_names(klpcrft_otu)
+```
+
+```{r}
+blade_data <- kelpcrofting_samples[, c(1:11, 53:60)]
+```
+
+```{r}
+
+blade_long <- blade_data %>%
+  pivot_longer(
+    cols = matches("^percent_blade_|^mussel_juveniles$"),
+    names_to = "species",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    method = "blade"
+  )
+```
+
+```{r}
+# Choose your long-format data — combining all if needed
+heatmap_data <- blade_long %>%
+  filter(!is.na(measurement_value))  # drop empty values
+
+```
+
+```{r}
+heatmap_data <- blade_long %>%
+  filter(!is.na(measurement_value)) %>%
+  mutate(
+    parsed_date = as.Date(paste0("20", str_replace(sample_code, "_", "-")), format = "%Y-%m-%d"),
+    species = str_remove(species, "^percent_blade_")
+  ) %>%
+  arrange(parsed_date) %>%
+  mutate(sample_code = factor(sample_code, levels = unique(sample_code)))
+
+
+heatmap_data <- blade_long %>%
+  filter(!is.na(measurement_value)) %>%
+  mutate(
+    parsed_date = as.Date(paste(year, month, day, sep = "-")),
+    species = str_remove(species, "^percent_blade_")
+  ) %>%
+  arrange(parsed_date) %>%
+  mutate(sample_code = factor(sample_code, levels = unique(sample_code)))
+
+
+```
+
+```{r}
+kelpcrofting_long <- kelpcrofting_samples%>%
+  pivot_longer(
+    cols = -c(sample_code, date, location, station_no, seaweed, site, year, month, day, notes_on_blades, sample_no),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "blade") ~ "blade_coverage",
+      TRUE ~ "abundance"
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+```
+
+```{r}
+ggplot(heatmap_data, aes(x = sample_code, y = species, fill = measurement_value)) +
+  geom_tile(color = "white", linewidth = 0.1) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 8),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Blade coverage (%) by Station and Species",
+    x = "Sample Code (Station Replicates)",
+    y = "Species",
+    fill = "Measurement"
+  )
+```
+

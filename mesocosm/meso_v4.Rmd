@@ -1,0 +1,362 @@
+---
+title: "Mesocosm Epibiont Analysis"
+author: "C Young"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Setup and Data Loading
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+```{r load-libraries}
+# Load required libraries
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(readxl)
+library(lme4)
+library(ggpubr)
+library(rstatix)
+library(FSA)
+```
+```{r load-data}
+# Load and prepare complete dataset
+meso <- read.csv("mesocosm_complete.csv") %>% 
+  mutate(colony_length_max = as.numeric(colony_length_max))
+```
+
+# Data Preparation
+
+## Juvenile Bryozoans (Membranipora & Pilosa)
+```{r juvenile-data}
+juvenile <- meso %>%
+  filter(grepl("juvenile", age)) %>% 
+  filter(!is.na(turbulence),
+         turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  ) %>%
+  group_by(seaweed_id, epibiont_sampling_date)
+```
+
+## Adult Bryozoans (Membranipora & Pilosa)
+```{r adult-data}
+adult <- meso %>%
+  filter(grepl("adult", age)) %>% 
+  filter(!is.na(turbulence),
+         turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  ) %>%
+  group_by(seaweed_id, epibiont_sampling_date)
+```
+
+## Adult Hydrozoans (Obelia)
+```{r hydrozoan-data}
+adult_hydro <- meso %>%
+  filter(grepl("adult", age)) %>% 
+  filter(species == "Hydrozoa",
+         !is.na(turbulence),
+         turbulence != "") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  ) %>%
+  group_by(seaweed_id, epibiont_sampling_date)
+```
+
+## Adult Spirorbid Polychaetes (Spirobranchus)
+```{r spirorbid-data}
+adult_spiro <- meso %>%
+  filter(grepl("adult", age)) %>% 
+  filter(species == "Spirobranchus",
+         !is.na(turbulence),
+         turbulence != "") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  ) %>%
+  group_by(seaweed_id, epibiont_sampling_date)
+```
+
+# Juvenile Bryozoan Analysis
+
+## Colony Area
+```{r juvenile-area-plot}
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Juvenile Bryozoan Colony Area") +
+  theme_minimal()
+```
+
+## Colony Length
+```{r juvenile-length-plot}
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Juvenile Bryozoan Colony Length") +
+  theme_minimal()
+```
+
+# Adult Bryozoan Analysis
+
+## Colony Area
+
+### Boxplot
+```{r adult-area-boxplot}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Adult Bryozoan Colony Area") +
+  theme_minimal()
+```
+
+### Bar Plot with Standard Error
+```{r adult-area-barplot}
+adult %>% 
+  group_by(species, epibiont_sampling_date, nutrient_treatment, turbulence) %>%
+  summarise(
+    mean_area = mean(colony_area, na.rm = TRUE),
+    se_area = sd(colony_area, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = nutrient_treatment, y = mean_area, fill = turbulence)) +
+  geom_col(position = position_dodge(0.9)) +
+  geom_errorbar(
+    aes(ymin = mean_area - se_area, ymax = mean_area + se_area),
+    position = position_dodge(0.9),
+    width = 0.25
+  ) +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Mean colony area (cm²)",
+       x = "Nutrient Treatment",
+       fill = "Turbulence",
+       title = "Adult Bryozoan Colony Area (Mean ± SE)") +
+  theme_minimal()
+```
+
+## Colony Maximum Length
+
+### Boxplot
+```{r adult-length-boxplot}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, colour = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Adult Bryozoan Colony Maximum Length") +
+  theme_minimal()
+```
+
+### Bar Plot with Standard Error
+```{r adult-length-se-barplot}
+adult %>% 
+  group_by(species, epibiont_sampling_date, nutrient_treatment, turbulence) %>%
+  summarise(
+    mean_length = mean(colony_length_max, na.rm = TRUE),
+    se_length = sd(colony_length_max, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = nutrient_treatment, y = mean_length, fill = turbulence)) +
+  geom_col(position = position_dodge(0.9)) +
+  geom_errorbar(
+    aes(ymin = mean_length - se_length, ymax = mean_length + se_length),
+    position = position_dodge(0.9),
+    width = 0.25
+  ) +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Mean colony max length (cm)",
+       x = "Nutrient Treatment",
+       fill = "Turbulence",
+       title = "Adult Bryozoan Colony Length (Mean ± SE)") +
+  theme_minimal()
+```
+
+### Bar Plot with Standard Deviation
+```{r adult-length-sd-barplot}
+adult %>% 
+  group_by(species, epibiont_sampling_date, nutrient_treatment, turbulence) %>%
+  summarise(
+    mean_length = mean(colony_length_max, na.rm = TRUE),
+    sd_length = sd(colony_length_max, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = nutrient_treatment, y = mean_length, fill = turbulence)) +
+  geom_col(position = position_dodge(0.9)) +
+  geom_errorbar(
+    aes(ymin = mean_length - sd_length, ymax = mean_length + sd_length),
+    position = position_dodge(0.9),
+    width = 0.25
+  ) +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Mean colony max length (cm)",
+       x = "Nutrient Treatment",
+       fill = "Turbulence",
+       title = "Adult Bryozoan Colony Length (Mean ± SD)") +
+  theme_minimal()
+```
+
+## Statistical Tests for Colony Length
+
+### Kruskal-Wallis Tests
+```{r kruskal-overall}
+# Overall test by nutrient treatment
+kruskal.test(colony_length_max ~ nutrient_treatment, data = adult)
+```
+```{r kruskal-by-species}
+# Membranipora
+adult %>%
+  filter(species == "Membranipora") %>%
+  kruskal.test(colony_length_max ~ nutrient_treatment, data = .)
+
+# Pilosa
+adult %>%
+  filter(species == "Pilosa") %>%
+  kruskal.test(colony_length_max ~ nutrient_treatment, data = .)
+```
+```{r kruskal-stratified}
+# Tests for each combination of species × turbulence × date
+kruskal_results <- adult %>%
+  group_by(species, turbulence, epibiont_sampling_date) %>%
+  summarise(
+    n = n(),
+    kruskal_p = if(n() > 5 && length(unique(nutrient_treatment)) > 1) {
+      kruskal.test(colony_length_max ~ nutrient_treatment)$p.value
+    } else {
+      NA
+    },
+    .groups = "drop"
+  )
+
+print(kruskal_results)
+```
+
+### Post-hoc Pairwise Comparisons
+```{r posthoc-membranipora}
+# Post-hoc tests for Membranipora
+posthoc_results <- adult %>%
+  filter(species == "Membranipora") %>%
+  group_by(turbulence, epibiont_sampling_date) %>%
+  dunn_test(colony_length_max ~ nutrient_treatment, p.adjust.method = "bonferroni")
+
+print(posthoc_results)
+```
+```{r stat-results-comprehensive}
+# Comprehensive statistical results table
+stat_results <- adult %>%
+  group_by(species, turbulence, epibiont_sampling_date) %>%
+  kruskal_test(colony_length_max ~ nutrient_treatment) %>%
+  adjust_pvalue(method = "bonferroni") %>%
+  add_significance("p.adj")
+
+print(stat_results)
+```
+
+# Adult Hydrozoan Analysis
+
+## Hydrozoan Count Distribution
+```{r hydrozoan-boxplot}
+adult_hydro %>% 
+  ggplot(aes(x = nutrient_treatment, y = hydrozoan_count, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid( ~ epibiont_sampling_date) +
+  labs(y = "No. hydrozoan individuals",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Adult Hydrozoan (Obelia) Abundance") +
+  theme_minimal()
+```
+
+## Statistical Tests for Hydrozoans
+```{r hydrozoan-kruskal}
+# Kruskal-Wallis test for each combination
+results_hydro <- adult_hydro %>%
+  group_by(species, turbulence, epibiont_sampling_date) %>%
+  summarise(
+    n = n(),
+    kruskal_p = if(n() > 5 && length(unique(nutrient_treatment)) > 1) {
+      kruskal.test(hydrozoan_count ~ nutrient_treatment)$p.value
+    } else {
+      NA
+    },
+    .groups = "drop"
+  )
+
+print(results_hydro)
+```
+```{r hydrozoan-pairwise}
+# All pairwise comparisons
+hydro_stats_all <- adult_hydro %>%
+  unite("treatment_combo", nutrient_treatment, turbulence, remove = FALSE) %>%
+  group_by(species, epibiont_sampling_date) %>%
+  wilcox_test(hydrozoan_count ~ treatment_combo) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj")
+
+print(hydro_stats_all)
+```
+```{r hydrozoan-posthoc}
+# Post-hoc tests stratified by turbulence and date
+posthoc_results_hydro <- adult_hydro %>%
+  group_by(turbulence, epibiont_sampling_date) %>%
+  dunn_test(hydrozoan_count ~ nutrient_treatment, p.adjust.method = "bonferroni")
+
+print(posthoc_results_hydro)
+```
+
+# Adult Spirorbid Polychaete Analysis
+
+## Spirorbid Count Distribution
+```{r spirorbid-boxplot}
+adult_spiro %>% 
+  ggplot(aes(x = nutrient_treatment, y = spirobranchus_count, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "No. spirorbid individuals",
+       x = "Nutrient Treatment",
+       colour = "Turbulence",
+       title = "Adult Spirorbid Polychaete (Spirobranchus) Abundance") +
+  theme_minimal()
+```
+
+## Statistical Tests for Spirorbids
+```{r spirorbid-pairwise}
+# All pairwise comparisons
+spiro_stats_all <- adult_spiro %>%
+  unite("treatment_combo", nutrient_treatment, turbulence, remove = FALSE) %>%
+  group_by(species, epibiont_sampling_date) %>%
+  wilcox_test(spirobranchus_count ~ treatment_combo) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj")
+
+print(spiro_stats_all)
+```

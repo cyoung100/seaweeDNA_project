@@ -1,0 +1,612 @@
+---
+title: "Bivalvia Heatmap Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+library(viridis)
+
+# Base theme
+theme_set(
+  theme_minimal(base_size = 12) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 12),
+      axis.text        = element_text(size = 12),
+      legend.title     = element_text(size = 12),
+      legend.text      = element_text(size = 12),
+      strip.text       = element_text(size = 12)
+    )
+)
+```
+
+```{r read-compute}
+# 1) Read & compute per‑cm² abundances
+
+bivalvia <- read.csv("bivalvia_heatmap.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>% 
+  mutate(bivalve_p_cm = total_bivalves / for_standardizing,
+         mytilus_p_cm = mytilus / for_standardizing,
+          ostrea_p_cm = ostrea / for_standardizing,
+        pecten_p_cm = pecten / for_standardizing,
+        scallop_p_cm = scallop_brown / for_standardizing,
+         parsed_date = make_date(year, month, day)) %>% 
+  select(-for_standardizing)
+
+
+
+
+```
+
+```{r pivot-classify}
+
+biv_long <- bivalvia %>%
+  pivot_longer(
+    cols      = -c(sample_code, date, station_no, seaweed, site,
+                   location, day, month, year, parsed_date),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  # 1) classify + build y_axis
+  mutate(
+    measurement_type   = case_when(
+      str_detect(species_id, "^otu_")    ~ "eDNA",
+      species_id == "plankton_bivalvia"  ~ "plankton",
+      str_detect(species_id, "_p_cm$")   ~ "blade",
+      TRUE                               ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "eDNA"     ~ "Plankton eDNA (RSV)",
+      measurement_type == "plankton" ~ "Plankton Abundance (cell/L)",
+      measurement_type == "blade"    ~ "Blade Abundance (ind/cm²)",
+      TRUE                            ~ NA_character_
+    ),
+    measurement_value = if_else(
+      measurement_type == "eDNA",
+      sqrt(measurement_value),
+      measurement_value
+    ),
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      species_id == "plankton_bivalvia"           ~ "Bivalvia Plankton Ab\n(cell/L)",
+      TRUE                                        ~ species_id
+    )
+  ) %>%
+  
+  # 2) rename & lock‐in factor
+  mutate(
+    species_id = recode_factor(
+      species_id,
+            # eDNA OTUs
+      otu_dosinia_sp          = "Dosinia sp.",
+            otu_kurtiella_bidentata      = "Kurtiella bidentata",
+            otu_montacutona_sigalionidcola = "Montacutona sigalionidcola",
+        otu_musculus_sp              = "Musculus sp.",
+         otu_mytilus_edulis           = "Mytilus edulis",
+   
+
+      # plankton abundance
+      plankton_bivalvia            = "Plankton Bivalvia",
+      "mytilus_p_cm"      = "Mytilus sp.",
+      "cerastoderma_p_cm" = "Cerastoderma sp.",
+      "ostrea_p_cm"       = "Ostrea sp.",
+      "pecten_p_cm"       = "Pecten sp.",
+      "scallop_p_cm"      = "Brown Scallop",
+      "bivalve_p_cm"      = "Total Bivalves",
+      .default            = species_id
+    )
+  ) %>%
+  
+  # 3) **alphabetize** species_id
+  mutate(
+    species_id = fct_relevel(
+      species_id,
+      # sort the *level* names alphabetically:
+      sort(unique(as.character(species_id)))
+    )
+  ) %>%
+  
+  # 4) finish up
+  filter(!is.na(measurement_origin)) %>%
+  mutate(
+    station      = as.character(station_no),
+    sample_order = paste(parsed_date, station, sep = "_"),
+    measurement_value = case_when(
+      measurement_type == "eDNA" ~ sqrt(measurement_value),
+      TRUE                       ~ measurement_value
+    ))
+
+
+biv_long <- biv_long %>%
+  filter(parsed_date != as.Date("2021-06-15"))
+
+
+```
+
+```{r order-axis}
+# 3) Set plotting order & axis labels
+order_ids <- biv_long %>%
+  distinct(parsed_date, station, sample_order) %>%
+  arrange(parsed_date, as.integer(station)) %>%
+  pull(sample_order)
+
+biv_long <- biv_long %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+parts          <- strsplit(levels(biv_long$sample_order), "_")
+dates          <- as.Date(sapply(parts, `[`, 1))
+raw_stations <- sapply(parts, `[`, 2)
+date_labels    <- ifelse(!duplicated(dates),
+                         format(dates, "%d %b"),
+                         "")
+
+station_labels <- paste0("S", raw_stations)
+```
+
+```{r split-panels}
+# 4) Split into panels
+d_e    <- filter(biv_long, measurement_origin == "Plankton eDNA (RSV)")
+d_p    <- filter(biv_long, measurement_origin == "Plankton Abundance (cell/L)")
+d_b_sacc <- filter(biv_long,
+                   measurement_type == "blade",
+                   seaweed == "Saccharina")
+d_b_ala  <- filter(biv_long,
+                    measurement_type == "blade",
+                   seaweed == "Alaria")
+
+```
+
+```{r scales}
+# 5) Define shared fill scales
+scale_e <- scale_fill_viridis_c(option = "magma", direction = -1,
+                               name = "Meroplankton\neDNA sqrt(ASV)  ", na.value = "grey90")
+scale_p <- scale_fill_viridis_c(option = "magma", direction = -1,
+                               name = "Meroplankton\nAbundance\n(cells/L)", na.value = "grey90")
+scale_b_a <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Alaria Frond\nAbundance\n(ind/cm²)",
+  na.value  = "grey90"
+)
+
+scale_b_s <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Saccharina frond\nAbundance\n(ind/cm²)",
+  na.value  = "grey90"
+)
+```
+
+```{r}
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), 
+                     y = fct_rev(species_id), 
+                      fill = measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0),
+    sec.axis = dup_axis(name = NULL, labels = station_labels)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size = 10),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) + ylab("Planktonic eDNA\nRSV rel. abundance (%)") +
+  theme(axis.title.y = element_text(size = 10))
+
+p2 <- ggplot(d_p, aes(x = sample_order, y = species_id, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank()
+  ) +
+  ylab(NULL)
+
+p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
+                           y = fct_rev(species_id),
+                           fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_s +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Saccharina\n(ind/cm²)") +
+  theme(axis.title.y = element_text(size = 10))
+
+p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
+                          y = fct_rev(species_id),
+                          fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_a +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = date_labels,
+    expand = c(0,0),
+    name   = "Date"
+  )  + theme(
+    axis.text.x.bottom  = element_text(size = 10, vjust = 3, hjust = 0),
+    axis.title.x.bottom = element_text(margin = margin(t = 5)),
+    axis.ticks.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank(),
+          legend.title     = element_text(size = 10),  # <- uniform legend title
+      legend.text      = element_text(size = 10),
+  ) +
+  ylab("Alaria\n(ind/cm²)")+
+  theme(axis.title.y = element_text(size = 10))
+# ─────────────────────────────────────────────────────────────────────────────
+# 9) Stack panels with shared legends
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(ncol = 1, heights = c(6,1,2,2), guides = "collect") &
+  theme(
+    legend.position   = "right",
+    legend.title.size = 10,
+    legend.text.size  = 10,
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(0.8, "lines")
+  )
+
+print(final_plot)
+```
+
+```{r}
+svglite::svglite(
+  "bivalv_KC.svg",
+  width  = 15,
+  height = 8.27
+)
+print(final_plot)
+dev.off()
+```
+
+######################## Average of st#
+
+
+```{r}
+# setup -------------------------------------------------------------------
+
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+library(viridis)
+
+# Base theme
+theme_set(
+  theme_minimal(base_size = 10) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 10),
+      axis.text        = element_text(size = 10),
+      legend.title     = element_text(size = 10),
+      legend.text      = element_text(size = 10),
+      strip.text       = element_text(size = 10)
+    )
+)
+
+```
+
+
+```{r}
+# read-compute ------------------------------------------------------------
+
+# 1) Read & compute per‑cm² abundances
+bivalvia <- read.csv("bivalvia_heatmap.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>% 
+  mutate(
+    bivalve_p_cm = total_bivalves / for_standardizing,
+    mytilus_p_cm  = mytilus       / for_standardizing,
+    ostrea_p_cm   = ostrea        / for_standardizing,
+    pecten_p_cm   = pecten        / for_standardizing,
+    scallop_p_cm  = scallop_brown / for_standardizing,
+    parsed_date   = make_date(year, month, day)
+  ) %>% 
+  select(-for_standardizing)
+
+```
+
+```{r}
+# pivot-classify ----------------------------------------------------------
+
+biv_long <- bivalvia %>%
+  pivot_longer(
+    cols      = -c(sample_code, date, station_no, seaweed, site,
+                   location, day, month, year, parsed_date),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  # 1) classify + build y_axis
+  mutate(
+    measurement_type   = case_when(
+      str_detect(species_id, "^otu_")      ~ "eDNA",
+      species_id == "plankton_bivalvia"    ~ "plankton",
+      str_detect(species_id, "_p_cm$")     ~ "blade",
+      TRUE                                 ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "eDNA"           ~ "Plankton eDNA (RSV)",
+      measurement_type == "plankton"       ~ "Plankton Abundance (cell/L)",
+      measurement_type == "blade"          ~ "Blade Abundance (ind/cm²)",
+      TRUE                                 ~ NA_character_
+    ),
+    measurement_value = if_else(
+      measurement_type == "eDNA",
+      sqrt(measurement_value),
+      measurement_value
+    ),
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      species_id == "plankton_bivalvia"           ~ "Bivalvia Plankton Ab\n(cell/L)",
+      TRUE                                        ~ species_id
+    )
+  ) %>%
+  # 2) rename & lock‐in factor
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      # eDNA OTUs
+      otu_dosinia_sp               = "Dosinia sp.",
+      otu_kurtiella_bidentata      = "Kurtiella\nbidentata",
+      otu_montacutona_sigalionidcola = "Montacutona\nsigalionidcola",
+      otu_musculus_sp              = "Musculus sp.",
+      otu_mytilus_edulis           = "Mytilus edulis",
+      # plankton abundance
+      plankton_bivalvia            = "Bivalvia Plankton",
+      "mytilus_p_cm"               = "Mytilus sp.",
+      "cerastoderma_p_cm"          = "Cerastoderma sp.",
+      "ostrea_p_cm"                = "Ostrea sp.",
+      "pecten_p_cm"                = "Pecten sp.",
+      "scallop_p_cm"               = "Aequipecten sp.",
+      "bivalve_p_cm"               = "Total Bivalves",
+      .default                     = species_id
+    )
+  ) %>%
+  # 3) alphabetize species_id
+  mutate(
+    species_id = fct_relevel(
+      species_id,
+      sort(unique(as.character(species_id)))
+    )
+  ) %>%
+  # 4) finish up
+  filter(!is.na(measurement_origin)) %>%
+  mutate(
+    station      = as.character(station_no),
+    sample_order = paste(parsed_date, station, sep = "_")
+  )
+biv_long <- biv_long %>%
+  filter(parsed_date != as.Date("2021-06-15"))
+
+```
+
+```{r}
+# average-stations --------------------------------------------------------
+
+# 5) Average across the three stations for each date/species
+biv_avg <- biv_long %>%
+  group_by(parsed_date, seaweed, 
+           measurement_type, measurement_origin,
+           y_axis, species_id) %>%
+  summarise(
+    measurement_value = mean(measurement_value, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  # treat each date as a single sample
+  mutate(
+    sample_order = factor(parsed_date,
+                          levels = sort(unique(parsed_date)))
+  )
+
+```
+
+```{r}
+# order-axis-avg ----------------------------------------------------------
+
+# 6) Set plotting order & axis labels for the averaged data
+order_dates <- sort(unique(biv_avg$parsed_date))
+date_labels <- format(order_dates, "%d %b")
+
+biv_avg <- biv_avg %>%
+  mutate(sample_order = factor(parsed_date, levels = order_dates))
+
+```
+
+```{r}
+# split-panels-avg --------------------------------------------------------
+
+d_e      <- filter(biv_avg, measurement_origin == "Plankton eDNA (RSV)")
+d_p      <- filter(biv_avg, measurement_origin == "Plankton Abundance (cell/L)")
+d_b_sacc <- filter(biv_avg, measurement_type   == "blade",
+                             seaweed            == "Saccharina")
+d_b_ala  <- filter(biv_avg, measurement_type   == "blade",
+                             seaweed            == "Alaria")
+
+```
+
+```{r}
+# plot-panels-avg ---------------------------------------------------------
+
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order),
+                      y = fct_rev(species_id),
+                      fill = measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits   = c(0.5, length(order_dates) + 0.5),
+    breaks   = seq_along(order_dates),
+    labels   = NULL,
+    expand   = c(0, 0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank(),
+      axis.title.y      = element_text(size = 12, margin = margin(r = 10))
+  ) +
+  ylab("Meroplankton\neDNA sqrt(ASV)")
+
+p2 <- ggplot(d_p, aes(x = sample_order, y = species_id,
+                      fill = measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank(),
+     axis.title.y      = element_text(size = 12, margin = margin(r = 10))
+  ) +
+  ylab("Meroplankton\nAbundance\n(cells/L)")
+
+p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
+                           y = fct_rev(species_id),
+                           fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_s +
+  scale_x_continuous(
+    limits = c(0.5, length(order_dates) + 0.5),
+    breaks = seq_along(order_dates),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Saccharina frond\nAbundance\n(ind/cm²)") +
+  theme(   # y axis
+    axis.text.y       = element_text(size = 10),
+    axis.title.y      = element_text(size = 12, margin = margin(r = 10)))
+
+library(ggplot2)
+library(forcats)
+
+p4 <- ggplot(d_b_ala, aes(
+        x    = as.numeric(sample_order),
+        y    = fct_rev(species_id),
+        fill = measurement_value
+      )) +
+  geom_tile(color = NA) +
+  scale_b_a +
+  scale_x_continuous(
+    limits = c(0.5, length(order_dates) + 0.5),
+    breaks  = seq_along(order_dates),
+    labels  = date_labels,
+    expand  = c(0, 0),
+    name    = "Date"
+  ) +
+  ylab("Alaria frond\nAbundance\n(ind/cm²) ") +
+  theme(
+    # x axis
+    axis.text.x       = element_text(size = 10, vjust = 1.2, hjust = 1, angle = 45),
+    axis.title.x      = element_text(margin = margin(t = 5)),
+    axis.ticks.x      = element_blank(),
+
+    # y axis
+    axis.text.y       = element_text(size = 11),
+    axis.title.y      = element_text(size = 12, margin = margin(r = 10)),
+
+    # panel styling
+    panel.background  = element_blank(),
+    panel.grid        = element_blank()
+  )
+
+p4
+
+theme_set(
+  theme_minimal(base_size = 10) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 10),
+      axis.text        = element_text(size = 10),
+      legend.title     = element_text(size = 10),
+      legend.text      = element_text(size = 10),
+      strip.text       = element_text(size = 10)
+    ))
+
+
+final_plot <- (p1 / p2 / p3 / p4) +
+  plot_layout(
+    ncol    = 1,
+    heights = c(3, 1,2,2),
+    guides  = "collect"
+  ) &
+  theme(
+    legend.position   = "right",
+    legend.direction = "vertical",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(0.8, "lines"),
+    axis.title.y = element_text(
+      margin = margin(r = 10) ),
+    plot.margin       = margin(t = 1, r = 3, b = 1, l = 3))
+
+theme(
+  legend.position     = "right",
+  legend.direction    = "vertical",
+#  legend.box.spacing  = unit(5, "cm"),       # space *between* different legends
+ # legend.spacing.x    = unit(5, "cm"),     # space between keys and labels
+  #legend.spacing.y    = unit(5, "cm"),     # vertical padding inside legend
+  #legend.title        = element_text(size = 10, margin = margin(b = 4)), # space below title
+  legend.text         = element_text(size = 10, margin = margin(t = 2)), # space above labels
+  legend.key.height   = unit(0.8, "lines"),
+  legend.key.width    = unit(1, "lines"),
+  axis.title.y        = element_text(margin = margin(r = 10)),
+  plot.margin         = margin(t = 1, r = 3, b = 1, l = 3)
+)
+
+
+print(final_plot)
+
+```
+
+```{r}
+svglite::svglite(
+  filename = "bivalvia_heatmap_avg_A4.svg",
+  width    = 8.27,
+#  height   = NA
+)
+print(final_plot)
+dev.off()
+
+```
+

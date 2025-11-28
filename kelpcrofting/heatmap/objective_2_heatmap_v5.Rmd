@@ -1,0 +1,353 @@
+
+# Load packages
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(xfun)
+library(viridis)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+```
+
+```{r}
+kelpcroft_full <- read.csv("raw_data/focal_species.csv")
+klpcrft_otu <- read.csv("raw_data/kelpcroft_otu.csv")
+
+kelpcrofting_samples <- clean_names(kelpcroft_full)
+kelpcrofting_otu_raw <- clean_names(klpcrft_otu)
+
+```
+
+```{r}
+kelpcrofting_samples <- kelpcrofting_samples %>%
+  rename_with(
+    ~ paste0("zooplank_abundance_", str_remove_all(.x, "^zooplank_abundance_")),
+    .cols = 14:26
+  )
+```
+
+```{r}
+kelpcrofting_long <- kelpcrofting_samples %>%
+  pivot_longer(
+    cols = -c(sample_code, date, location, station_no, seaweed, site, year, month, day, notes_on_blades, sample_no),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "blade") ~ "blade_coverage",
+      str_detect(species_id, "zooplank_abundance") ~ "abundance"
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+kelpcrofting_long <- kelpcrofting_long %>%
+  mutate(
+    parsed_date = make_date(year, month, day)
+  )
+
+```
+
+```{r}
+kelpcrofting_long <- kelpcrofting_long %>%
+  mutate(
+    species_name = str_replace_all(species_id, "_", " "),
+    species_name = gsub("otu ", "", species_name)
+  )
+
+species_list <- kelpcrofting_long  %>%
+  distinct(species_id)
+
+species_list <- unique(kelpcrofting_long$species_name)
+
+species_list
+```
+
+```{r}
+species_list_edit <- species_list[!species_list %in% c("total reads", "species richness", "total zooplankton", "total phytoplankton", "blade area", "tufts cm2", "x", "x 1", "for standardizing")]
+
+view(species_list_edit)
+
+```
+
+```{r}
+library(worrms)
+# Function to safely fetch taxonomy info
+
+
+fetch_taxonomy_safe <- function(name) {
+  tryCatch(
+    {
+      Sys.sleep(0.5)  # polite, avoid hammering server
+      worm <- wm_records_name(name)
+      if (length(worm) > 0) worm[1, ] else NULL
+    },
+    error = function(e) NULL
+  )
+}
+
+#Map across all species
+#taxonomy_lookup <- purrr::map_df(species_list_edit, fetch_taxonomy_safe)
+
+write.csv(taxonomy_lookup, "taxonomy_lookup.csv")
+
+taxonomy_lookup <- read.csv("taxonomy_lookup.csv")
+# Now taxonomy_lookup contains WoRMS info for  species
+
+```
+
+```{r}
+subset_taxon <- taxonomy_lookup %>% select(c(4, 14:19))
+
+subset_taxon <- subset_taxon %>% 
+  mutate(species_name = str_to_lower(scientificname))
+
+```
+
+```{r}
+kelpcrofting_taxa <- kelpcrofting_long %>% 
+  full_join(
+    subset_taxon,
+    by = c("species_name" = "species_name")
+  )
+```
+
+```{r}
+df_bivalvia <- kelpcrofting_taxa %>%
+  filter(if_any(everything(), ~ str_detect(., regex("bivalvia", ignore_case = TRUE))))
+```
+
+```{r}
+# Subset all rows where any column contains "bivalvia" (case-insensitive)
+bivalvia_data <- kelpcrofting_taxa %>%
+  filter(if_any(everything(), ~ str_detect(., regex("bivalvia", ignore_case = TRUE)))) %>%
+  mutate(
+    species_origin = paste(measurement_origin, genus, sep = " | "),
+    station_label = paste0(day, "_", month, "_", year, "_st", station_no),
+    measurement_value = replace_na(as.numeric(measurement_value), 0),
+    species_origin = factor(species_origin, levels = unique(species_origin)),
+    station_label = factor(station_label, levels = unique(station_label))
+  )
+
+# Plot stacked rows per origin
+ggplot(bivalvia_data, aes(x = station_label, y = species_origin, fill = measurement_value)) +
+  geom_tile(color = "white", linewidth = 0.2) +
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 8),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Bivalvia Measurements by Origin and Station",
+    x = "Station",
+    y = "Origin | Genus",
+    fill = "Value"
+  )
+
+```
+
+```{r}
+# Prepare and normalize bivalvia data
+bivalvia_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(str_detect(species_name, regex("bivalvia", ignore_case = TRUE))) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("bivalvia", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+# Preserve order
+bivalvia_heatmap$y_axis <- factor(
+  bivalvia_heatmap$y_axis,
+  levels = c("bivalvia | plankton", "bivalvia | edna", "bivalvia | blade")
+)
+
+library(lubridate)
+
+bivalvia_heatmap <- bivalvia_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+
+```
+
+```{r}
+ggplot(bivalvia_heatmap, aes(x = sample_order, y = y_axis, fill = measurement_scaled)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 10),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Normalized Bivalvia Measurements",
+    x = "Sample (Date + Station)",
+    y = "Origin",
+    fill = "Scaled Value"
+  )
+
+```
+
+```{r}
+# Prepare and normalize bivalvia data
+bryozoa_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(str_detect(species_name, regex("bryozoa", ignore_case = TRUE))) %>%
+  filter(str_detect(phylum, regex("bryozoa", ignore_case = TRUE))) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("bryozoa", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+# Preserve order
+bivalvia_heatmap$y_axis <- factor(
+  bivalvia_heatmap$y_axis,
+  levels = c("bryozoa | plankton", "bryozoa | edna", "bryozoa | blade")
+)
+
+library(lubridate)
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+
+```
+
+
+```{r}
+# Prepare and normalize bryozoa data
+bryozoa_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(
+    str_detect(species_name, regex("bryozoa", ignore_case = TRUE)) |
+    str_detect(phylum, regex("bryozoa", ignore_case = TRUE))
+  ) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("bryozoa", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(log1p(as.numeric(measurement_value)), to = c(0, 1))
+  ) %>%
+  ungroup()
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = scale(as.numeric(measurement_value))[,1]
+  ) %>%
+  ungroup()
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value)^0.5, to = c(0, 1))
+  ) %>%
+  ungroup()
+
+
+
+
+```
+
+```{r}
+# Ensure origin stacking order
+bryozoa_heatmap$y_axis <- factor(
+  bryozoa_heatmap$y_axis,
+  levels = c("bryozoa | plankton", "bryozoa | edna", "bryozoa | blade")
+)
+
+# Plot
+ggplot(bryozoa_heatmap, aes(x = sample_order, y = y_axis, fill = measurement_scaled)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "magma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 10),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Normalized Bryozoa Measurements by Origin and Station",
+    x = "Date & Station",
+    y = "Origin",
+    fill = "Scaled Value"
+  )
+
+```
+

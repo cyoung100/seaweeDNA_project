@@ -1,0 +1,201 @@
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(readxl)
+library(lme4)
+library(ggpubr)
+
+```
+
+```{r}
+meso <- read.csv("mesocosm_complete_28_10.csv") %>% 
+  clean_names()
+
+#write.csv(result, "mesocosm_complete.csv")
+
+meso <- meso %>% 
+  mutate(colony_length_max = as.numeric(colony_length_max))
+
+```
+```{r}
+# Find complete duplicate rows
+duplicated(meso)  # Returns logical vector
+meso[duplicated(meso), ]  # Show duplicate rows
+
+# See all instances (including first occurrence)
+meso[duplicated(meso) | duplicated(meso, fromLast = TRUE), ]
+```
+
+
+
+
+```{r}
+juvenile<- meso %>%
+  filter(grepl("juvenile", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence")
+```
+
+```{r}
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence")
+```
+
+```{r}
+adult<- meso %>%
+  filter(grepl("adult", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+```
+
+```{r}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence") +
+  theme_minimal()
+```
+
+```{r}
+adult %>% 
+  group_by(species, epibiont_sampling_date, nutrient_treatment, turbulence) %>%
+  summarise(
+    mean_length = mean(colony_length_max, na.rm = TRUE),
+    se_length = sd(colony_length_max, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = nutrient_treatment, y = mean_length, fill = turbulence)) +
+  geom_col(position = position_dodge(0.9)) +
+  geom_errorbar(
+    aes(ymin = mean_length - se_length, ymax = mean_length + se_length),
+    position = position_dodge(0.9),
+    width = 0.25
+  ) +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       fill = "Turbulence",
+       title = "colony lenght max std error") +
+  theme_minimal()
+```
+
+
+```{r}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, colour = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Turbulence") +
+  theme_minimal()
+```
+
+
+Colony length max with standard deviation
+
+```{r}
+adult %>% 
+  group_by(species, epibiont_sampling_date, nutrient_treatment, turbulence) %>%
+  summarise(
+    mean_length = mean(colony_length_max, na.rm = TRUE),
+    sd_length = sd(colony_length_max, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = nutrient_treatment, y = mean_length, fill = turbulence)) +
+  geom_col(position = position_dodge(0.9)) +
+  geom_errorbar(
+    aes(ymin = mean_length - sd_length, ymax = mean_length + sd_length),
+    position = position_dodge(0.9),
+    width = 0.25
+  ) +
+  facet_grid(species ~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       fill = "Turbulence",
+       title = "std deviation") +
+  theme_minimal()
+```
+
+```{r}
+adult_hydro<- meso %>%
+  filter(grepl("adult", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(species == "Hydrozoa") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025")))
+```
+
+```{r}
+adult_hydro%>% 
+  ggplot(aes(x = nutrient_treatment, y = hydrozoan_count, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species~ epibiont_sampling_date) +
+  labs(y = "No. hydrozoan individ.",
+       x = "Nutrient Treatment",
+       colour = "Turbulence") +
+  theme_minimal()
+```
+
+```{r}
+adult_spiro <- meso %>%
+  filter(grepl("adult", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(species == "Spirobranchus") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025")))
+```
+
+```{r}
+adult_spiro %>% 
+  ggplot(aes(x = nutrient_treatment, y = spirobranchus_count, color = turbulence)) +
+  geom_boxplot() +
+  facet_grid(species~ epibiont_sampling_date) +
+  labs(y = "No. Spiro individ.",
+       x = "Nutrient Treatment",
+       colour = "Turbulence") +
+  theme_minimal()
+```
+
+

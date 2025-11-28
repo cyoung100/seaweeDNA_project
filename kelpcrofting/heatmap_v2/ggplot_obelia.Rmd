@@ -1,0 +1,290 @@
+
+
+```{r heatmap-ggplot, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(lubridate)
+library(viridis)
+library(scales)
+library(patchwork)
+
+# Load and clean
+obelia <- read.csv("obelia_heatmap_allOTU.csv", fileEncoding="latin1") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>%
+  
+  mutate(
+    parsed_date  = make_date(year, month, day),
+    seaweed_code = if_else(seaweed=="Saccharina","SA","ALA"),
+    sample_order = paste(site, year,
+                         sprintf("%02d",month),
+                         sprintf("%02d",day),
+                         station_no,
+                         seaweed_code,
+                         sep = "_")
+  )
+
+# Pivot long
+plot_data <- obelia %>%
+  pivot_longer(
+    cols = c(starts_with("otu_"),
+             contains("plankton"),
+             contains("percent_blade")),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_origin = case_when(
+      str_detect(species_id,"^otu_")                       ~ "Plankton eDNA (RSV)",
+      str_detect(species_id,"plankton")                    ~ "Plankton Abundance (cells/L)",
+      species_id=="saccharina_percent_blade_hydrozoans"    ~ "Blade Coverage – Saccharina (%)",
+      species_id=="alaria_percent_blade_hydrozoans"        ~ "Blade Coverage – Alaria (%)",
+      TRUE                                                 ~ NA_character_
+    ),
+    measurement_value = if_else(
+      measurement_origin=="Plankton eDNA (RSV)",
+      log1p(measurement_value),
+      measurement_value
+    ),
+    y_axis = case_when(
+      measurement_origin=="Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE                                     ~ measurement_origin
+    )
+  ) %>%
+  filter(!is.na(measurement_origin))
+
+# Ensure x‐axis ordering by date + station
+order_ids <- plot_data %>%
+  distinct(sample_order, parsed_date, station_no) %>%
+  arrange(parsed_date, station_no) %>%
+  pull(sample_order)
+
+plot_data <- plot_data %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+# Split into three panels
+data_rsv <- filter(plot_data, measurement_origin=="Plankton eDNA (RSV)")
+data_ab  <- filter(plot_data, measurement_origin=="Plankton Abundance (cells/L)")
+data_cov <- filter(plot_data, str_detect(measurement_origin,"Blade Coverage"))
+
+# Common theme
+base_theme <- theme_minimal() +
+  theme(
+    axis.text.x     = element_text(angle=90, vjust=0.5, hjust=1, size=6),
+    axis.text.y     = element_text(size=8),
+    axis.title      = element_blank(),
+    panel.grid      = element_blank(),
+    strip.text      = element_text(size=9)
+  )
+
+# Panel 1: eDNA
+p1 <- ggplot(data_rsv, aes(x=sample_code, y=y_axis, fill=measurement_value)) +
+  geom_tile() +
+  scale_fill_viridis_c(option="viridis", name="eDNA log(RSV)", na.value="grey90") +
+  #labs(title="eDNA (RSV)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+# Panel 2: Abundance
+p2 <- ggplot(data_ab, aes(x=sample_code, y=y_axis, fill=measurement_value)) +
+  geom_tile() +
+  scale_fill_viridis_c(option="viridis", name="Abundance\n(cells/L)", na.value="grey90") +
+  base_theme +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+
+
+# Stack panels with separate legends
+(p1 / p2 ) + plot_layout(ncol=1, guides="keep")
+
+```
+
+```{r}
+# filter to Saccharina coverage, drop the Alaria row, then sort by parsed_date
+data_cov_sac <- data_cov %>%
+  filter(
+    seaweed == "Saccharina",
+    y_axis == "Blade Coverage – Saccharina (%)"
+  ) %>%
+  arrange(parsed_date) %>%
+  # lock in that order on the x‐axis
+  mutate(sample_code = factor(sample_code, levels = unique(sample_code)))
+
+# now plot, and the tiles will go left→right in date order
+p3 <- ggplot(data_cov_sac, aes(x = sample_code, y = y_axis, fill = measurement_value)) +
+  geom_tile() +
+  scale_fill_viridis_c(option = "viridis", name = "Coverage\n(%)", na.value = "grey90") +
+  labs(x = "Sample (in date order)", y = NULL) +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()
+  )
+
+p3
+
+```
+
+```{r}
+
+# filter to Saccharina coverage, drop the Alaria row, then sort by parsed_date
+data_cov_ala <- data_cov %>%
+  filter(
+    seaweed == "Alaria",
+    y_axis == "Blade Coverage – Alaria (%)"
+  ) %>%
+  arrange(parsed_date) %>%
+  # lock in that order on the x‐axis
+  mutate(sample_code = factor(sample_code, levels = unique(sample_code)))
+
+# now plot, and the tiles will go left→right in date order
+p4 <- ggplot(data_cov_ala, aes(x = sample_code, y = y_axis, fill = measurement_value)) +
+  geom_tile() +
+  scale_fill_viridis_c(option = "viridis", name = "Coverage\n(%)", na.value = "grey90") +
+  labs(x = "Sample (in date order)", y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8),
+    axis.text.y = element_text(size = 10),
+    panel.grid  = element_blank()
+  )
+
+p4
+
+```
+
+```{r}
+(p1 / p2 / p3 /p4) + plot_layout(ncol=1, guides="keep")
+```
+
+
+```{r}
+library(patchwork)
+library(viridis)
+
+# 1) Create a shared fill‐scale for coverage
+cov_scale <- scale_fill_viridis_c(
+  option    = "viridis",
+  name      = "Coverage (%)",
+  na.value  = "grey90",
+  limits    = c(0, 100),            # or c(min_value, max_value) from your data
+  breaks    = seq(0, 100, by = 20)  # optional
+)
+
+# 2) Rebuild p3 and p4 using that shared scale
+p3 <- ggplot(data_cov_sac, aes(x = sample_code, y = y_axis, fill = measurement_value)) +
+  geom_tile() +
+  cov_scale +
+  labs(x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  base_theme
+
+p4 <- ggplot(data_cov_ala, aes(x = sample_code, y = y_axis, fill = measurement_value)) +
+  geom_tile() +
+  cov_scale +
+  labs(x = "Sample (chronological)", y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8),
+    panel.grid  = element_blank()
+  )
+
+# 3) Stack and collect their (now‐identical) legends
+coverage_combo <- (p3 / p4) +
+  plot_layout(ncol = 1, guides = "collect") &
+  theme(
+    legend.position = "right",
+    legend.title    = element_text(size = 8),
+    legend.text     = element_text(size = 7)
+  )
+
+# Finally, build the full figure
+final_plot <- (p1 / p2 / coverage_combo) +
+  plot_layout(ncol = 1, guides = "keep")
+
+print(final_plot)
+
+```
+
+
+```{r}
+library(patchwork)
+
+# Combine the two coverage plots with a shared legend
+coverage_combo <- (p3 / p4) +
+  plot_layout(ncol = 1, guides = "collect") &
+  theme(legend.position = "right")
+
+# Now stack p1, p2, and coverage_combo, giving p2 a shorter height
+final_plot <- (p1 / p2 / coverage_combo) +
+  plot_layout(
+    ncol   = 1,
+    guides = "keep",
+    heights = c(4, 1, 4)     # relative heights: p1=4, p2=1, coverage_combo=3
+  )
+
+print(final_plot)
+
+```
+
+```{r heatmap-final, message=FALSE, warning=FALSE}
+library(patchwork)
+library(ggplot2)
+library(viridis)
+
+# Shared coverage scale
+cov_scale <- scale_fill_viridis_c(
+  option   = "viridis",
+  name     = "Coverage (%)",
+  na.value = "lightgrey",
+  limits   = c(0,100),
+  breaks   = seq(0,100,20)
+)
+
+# Panel 3: Saccharina (no x labels, no grey)
+p3 <- ggplot(data_cov_sac, aes(x=sample_code, y=y_axis, fill=measurement_value)) +
+  geom_tile(color=NA) +
+  cov_scale +
+  labs(x=NULL, y=NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x    = element_blank(),
+    axis.ticks.x   = element_blank(),
+    panel.background = element_blank(),
+    panel.grid       = element_blank(),
+    plot.margin      = margin(t=2, r=2, b=2, l=2)
+  )
+
+# Panel 4: Alaria (no grey shading, neat boxes)
+p4 <- ggplot(data_cov_ala, aes(x=sample_code, y=y_axis, fill=measurement_value)) +
+  geom_tile(color=NA) +
+  cov_scale +
+  labs(x="Sample (chronological)", y=NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x      = element_text(angle=90, vjust=0.5, size=8),
+    axis.ticks.x     = element_blank(),
+    panel.background = element_blank(),
+    panel.grid       = element_blank(),
+    plot.margin      = margin(t=2, r=2, b=2, l=2)
+  )
+
+# Combine p3+p4 with one legend, stack below p1/p2
+coverage_combo <- (p3 / p4) +
+  plot_layout(ncol=1, guides="collect") & 
+  theme(legend.position="right")
+
+final_plot <- (p1 / p2 / coverage_combo) +
+  plot_layout(ncol=1, guides="keep", heights=c(6,1,2))
+
+print(final_plot)
+```

@@ -1,0 +1,550 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+library(forcats)
+library(lubridate)
+
+# Read data
+  kelpcrofting_taxa <- read.csv("all_data_kelpcrofting.csv") %>% 
+    clean_names()
+
+```
+
+```{r}
+# Create month-year label
+kelpcrofting_taxa <- kelpcrofting_taxa %>%
+  mutate(month_year = format(dmy(date), "%B %y"))
+```
+
+```{r}
+# 1) parse dates and drop bad ones:
+kc_zoo <- kelpcrofting_taxa %>%
+  mutate(
+    date_parsed = dmy(date),           
+    month_year  = format(date_parsed, "%B %y")
+  ) %>%
+  filter(
+    !is.na(date_parsed),                
+    site    != "Scalpay",
+    seaweed != "Alaria"
+  ) %>%
+  select(85:132, month_year, site, seaweed) %>%
+  pivot_longer(
+    cols      = -c(month_year, site, seaweed),
+    names_to  = "zoo_sp",
+    values_to = "abundance"
+  )
+
+
+```
+
+```{r}
+
+# 1) Compute monthly means
+kc_zoo_monthly <- kc_zoo %>%
+  mutate(abundance_log = log1p(abundance)) %>%
+  group_by(month_year, zoo_sp) %>%
+  summarise(
+    mean_abundance = mean(abundance_log, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  # keep months in chronological order
+  mutate(month_year = factor(month_year, levels = unique(month_year))) %>% 
+  filter(!zoo_sp %in% c("total_zooplankton", "holoplankton", "meroplankton", "copepods","copepod_nauplii","mp_fragments","microfibers","fish_egg"))
+
+
+# 1) pick top‐10 per month
+kc_top10_each <- kc_zoo_monthly %>%
+  group_by(month_year) %>%
+  slice_max(mean_abundance, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# 2) compute a global species ranking
+species_order <- kc_top10_each %>%
+  group_by(zoo_sp) %>%
+  summarise(total = sum(mean_abundance), .groups = "drop") %>%
+  arrange(total) %>%
+  pull(zoo_sp)
+
+# 3) apply that order to the factor
+kc_top10_each <- kc_top10_each %>%
+  mutate(zoo_sp = factor(zoo_sp, levels = species_order))
+
+# 4) plot as before
+ggplot(kc_top10_each,
+       aes(x = month_year,
+           y = mean_abundance,
+           fill = zoo_sp)) +
+  geom_col() +
+  labs(
+    title = "Top 10 zooplankton by Mean Abundance\nper Month",
+    x     = "Month–Year",
+    y     = "Abundance log(cells/L)",
+    fill  = "Species"
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(
+    axis.text.x     = element_text(angle = 45, hjust = 1),
+    legend.position = "right"
+  )
+
+
+
+sp <-kc_top10_each %>% 
+  distinct(zoo_sp)
+  
+month <-kc_top10_each %>% 
+  distinct(month_year)
+
+```
+
+
+
+```{r}
+focal <- read.csv("focal_species.csv") %>% 
+  clean_names()
+
+```
+
+```{r}
+# 1) parse dates and drop bad ones:
+focal_zoo <- focal %>%
+  mutate(
+    date_parsed = dmy(date),
+    month_year  = format(date_parsed, "%B %y")
+  ) %>%
+  filter(
+    !is.na(date_parsed),
+    site    != "Scalpay",
+    seaweed != "Alaria"
+  ) %>%
+  select(14:26, month_year, site, seaweed) %>%
+  pivot_longer(
+    cols      = -c(month_year, site, seaweed),
+    names_to  = "zoo_sp",
+    values_to = "abundance"
+  ) %>%
+  mutate(
+    month_date = parse_date_time(month_year, "B y"),
+    month_year = factor(
+      month_year,
+      levels = unique(month_year[order(month_date)]),
+      ordered = TRUE
+    )
+  ) %>%
+  select(-month_date)
+
+
+
+```
+
+
+```{r}
+# 1) Compute monthly means
+focal_zoo_monthly <- focal_zoo %>%
+  mutate(abundance_log = log1p(abundance)) %>%
+  group_by(month_year, zoo_sp) %>%
+  summarise(
+    mean_abundance = mean(abundance_log, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  # keep months in chronological order
+  mutate(month_year = factor(month_year, levels = unique(month_year))) %>% 
+  filter(!zoo_sp %in% c("total_zooplankton", "holoplankton", "meroplankton","hydroids", "obelia"))
+
+
+# 1) pick top‐10 per month
+focal_top10_each <- focal_zoo_monthly %>%
+  group_by(month_year) %>%
+  slice_max(mean_abundance, n = 10) %>%
+  ungroup()
+
+# 2) compute a global species ranking
+focal_species_order <- focal_top10_each %>%
+  group_by(zoo_sp) %>%
+  summarise(total = sum(mean_abundance), .groups = "drop") %>%
+  arrange(total) %>%
+  pull(zoo_sp)
+
+# 2) compute a global species ranking
+species_order <- focal_top10_each %>%
+  group_by(zoo_sp) %>%
+  summarise(total = sum(mean_abundance), .groups = "drop") %>%
+  arrange(total) %>%
+  pull(zoo_sp)
+
+# 3) apply that order to the factor
+focal_top10_each <- focal_top10_each %>%
+  mutate(zoo_sp = factor(zoo_sp, levels = species_order))
+
+
+library(dplyr)
+library(stringr)
+
+focal_top10_each <- focal_top10_each %>%
+  mutate(
+    zoo_sp = str_replace(zoo_sp, "^total_", "Total "),
+    zoo_sp = str_replace_all(zoo_sp, "_", " "),
+    zoo_sp = str_to_title(zoo_sp)
+  )
+
+```
+
+```{r}
+library(ggplot2)
+library(RColorBrewer)
+
+n_sp <- length(unique(focal_top10_each$zoo_sp))
+base_cols <- brewer.pal(min(n_sp, 8), "Paired")
+cols <- if(n_sp > 8) colorRampPalette(base_cols)(n_sp) else base_cols
+
+```
+
+```{r}
+ggplot(focal_top10_each,
+       aes(x    = month_year,
+           y    = mean_abundance,
+           fill = zoo_sp)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_fill_manual(values = cols,
+                     labels = function(x) sub("^Total\\s+", "", x)) +
+  labs(
+    x    = "Month-Year",
+    y    = "Abundance log(cells/L)",
+    fill = "Taxa"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.x      = element_line(color = "black", size = 0.3),
+    axis.line.y      = element_line(color = "black", size = 0.3),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    legend.position  = "top"
+  )
+
+```
+
+#############
+
+Blade Coverage
+
+
+
+```{r}
+blade_ab <- focal %>%
+  mutate(
+    date_parsed = dmy(date),
+    month_year  = format(date_parsed, "%B %y")
+  ) %>%
+  filter(
+    !is.na(date_parsed),
+    site    != "Scalpay",
+  ) %>%
+  select(62:114, month_year, site, seaweed, for_standardizing)%>%
+  pivot_longer(
+    cols      = -c(month_year, site, seaweed, for_standardizing),
+    names_to  = "species",
+    values_to = "abundance"
+  ) %>%
+  mutate(
+    month_date = parse_date_time(month_year, "B y"),
+    month_year = factor(
+      month_year,
+      levels = unique(month_year[order(month_date)]),
+      ordered = TRUE
+    )
+  ) %>%
+  select(-month_date) %>% 
+  filter(!is.na(for_standardizing)) %>% 
+  mutate(ind_p_cm = coalesce(abundance / for_standardizing, 0))
+  
+
+```
+
+```{r}
+# 1) Summarise mean ± SE of ind_p_cm by month and species
+blade_summary <- blade_ab %>%
+  group_by(month_year, species, seaweed) %>%
+  summarise(
+    mean_ind_p_cm = mean(ind_p_cm, na.rm = TRUE),
+    se            = sd(ind_p_cm,   na.rm = TRUE) / sqrt(n()),
+    .groups       = "drop"
+  ) 
+
+
+
+target_abd <- blade_summary %>% 
+  filter(species %in% c("total_amphipoda", "total_bivalvia", "total_gastropoda","total_copepoda_abd","total_isopoda", "total_nemerta"))
+
+
+target_abd <- target_abd %>%
+  mutate(
+    species = species %>% 
+      str_remove("_abd$") %>%
+      str_replace("^total_", "Total ") %>% 
+      str_replace_all("_", " ") %>% 
+      str_to_title()
+  )
+
+target_abd_ala <- target_abd %>% 
+  filter(seaweed == "Alaria")
+
+target_abd_ala <- target_abd %>% 
+  filter(seaweed == "Alaria")
+ggplot(target_abd_ala,
+       aes(x    = month_year,
+           y    = mean_ind_p_cm,
+           fill = species)) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.9) +
+  geom_errorbar(aes(ymin = mean_ind_p_cm - se,
+                    ymax = mean_ind_p_cm + se),
+                position = position_dodge(width = 0.8),
+                width    = 0.2) +
+ # scale_y_continuous(expand = c(0, 0)) +
+  scale_x_discrete(
+    expand = c(0, 0),
+    labels = function(x) sub(" .*", "", x)      # if you still want just the month
+  ) +
+  scale_fill_discrete(
+    name   = "Taxa",
+    labels = function(x) sub("^Total\\s+", "", x)
+  ) +
+  labs(
+    x    = "Month",
+    y    = "Individuals per blade cm² – Alaria"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "top",
+    axis.line.x      = element_line(color = "black", size = 0.3),
+    axis.line.y      = element_line(color = "black", size = 0.3),
+    axis.text.x      = element_text(angle = , hjust = 0.5)
+  )
+```
+
+
+```{r}
+target_abd_sac <- target_abd %>% 
+  filter(seaweed == "Saccharina")
+ggplot(target_abd_sac,
+       aes(x    = month_year,
+           y    = mean_ind_p_cm,
+           fill = species)) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.9) +
+  geom_errorbar(aes(ymin = mean_ind_p_cm - se,
+                    ymax = mean_ind_p_cm + se),
+                position = position_dodge(width = 0.8),
+                width    = 0.2) +
+ # scale_y_continuous(expand = c(0, 0)) +
+  scale_x_discrete(
+    expand = c(0, 0),
+    labels = function(x) sub(" .*", "", x)      # if you still want just the month
+  ) +
+  scale_fill_discrete(
+    name   = "Taxa",
+    labels = function(x) sub("^Total\\s+", "", x)
+  ) +
+  labs(
+    x    = "Month",
+    y    = "Individuals per blade cm² – Saccharina"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.line.x      = element_line(color = "black", size = 0.3),
+    axis.line.y      = element_line(color = "black", size = 0.3),
+    axis.text.x      = element_text(angle = , hjust = 0.5)
+  )
+
+
+```
+
+
+
+```{r}
+blade_ab_monthly <- blade_ab %>%
+  group_by(month_year, species) %>%
+  summarise(
+    mean_abundance = mean(abundance_log, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  # keep months in chronological order
+  mutate(month_year = factor(month_year, levels = unique(month_year)))
+
+#%>% 
+  #filter(!zoo_sp %in% c("total_zooplankton", "holoplankton", "meroplankton"))
+
+  
+```
+
+
+
+#########################Coverage
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(ggplot2)
+
+blade_cov <- focal %>%
+  mutate(
+    date_parsed = dmy(date),
+    month_num   = month(date_parsed),
+    month_full  = format(date_parsed, "%B")         # “April”, “May”, etc.
+  ) %>%
+  filter(
+    !is.na(date_parsed),
+    site != "Scalpay",
+    month_num >= 4,   # April
+    month_num <= 7    # July
+  ) %>%
+  select(
+    date_parsed, month_num, month_full,
+    site, seaweed,
+    starts_with("percent_blade_"),
+    for_standardizing
+  ) %>% 
+  filter(!is.na(for_standardizing)) %>% 
+  mutate(across(starts_with("percent_blade_"), ~replace_na(.x, 0))) %>%
+  # force the x-axis ordering to April→July
+  mutate(month_full = factor(month_full, levels = month.name[4:7]))
+
+blade_long <- blade_cov %>%
+  pivot_longer(
+    cols      = starts_with("percent_blade_"),
+    names_to  = "organism",
+    values_to = "percent"
+  )
+
+blade_stats <- blade_long %>%
+  group_by(month_full, organism,seaweed) %>%
+  summarise(
+    mean_pct = mean(percent),
+    min_pct  = min(percent),
+    max_pct  = max(percent),
+    .groups  = "drop"
+  )
+
+pd <- position_dodge(width = 0.9)
+
+ggplot(blade_stats, aes(x = month_full, y = mean_pct, fill = organism)) +
+  geom_col(position = pd, width = 0.8) +
+  scale_fill_discrete(
+  name   = "Taxa",
+  labels = c("Bryozoans", "Ectocarpus", "Hydrozoans")
+) +
+  geom_errorbar(aes(ymin = min_pct, ymax = max_pct),
+                position = pd,
+                width = 0.2) +
+  labs(
+    x    = "Month",
+    y    = "Epibiont Blade Coverage (%)",
+    fill = "Organism"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.x      = element_line(color = "black", size = 0.3),
+    axis.line.y      = element_line(color = "black", size = 0.3),
+    axis.text.x      = element_text(angle = 0, hjust = 0.5),
+    legend.position = "top"
+  ) + facet_wrap(~seaweed)
+
+```
+
+
+```{r}
+# drop the unwanted rows from Alaria
+blade_stats2 <- blade_stats %>%
+  filter(
+    !(seaweed == "Alaria" & month_full %in% c("June", "July"))
+  )
+
+ggplot(blade_stats2, aes(x = month_full, y = mean_pct, fill = organism)) +
+  geom_col(position = pd, width = 0.8) +
+  geom_errorbar(aes(ymin = min_pct, ymax = max_pct),
+                position = pd,
+                width = 0.2) +
+  scale_fill_discrete(
+    name   = "Taxa",
+    labels = c("Bryozoans", "Ectocarpus", "Hydrozoans")
+  ) +
+  labs(
+    x    = "Month",
+    y    = "Epibiont Blade Coverage (%)",
+    fill = "Organism"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    legend.position = "top",
+    panel.grid.minor = element_blank(),
+    axis.line.x      = element_line(color = "black", size = 0.3),
+    axis.line.y      = element_line(color = "black", size = 0.3),
+    axis.text.x      = element_text(angle = 0, hjust = 0.5,)
+  ) +
+  # give each seaweed its own discrete x-axis,
+  # so Alaria only shows the months it actually has data for
+  facet_wrap(~seaweed, scales = "free_x")
+
+```
+
+```{r}
+install.packages("ggh4x")  
+library(ggh4x)
+
+# 1) drop June/July from Alaria…
+blade_stats2 <- blade_stats %>%
+  filter(!(seaweed=="Alaria" & month_full %in% c("June","July")))
+
+ggplot(blade_stats2, aes(month_full, mean_pct, fill = organism)) +
+  geom_col(position = pd, width = .8) +
+  geom_errorbar(aes(ymin = min_pct, ymax = max_pct),
+                position = pd, width = .2) +
+  scale_fill_discrete(
+    name   = "Taxa",
+    labels = c("Bryozoans","Ectocarpus","Hydrozoans")
+  ) +
+  labs(x="Month", y="Epibiont Blade Coverage (%)") +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid     = element_blank(),
+    axis.line      = element_line(color="black", size=.3),
+    axis.text.x    = element_text(hjust=0.5)
+  ) +
+  # facet with fixed panel‐widths but free x‐limits…
+  facet_wrap2(~seaweed, scales="fixed", independent = "x") +
+  # now tell ggh4x to *only* use April–May on Alaria
+  facetted_pos_scales(
+    x = list(
+      seaweed == "Alaria" ~ scale_x_discrete(limits = c("April","May"))
+    )
+  )
+
+```
+

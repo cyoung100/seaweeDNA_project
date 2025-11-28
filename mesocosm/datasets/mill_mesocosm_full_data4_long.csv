@@ -1,0 +1,2263 @@
+tag_no,tag_colour,seaweed_id,rock_no,date_sampled,blade_length,notes,blade_side,blade_zone,blade_no,species,colony_length_max,colony_area,hydrozoan_count,spirobranchus_count,no_long_m
+,orange_yellow,YO13,13,12/06/2025,50,,,,1,Spirobranchus,,NA,NA,10,NA
+,orange_yellow,YO19,19,12/06/2025,40,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO01,1,04/06/2025,NA,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO01,1,04/06/2025,NA,,,,2,Hydrozoa,,NA,4,NA,NA
+,orange_yellow,YO01,1,04/06/2025,18,,,,1,Membranipora,1.4,1.5393804,NA,NA,NA
+,orange_yellow,YO01,1,04/06/2025,18,,,,1,Membranipora,1.8,2.544690049,NA,NA,NA
+,orange_yellow,YO01,1,04/06/2025,18,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO01,1,12/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO02,2,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO02,2,12/06/2025,22,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO02,2,12/06/2025,22,,,,1,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO03,3,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO03,3,12/06/2025,32,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO04,4,04/06/2025,26,,,,1,Membranipora,1.6,2.010619298,NA,NA,NA
+,orange_yellow,YO04,4,12/06/2025,50,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO04,4,12/06/2025,50,,,,1,Spirobranchus,1,NA,NA,2,NA
+,orange_yellow,YO05,5,04/06/2025,NA,clean,,,4,,,NA,NA,NA,NA
+,orange_yellow,YO05,5,04/06/2025,65,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO05,5,04/06/2025,NA,,,,2,Membranipora,0.6,0.282743339,NA,NA,NA
+,orange_yellow,YO05,5,04/06/2025,NA,,,,3,Membranipora,0.9,0.636172512,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,75,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,15,,,,3,,2,NA,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,15,,,,3,,1.5,NA,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,23,,,,5,,,NA,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,70,1 blue ray limpet,,,1,Hydrozoa,,NA,3,NA,NA
+,orange_yellow,YO05,5,12/06/2025,45,,,,4,Hydrozoa,,NA,8,NA,NA
+,orange_yellow,YO05,5,12/06/2025,75,,,,2,Hydrozoa,,NA,15,NA,NA
+,orange_yellow,YO05,5,12/06/2025,15,,,,3,Hydrozoa,,NA,1,NA,NA
+,orange_yellow,YO05,5,12/06/2025,70,1 blue ray limpet,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,45,,,,4,Membranipora,0.4,0.125663706,NA,NA,NA
+,orange_yellow,YO05,5,12/06/2025,45,,,,4,Spirobranchus,,NA,NA,7,NA
+,orange_yellow,YO05,5,12/06/2025,75,,,,2,Spirobranchus,,NA,NA,10,NA
+,orange_yellow,YO05,5,12/06/2025,15,,,,3,Spirobranchus,,NA,NA,10,NA
+,orange_yellow,YO05,5,12/06/2025,23,,,,5,Spirobranchus,,NA,NA,3,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,2,Hydrozoa,0.2,NA,1,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,2,Hydrozoa,0.3,NA,1,NA,NA
+,orange_yellow,YO06,6,04/06/2025,48,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,48,,,,1,Membranipora,1.5,1.767145868,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,2,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,2,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,3,Membranipora,1.2,1.130973355,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,3,Membranipora,1.4,1.5393804,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,4,Membranipora,0.5,0.196349541,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,5,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,NA,,,,5,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO06,6,04/06/2025,48,,,,1,Spirobranchus,0.2,NA,NA,4,NA
+,orange_yellow,YO06,6,04/06/2025,48,,,,1,Spirobranchus,1.5,NA,NA,4,NA
+,orange_yellow,YO06,6,12/06/2025,42,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO06,6,12/06/2025,20,,,,2,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO07,7,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO07,7,12/06/2025,NA,mia,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Hydrozoa,0.2,NA,5,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,NA,,,,2,Membranipora,1.8,2.544690049,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Pilosa,0.2,0.020943951,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,NA,,,,2,Pilosa,0.6,0.188495559,NA,NA,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Spirobranchus,0.2,NA,NA,1,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Spirobranchus,1,NA,NA,1,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Spirobranchus,0.2,NA,NA,1,NA
+,orange_yellow,YO08,8,04/06/2025,NA,,,,2,Spirobranchus,1.8,NA,NA,1,NA
+,orange_yellow,YO08,8,04/06/2025,40,,,,1,Spirobranchus,0.2,NA,NA,1,NA
+,orange_yellow,YO08,8,04/06/2025,NA,,,,2,Spirobranchus,0.6,NA,NA,1,NA
+,orange_yellow,YO08,8,12/06/2025,27,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO08,8,12/06/2025,27,,,,1,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO09,9,04/06/2025,NA,,,,1,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO09,9,12/06/2025,23,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO09,9,12/06/2025,7,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO09,9,12/06/2025,7,,,,2,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO10,10,04/06/2025,17,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,4,,,NA,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,3,Hydrozoa,2,NA,9,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Membranipora,1.3,1.327322896,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Pilosa,0.9,0.424115008,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,66,,,,1,Pilosa,0.8,0.335103216,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,3,Pilosa,2,2.094395102,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Pilosa,0.9,0.424115008,NA,NA,NA
+,orange_yellow,YO11,11,04/06/2025,NA,,,,2,Pilosa,0.4,0.083775804,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,35,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,25,,,,4,,,NA,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Hydrozoa,1,NA,1,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,30,,,,2,Membranipora,3,7.068583471,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,30,,,,2,Pilosa,1.3,0.884881931,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,30,,,,2,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO11,11,12/06/2025,30,,,,2,Spirobranchus,3,NA,NA,3,NA
+,orange_yellow,YO11,11,12/06/2025,60,,,,1,Spirobranchus,1,NA,NA,5,NA
+,orange_yellow,YO11,11,12/06/2025,35,,,,3,Spirobranchus,,NA,NA,2,NA
+,orange_yellow,YO11,11,12/06/2025,25,,,,4,Spirobranchus,,NA,NA,2,NA
+,orange_yellow,YO12,12,04/06/2025,50,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO12,12,04/06/2025,50,,,,1,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO12,12,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO12,12,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO12,12,04/06/2025,NA,,,,2,Membranipora,0.8,0.502654825,NA,NA,NA
+,orange_yellow,YO12,12,12/06/2025,45,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO12,12,12/06/2025,NA,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO12,12,12/06/2025,24,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO12,12,12/06/2025,25,,,,4,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO12,12,12/06/2025,NA,,,,2,Spirobranchus,,NA,NA,3,NA
+,orange_yellow,YO12,12,12/06/2025,24,,,,3,Spirobranchus,,NA,NA,2,NA
+,orange_yellow,YO13,13,04/06/2025,53,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO13,13,04/06/2025,NA,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO13,13,04/06/2025,53,,,,1,Hydrozoa,,NA,1,NA,NA
+,orange_yellow,YO13,13,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO13,13,04/06/2025,NA,,,,2,Membranipora,0.1,0.007853982,NA,NA,NA
+,orange_yellow,YO13,13,04/06/2025,NA,,,,2,Spirobranchus,0.1,NA,NA,4,NA
+,orange_yellow,YO13,13,04/06/2025,NA,,,,2,Spirobranchus,0.1,NA,NA,4,NA
+,orange_yellow,YO13,13,12/06/2025,55,,,,2,Spirobranchus,,NA,NA,5,NA
+,orange_yellow,YO13,13,12/06/2025,35,,,,3,Spirobranchus,,NA,NA,3,NA
+,orange_yellow,YO14,14,04/06/2025,30,,,,1,Hydrozoa,0.6,NA,1,NA,NA
+,orange_yellow,YO14,14,04/06/2025,30,,,,1,Membranipora,0.6,0.282743339,NA,NA,NA
+,orange_yellow,YO14,14,04/06/2025,30,,,,1,Spirobranchus,0.6,NA,NA,2,NA
+,orange_yellow,YO14,14,12/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO15,15,04/06/2025,NA,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO15,15,04/06/2025,NA,,,,1,Membranipora,0.8,0.502654825,NA,NA,NA
+,orange_yellow,YO15,15,04/06/2025,NA,,,,1,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO15,15,12/06/2025,30,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO16,16,04/06/2025,NA,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Hydrozoa,0.7,NA,0.4,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Hydrozoa,1.2,NA,1,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Hydrozoa,0.8,NA,1,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Membranipora,1.2,1.130973355,NA,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Membranipora,0.8,0.502654825,NA,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Pilosa,0.7,0.2565634,NA,NA,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Spirobranchus,1.2,NA,NA,2,NA
+,orange_yellow,YO16,16,04/06/2025,50,,,,1,Spirobranchus,0.8,NA,NA,2,NA
+,orange_yellow,YO16,16,12/06/2025,50,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO16,16,12/06/2025,NA,mia,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO16,16,12/06/2025,50,,,,1,Spirobranchus,,NA,NA,4,NA
+,orange_yellow,YO17,17,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO17,17,12/06/2025,15,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO18,18,04/06/2025,52,clean,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO18,18,12/06/2025,30,1 Pilosaiphytic algae,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO18,18,12/06/2025,30,1 Pilosaiphytic algae,,,NA,Spirobranchus,,NA,NA,6,NA
+,orange_yellow,YO19,19,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO19,19,12/06/2025,40,,,,1,Hydrozoa,0.3,NA,5,NA,NA
+,orange_yellow,YO19,19,12/06/2025,40,,,,2,Hydrozoa,,NA,2,NA,NA
+,orange_yellow,YO19,19,12/06/2025,40,,,,1,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO19,NA,12/06/2025,20,,,,3,Spirobranchus,,NA,NA,4,NA
+,orange_yellow,YO19,19,12/06/2025,20,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO19,19,12/06/2025,20,,,,4,Pilosa,2.5,3.272492347,NA,NA,NA
+,orange_yellow,YO19,19,12/06/2025,20,,,,3,Spirobranchus,,NA,NA,4,NA
+,orange_yellow,YO20,20,04/06/2025,37,,,,1,Hydrozoa,0.4,NA,1,NA,NA
+,orange_yellow,YO20,20,04/06/2025,37,,,,1,Pilosa,0.4,0.083775804,NA,NA,NA
+,orange_yellow,YO20,20,04/06/2025,37,,,,1,Spirobranchus,0.4,NA,NA,2,NA
+,orange_yellow,YO20,20,12/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO21,21,04/06/2025,NA,,,,1,Membranipora,1.6,2.010619298,NA,NA,NA
+,orange_yellow,YO21,21,04/06/2025,NA,,,,1,Membranipora,1.4,1.5393804,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Membranipora,2,3.141592654,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Membranipora,2,3.141592654,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO21,21,12/06/2025,63,,,,1,Spirobranchus,2,NA,NA,14,NA
+,orange_yellow,YO22,22,04/06/2025,50,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,7,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,2,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,2,Membranipora,0.2,0.031415927,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,3,Membranipora,0.5,0.196349541,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,3,Membranipora,0.5,0.196349541,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,4,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,6,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,6,Membranipora,0.3,0.070685835,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,8,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,8,Membranipora,1.2,1.130973355,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,8,Membranipora,1,0.785398163,NA,NA,NA
+,orange_yellow,YO22,22,04/06/2025,NA,,,,7,Spirobranchus,,NA,NA,2,NA
+,orange_yellow,YO22,22,12/06/2025,66,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,42,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,28,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,30,,,,5,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,33,,,,6,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,52,,,,7,,,NA,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,30,,,,5,Hydrozoa,,NA,3,NA,NA
+,orange_yellow,YO22,22,12/06/2025,27,,,,4,Membranipora,1.2,1.130973355,NA,NA,NA
+,orange_yellow,YO22,22,12/06/2025,66,,,,1,Spirobranchus,,NA,NA,2,NA
+,orange_yellow,YO22,22,12/06/2025,42,,,,2,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO22,22,12/06/2025,30,,,,5,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO22,22,12/06/2025,33,,,,6,Spirobranchus,,NA,NA,1,NA
+,orange_yellow,YO23,23,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO23,23,12/06/2025,32,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO23,23,12/06/2025,32,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO23,23,12/06/2025,32,,,,1,,,NA,NA,NA,NA
+,orange_yellow,YO23,23,12/06/2025,32,,,,1,Hydrozoa,,NA,12,NA,NA
+,orange_yellow,YO23,23,12/06/2025,32,,,,1,Spirobranchus,,NA,NA,6,NA
+,orange_yellow,YO24,24,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO25,25,04/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+,orange_yellow,YO25,25,12/06/2025,50,,,,2,,,NA,NA,NA,NA
+,orange_yellow,YO25,25,12/06/2025,40,,,,3,,,NA,NA,NA,NA
+,orange_yellow,YO25,25,12/06/2025,30,,,,4,,,NA,NA,NA,NA
+,orange_yellow,YO25,25,12/06/2025,50,,,,2,Hydrozoa,,NA,2,NA,NA
+,orange_yellow,YO25,25,12/06/2025,80,,,,1,Pilosa,1,0.523598776,NA,NA,NA
+,orange_yellow,YO25,25,12/06/2025,80,,,,1,Spirobranchus,1,NA,NA,1,NA
+,orange_yellow,YO25,25,12/06/2025,30,,,,4,Spirobranchus,,NA,NA,2,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,3,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,y,base,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Pilosa,2,2.094395102,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Pilosa,2,2.094395102,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,y,base,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+1,red,AR1,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,3,NA
+1,red,AR1,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,9,NA
+1,red,AR1,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Hydrozoa,0.2,NA,1,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,0.2,NA,4,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.3,1.327322896,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+1,red,AR1,NA,04/06/2025,NA,,x,base,NA,Spirobranchus,0.2,NA,NA,1,NA
+1,red,AR1,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,0.3,NA,NA,2,NA
+1,red,AR1,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+1,red,AR1,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,1.5,NA,1,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.4,NA,1,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,base,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+1,red,AR1,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,2,NA,NA,3,NA
+1,red,AR1,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1.5,NA,NA,1,NA
+1,white,AW1,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Hydrozoa,,NA,4,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+1,white,AW1,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,4,NA
+1,white,AW1,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,0.1,NA,NA,16,NA
+1,white,AW1,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,x,base,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,base,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+1,white,AW1,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,2,NA
+1,white,AW1,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.4,NA,1,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+1,white,AW1,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.2,NA,NA,4,NA
+10,white,AW10,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+10,white,AW10,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+10,white,AW10,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,0.4,NA,NA,2,NA
+10,white,AW10,NA,12/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,tip missing ,x,base,NA,Hydrozoa,0.2,NA,1,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,2.5,NA,6,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,3,NA,NA
+10,white,AW10,NA,12/06/2025,NA,tip missing ,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,,y,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+10,white,AW10,NA,12/06/2025,NA,tip missing ,x,base,NA,Spirobranchus,0.2,NA,NA,2,NA
+10,white,AW10,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,1,NA,NA,1,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,x,base,NA,,,NA,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,base,NA,,,NA,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,middle,NA,Hydrozoa,0.3,NA,10,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Hydrozoa,0.6,NA,5,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,y,tip,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+22,,AB22,NA,04/06/2025,NA,tag detached_100,x,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+11,white,AW11,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,y,tip,NA,,na,NA,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.3,NA,4,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,y,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+11,white,AW11,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,2,NA
+11,white,AW11,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,base,NA,Hydrozoa,1.5,NA,4,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,1 x ascidian,y,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+11,white,AW11,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.2,NA,NA,3,NA
+11,white,AW11,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.5,NA,NA,2,NA
+11,white,AW11,NA,12/06/2025,NA,1 x ascidian,y,tip,NA,Spirobranchus,1.2,NA,NA,1,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,base,NA,,,NA,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Hydrozoa,1,NA,4,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,middle,NA,Hydrozoa,0.3,NA,2,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,tip,NA,Hydrozoa,0.8,NA,4,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,base,NA,Membranipora,0.9,0.636172512,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,base,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Pilosa,0.9,0.424115008,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Pilosa,1.9,1.89019158,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,tip,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,base,NA,Spirobranchus,1,NA,NA,1,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,middle,NA,Spirobranchus,1,NA,NA,5,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,x,tip,NA,Spirobranchus,1.5,NA,NA,1,NA
+34,,AG34,NA,12/06/2025,NA,tag detached110,y,middle,NA,Spirobranchus,0.3,NA,NA,3,NA
+12,white,AW12,NA,04/06/2025,NA,,y,base,NA,,na,NA,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,x,tip,NA,Hydrozoa,0.5,NA,2,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,x,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+12,white,AW12,NA,04/06/2025,NA,,x,base,NA,Spirobranchus,1.5,NA,NA,2,NA
+12,white,AW12,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+12,white,AW12,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,2,NA,1,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,,NA,3,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.5,NA,2,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Membranipora,4,12.56637061,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,1 blue ray limpet,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+12,white,AW12,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,1,NA,NA,1,NA
+12,white,AW12,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,2,NA,NA,2,NA
+12,white,AW12,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+12,white,AW12,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,4,NA,NA,1,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,middle,NA,,,NA,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,,,NA,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,base,NA,,,NA,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,,,NA,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,middle,NA,Hydrozoa,0.4,NA,2,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Hydrozoa,1,NA,1,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,base,NA,Spirobranchus,0.5,NA,NA,1,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,Spirobranchus,1.5,NA,NA,3,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Spirobranchus,,NA,NA,1,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,base,NA,Spirobranchus,,NA,NA,2,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,middle,NA,Spirobranchus,1.4,NA,NA,6,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,x,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,base,NA,Spirobranchus,,NA,NA,6,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,middle,NA,Spirobranchus,0.4,NA,NA,6,NA
+44,,AG44,NA,12/06/2025,NA,tag detached120,y,tip,NA,Spirobranchus,1,NA,NA,1,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,base,NA,,,NA,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,base,NA,,,NA,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,tip,NA,Hydrozoa,1.5,NA,3,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached120,x,tip,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+3,,AW3,NA,04/06/2025,NA,tag detached,x,tip,NA,Spirobranchus,1.5,NA,NA,1,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,tip,NA,Hydrozoa,0.5,NA,2,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Hydrozoa,0.6,NA,1,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,base,NA,Spirobranchus,0.3,NA,NA,1,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,x,middle,NA,Spirobranchus,0.3,NA,NA,4,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,base,NA,Spirobranchus,0.3,NA,NA,2,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,middle,NA,Spirobranchus,0.3,NA,NA,4,NA
+37,,AG37,NA,12/06/2025,NA,tag detached123,y,tip,NA,Spirobranchus,0.6,NA,NA,1,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,base,NA,,,NA,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,base,NA,,,NA,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Hydrozoa,0.2,NA,10,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Hydrozoa,0.2,NA,2,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Hydrozoa,1.2,NA,6,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,x,base,NA,Spirobranchus,,NA,NA,15,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,base,NA,Spirobranchus,,NA,NA,1,NA
+13,blue,AB13,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+13,white,AW13,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.3,1.327322896,NA,NA,NA
+13,white,AW13,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,2,NA
+13,white,AW13,NA,12/06/2025,NA,base only,y,,NA,,,NA,NA,NA,NA
+13,white,AW13,NA,12/06/2025,NA,base only,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+13,white,AW13,NA,12/06/2025,NA,base only,x,base,NA,Spirobranchus,1,NA,NA,2,NA
+13,white,AW13,NA,12/06/2025,NA,base only,y,,NA,Spirobranchus,,NA,NA,2,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Hydrozoa,1.5,NA,4,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Hydrozoa,1.2,NA,10,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Hydrozoa,0.5,NA,1,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,1.4,1.5393804,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,base,NA,Spirobranchus,2,NA,NA,3,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,x,middle,NA,Spirobranchus,1.5,NA,NA,2,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,base,NA,Spirobranchus,0.3,NA,NA,1,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,middle,NA,Spirobranchus,1.2,NA,NA,2,NA
+14,blue,AB14,NA,12/06/2025,NA,not on datasheet,y,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+14,white,AW14,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+14,white,AW14,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,6,NA
+14,white,AW14,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,25,NA
+15,white,AW15,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,0.5,NA,1,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+15,white,AW15,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.4,NA,NA,1,NA
+15,white,AW15,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Membranipora,3,7.068583471,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+15,white,AW15,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,2.5,NA,NA,1,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,base,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,middle,NA,Pilosa,0.9,0.424115008,NA,NA,1
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,base,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,tip,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,base,NA,Spirobranchus,1.2,NA,NA,1,NA
+22,blue,AB22,NA,12/06/2025,NA,tag detached150,y,middle,NA,Spirobranchus,0.3,NA,NA,2,NA
+16,white,AW16,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+16,white,AW16,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,0.4,NA,NA,1,NA
+16,white,AW16,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,0.2,NA,NA,1,NA
+16,white,AW16,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,x,tip,NA,Membranipora,3,7.068583471,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+16,white,AW16,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+16,white,AW16,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.3,NA,NA,1,NA
+16,white,AW16,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,3,NA,NA,4,NA
+16,white,AW16,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+16,white,AW16,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1.4,NA,NA,3,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Hydrozoa,1,NA,3,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Hydrozoa,0.1,NA,0,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,middle,NA,Hydrozoa,1.2,NA,2,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,tip,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,base,NA,Spirobranchus,0.1,NA,NA,1,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,x,middle,NA,Spirobranchus,1,NA,NA,2,NA
+29,,AB29,NA,12/06/2025,NA,tag detached160,y,base,NA,Spirobranchus,2,NA,NA,1,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Hydrozoa,,NA,3,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Hydrozoa,,NA,9,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,6,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Pilosa,2,2.094395102,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,9,NA
+17,blue,AB17,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,6,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,12,NA
+17,blue,AB17,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,8,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.5,NA,4,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,tip,NA,Hydrozoa,0.5,NA,3,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,0.5,NA,5,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,base,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+17,blue,AB17,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,0.5,NA,NA,2,NA
+17,blue,AB17,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,0.8,NA,1,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,1.2,NA,2,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,base,NA,Hydrozoa,,NA,6,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,1,NA,10,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+17,blue,AB17,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,1,NA,NA,1,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,base,NA,,,NA,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,base,NA,,,NA,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,base,NA,Spirobranchus,,NA,NA,3,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,x,middle,NA,Spirobranchus,1.2,NA,NA,1,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,base,NA,Spirobranchus,,NA,NA,3,NA
+23,,AB23,NA,12/06/2025,NA,tag detached178,y,middle,NA,Spirobranchus,1.2,NA,NA,1,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,x,base,NA,,,NA,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,y,middle,NA,,,NA,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,x,middle,NA,Pilosa,,0,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,y,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,x,middle,NA,Spirobranchus,,NA,NA,1,NA
+29,,AB29,NA,04/06/2025,NA,tag detached178,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+18,blue,AB18,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+18,blue,AB18,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,1,NA,1,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,0.4,NA,4,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,broken at middle - 76cm remianing,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+18,blue,AB18,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.4,NA,NA,4,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,base,NA,,,NA,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,middle,NA,,,NA,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,base,NA,,,NA,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,tip,NA,Hydrozoa,0.5,NA,1,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,x,tip,NA,Spirobranchus,0.5,NA,NA,4,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,base,NA,Spirobranchus,,NA,NA,3,NA
+8,,AW8,NA,12/06/2025,NA,tag detached180,y,middle,NA,Spirobranchus,0.5,NA,NA,3,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,12,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,Hydrozoa,,NA,4,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,4,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,3,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,Membranipora,3,7.068583471,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,17,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,12,NA
+19,blue,AB19,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,6,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,14,NA
+19,blue,AB19,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,9,NA
+19,blue,AB19,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+19,blue,AB19,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,1,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,1.2,NA,3,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,tip,NA,Pilosa,3,4.71238898,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,2,NA
+19,blue,AB19,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,1.4,NA,NA,1,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.5,NA,NA,3,NA
+19,blue,AB19,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1.2,NA,NA,4,NA
+2,red,AR2,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,base,NA,Hydrozoa,,NA,3,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,base,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+2,red,AR2,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.5,NA,NA,1,NA
+2,red,AR2,NA,12/06/2025,NA,,x,base,NA,Hydrozoa,0.8,NA,2,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,2.5,NA,2,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,1 x seasquirt,x,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,base,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,t,middle,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+2,red,AR2,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,0.8,NA,NA,3,NA
+2,red,AR2,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,2.5,NA,NA,4,NA
+2,red,AR2,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,0.6,NA,NA,3,NA
+2,white,AW2,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+2,white,AW2,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,1,NA
+2,white,AW2,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,1,NA,2,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+2,white,AW2,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,4,NA
+2,white,AW2,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,1,NA,NA,3,NA
+2,white,AW2,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+2,white,AW2,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1,NA,NA,2,NA
+20,blue,AB20,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+20,blue,AB20,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,base,NA,,,NA,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Hydrozoa,0.3,NA,1,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+30,,AB30,NA,12/06/2025,NA,tag detached200,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,3
+30,,AB30,NA,12/06/2025,NA,tag detached200,x,middle,NA,Spirobranchus,0.3,NA,NA,2,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,tip,NA,Hydrozoa,,NA,5,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,7,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,6,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,x,middle,NA,Pilosa,3,4.71238898,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,base,NA,Pilosa,2,2.094395102,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,Pilosa,4,8.37758041,NA,NA,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,10,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,8,NA
+21,blue,AB21,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,7,NA
+21,blue,AB21,NA,04/06/2025,NA,,y,base,NA,,na,NA,NA,NA,NA
+21,blue,AB21,NA,04/06/2025,NA,,y,middle,NA,,na,NA,NA,NA,NA
+21,blue,AB21,NA,04/06/2025,NA,,y,tip,NA,,na,NA,NA,NA,NA
+21,blue,AB21,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+21,blue,AB21,NA,04/06/2025,NA,,x,base,NA,Pilosa,1,0.523598776,NA,NA,NA
+21,blue,AB21,NA,04/06/2025,NA,,x,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,1.2,NA,9,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,2,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,2,NA,3,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,base,NA,Membranipora,2,3.141592654,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+21,blue,AB21,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,1.2,NA,NA,3,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,2,NA,NA,4,NA
+21,blue,AB21,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,10,NA
+23,blue,AB23,NA,04/06/2025,NA,,x,tip,NA,,na,NA,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,middle,NA,,na,NA,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,0.6,NA,10,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+23,blue,AB23,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,20,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+24,blue,AB24,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,21,NA
+24,blue,AB24,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,20,NA
+24,blue,AB24,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,0.1,NA,4,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+24,blue,AB24,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,3,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.4,NA,2,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+24,blue,AB24,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,y,middle,NA,Pilosa,2,2.094395102,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,1Xstripey blue clam and 1x slug,y,middle,NA,Pilosa,,NA,NA,NA,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,12,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,6,NA
+25,blue,AB25,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,1,NA
+25,blue,AB25,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+25,blue,AB25,NA,02/07/2025,NA,1Xstripey blue clam and 1x slug,y,middle,NA,Spirobranchus,,NA,NA,3,NA
+25,blue,AB25,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,base,NA,,na,NA,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,tip,NA,,na,NA,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,x,base,NA,Hydrozoa,,NA,30,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,x,tip,NA,Hydrozoa,1,NA,6,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,6,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,na,NA,6,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+25,blue,AB25,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,1,NA,10,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.2,NA,10,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,tip,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,tip,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,base,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,2,NA
+25,blue,AB25,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,4,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.5,NA,NA,2,NA
+25,blue,AB25,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,0.2,NA,NA,4,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,base,NA,,,NA,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,tip,NA,Hydrozoa,0.2,NA,4,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Pilosa,2,2.094395102,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,tip,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,x,base,NA,Spirobranchus,0.2,NA,NA,10,NA
+28,,AB28,NA,12/06/2025,NA,tag detached250,y,middle,NA,Spirobranchus,1,NA,NA,4,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,2 x seasquirt,x,tip,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,10,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,tip,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+26,blue,AB26,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,2,NA
+26,blue,AB26,NA,02/07/2025,NA,2 x seasquirt,x,tip,NA,Spirobranchus,,NA,NA,3,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,4,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,3,NA
+26,blue,AB26,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,6,NA
+26,blue,AB26,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+26,blue,AB26,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.3,1.327322896,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,1
+26,blue,AB26,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.3,NA,NA,1,NA
+26,blue,AB26,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,4,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,10,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,20,NA
+27,blue,AB27,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,6,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,4,NA
+27,blue,AB27,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,8,NA
+27,blue,AB27,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+27,blue,AB27,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+27,blue,AB27,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,middle,NA,,1,NA,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,middle,NA,,0.2,NA,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,0.2,NA,1,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,1,NA,2,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,1.5,NA,2,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+27,blue,AB27,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,1.2,NA,NA,2,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+27,blue,AB27,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1,NA,NA,2,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.5,NA,4,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+28,blue,AB28,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,tip,NA,,,NA,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,base,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,middle,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,base,NA,Spirobranchus,0.8,NA,NA,1,NA
+3,red,AR3,NA,04/06/2025,NA,tag detached_90,y,middle,NA,Spirobranchus,0.2,NA,NA,5,NA
+3,white,AW3,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,middle,NA,Hydrozoa,,NA,6,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,middle,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+3,white,AW3,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,11,NA
+3,white,AW3,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,9,NA
+3,white,AW3,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+3,white,AW3,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,x,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+3,white,AW3,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,0.1,NA,NA,1,NA
+3,white,AW3,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1,NA,NA,1,NA
+3,white,AW3,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,1.5,NA,NA,1,NA
+3,white,AW3,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+3,white,AW3,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,3,NA
+30,blue,AB30,NA,02/07/2025,NA,no tip,x,base,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,base,NA,,0.2,NA,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,no tip,x,base,NA,Hydrozoa,,NA,15,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1.4,1.0262536,NA,NA,NA
+30,blue,AB30,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,6,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,9,NA
+30,blue,AB30,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,9,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.5,NA,1,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,tip,NA,Hydrozoa,0.1,NA,5,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,1,NA,1,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,1,NA,4,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.1,0.005235988,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+30,blue,AB30,NA,04/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,4,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Hydrozoa,,NA,10,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,20,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,base,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,,,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,3,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,12,NA
+31,blue,AB31,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,10,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,6,NA
+31,blue,AB31,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,5,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,tip,NA,Hydrozoa,0.3,NA,10,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,0.4,NA,4,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+31,blue,AB31,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,1.8,NA,4,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.5,NA,20,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.8,1.696460033,NA,NA,NA
+31,blue,AB31,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1,NA,NA,3,NA
+31,blue,AB31,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,4,NA
+32,blue,AB32,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,04/06/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+32,blue,AB32,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+32,blue,AB32,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,1,NA
+32,blue,AB32,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,,NA,2,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.9,0.636172512,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+32,blue,AB32,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.9,NA,NA,2,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+32,blue,AB32,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.4,NA,NA,6,NA
+35,green,AG35,NA,04/06/2025,NA,meristem only:clean,,,NA,,,NA,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,x,base,NA,,,NA,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,base,NA,,,NA,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,x,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+36,green,AG36,NA,04/06/2025,NA,tag detached_160cm,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,base,NA,,,NA,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,base,NA,,,NA,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,middle,NA,,,NA,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,tip,NA,,,NA,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,middle,NA,Spirobranchus,0.5,NA,NA,1,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,x,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,base,NA,Spirobranchus,,NA,NA,2,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+37,green,AG37,NA,04/06/2025,NA,tag detached_120,y,tip,NA,Spirobranchus,,NA,NA,4,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,3,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Hydrozoa,,NA,10,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,9,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+39,green,AG39,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,10,NA
+39,green,AG39,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,11,NA
+39,green,AG39,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,12,NA
+39,green,AG39,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,4,NA
+39,green,AG39,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+39,green,AG39,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.1,NA,NA,1,NA
+39,green,AG39,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,0.2,NA,NA,1,NA
+39,green,AG39,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,0.2,NA,3,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,0.2,NA,1,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,tip,NA,Pilosa,0.9,0.424115008,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+39,green,AG39,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+39,green,AG39,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.2,NA,NA,9,NA
+39,green,AG39,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.9,NA,NA,3,NA
+39,green,AG39,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+39,green,AG39,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,6,NA
+4,red,AR4,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,x,tip,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,y,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,y,middle,NA,Membranipora,,0,NA,NA,NA
+4,red,AR4,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+4,red,AR4,NA,12/06/2025,NA,mia,,,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1.3,1.327322896,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+4,white,AW4,NA,04/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+4,white,AW4,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,1.2,NA,NA,1,NA
+4,white,AW4,NA,12/06/2025,NA,base only,x,base,NA,,,NA,NA,NA,NA
+4,white,AW4,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+4,white,AW4,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+4,white,AW4,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+4,white,AW4,NA,12/06/2025,NA,base only,x,base,NA,Spirobranchus,,NA,NA,4,NA
+4,white,AW4,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.2,NA,NA,4,NA
+40,green,AG40,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,4,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,6,NA
+40,green,AG40,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,3,NA
+40,green,AG40,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,5,NA
+40,green,AG40,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,6,NA
+40,green,AG40,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.1,0.005235988,NA,NA,NA
+40,green,AG40,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,0.5,NA,NA,6,NA
+40,green,AG40,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.5,NA,NA,3,NA
+40,green,AG40,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,0.2,NA,5,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,1,NA,1,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+40,green,AG40,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.2,NA,NA,6,NA
+40,green,AG40,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.2,NA,NA,1,NA
+40,green,AG40,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.2,NA,NA,4,NA
+40,white,AW40,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.3,NA,4,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+40,white,AW40,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,x,base,NA,,na,NA,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,x,middle,NA,,,NA,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,y,base,NA,,na,NA,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+41,green,AG41,NA,04/06/2025,NA,tag detached_76,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,Hydrozoa,,NA,10,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,8,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,x,base,NA,Membranipora,1,0.785398163,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+42,green,AG42,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,4,NA
+42,green,AG42,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,5,NA
+42,green,AG42,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,7,NA
+42,green,AG42,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,y,base,NA,,na,NA,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+42,green,AG42,NA,04/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+42,green,AG42,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,1,NA
+42,green,AG42,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,1,NA
+42,green,AG42,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,0.4,NA,NA,1,NA
+42,green,AG42,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,0.8,NA,1,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+42,green,AG42,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,0.2,NA,NA,4,NA
+42,green,AG42,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.4,NA,NA,2,NA
+42,green,AG42,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.8,NA,NA,4,NA
+42,green,AG42,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.5,NA,NA,2,NA
+44,green,AG44,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+44,green,AG44,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,1,NA
+45,green,AG45,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,1
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Hydrozoa,,NA,6,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+45,green,AG45,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,3,NA
+45,green,AG45,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,3,NA
+45,green,AG45,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,4,NA
+45,green,AG45,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,4,NA
+45,green,AG45,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,17,NA
+45,green,AG45,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,2,NA
+45,green,AG45,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,0.4,NA,6,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,,NA,6,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Hydrozoa,0.4,NA,3,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+45,green,AG45,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,4,NA
+45,green,AG45,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,0.4,NA,NA,6,NA
+45,green,AG45,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,6,NA
+45,green,AG45,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.4,NA,NA,3,NA
+45,green,AG45,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,0.3,NA,NA,1,NA
+46,green,AG46,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,1,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+46,green,AG46,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,10,NA
+46,green,AG46,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,x,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,y,tip,NA,Pilosa,0.8,0.335103216,NA,NA,NA
+46,green,AG46,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,3,NA
+46,green,AG46,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1.2,NA,NA,3,NA
+46,green,AG46,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,0.8,NA,NA,6,NA
+46,green,AG46,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,0.8,NA,NA,3,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,1x seasquirt,x,tip,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,1 x seasquirt,y,tip,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.1,0.005235988,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,y,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+47,green,AG47,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,8,NA
+47,green,AG47,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,7,NA
+47,green,AG47,NA,02/07/2025,NA,1x seasquirt,x,tip,NA,Spirobranchus,,NA,NA,5,NA
+47,green,AG47,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,9,NA
+47,green,AG47,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,20,NA
+47,green,AG47,NA,02/07/2025,NA,1 x seasquirt,y,tip,NA,Spirobranchus,,NA,NA,4,NA
+47,green,AG47,NA,04/06/2025,NA,,x,base,NA,,na,NA,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,y,base,NA,,na,NA,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,y,middle,NA,,na,NA,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+47,green,AG47,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,0.2,NA,NA,1,NA
+47,green,AG47,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,na,NA,NA,1,NA
+47,green,AG47,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,y,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+47,green,AG47,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,3,NA
+47,green,AG47,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,2,NA,NA,6,NA
+47,green,AG47,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,4,NA
+47,green,AG47,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,3,NA
+47,green,AG47,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,2,NA,NA,6,NA
+47,green,AG47,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,4,NA
+48,green,AG48,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,1,NA,2,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,0.3,NA,1,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+48,green,AG48,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,0.4,NA,1,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,y,tip,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+48,green,AG48,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,3,NA
+48,green,AG48,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,2,NA
+5,red,AR5,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,y,middle,NA,Pilosa,3,4.71238898,NA,NA,NA
+5,red,AR5,NA,04/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+5,red,AR5,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,1,NA
+5,red,AR5,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,4,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,4,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,4,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,2,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,1,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,,4,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,4,NA,2,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,3,NA,4,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,y,tip,NA,Pilosa,3,4.71238898,NA,NA,NA
+5,red,AR5,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+5,red,AR5,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,4,NA,NA,1,NA
+5,red,AR5,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,3,NA,NA,1,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,x,base,NA,,,NA,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,y,base,NA,,,NA,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,y,middle,NA,Hydrozoa,1.2,NA,1,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+5,white,AW5,NA,04/06/2025,NA,tag detached_140,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,0.2,NA,3,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,1.2,NA,4,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,base,NA,Membranipora,1.8,2.544690049,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.2,1.130973355,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,middle,NA,Pilosa,1.3,0.884881931,NA,NA,NA
+6,red,AR6,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+6,red,AR6,NA,04/06/2025,NA,,y,base,NA,Spirobranchus,1.8,NA,NA,1,NA
+6,red,AR6,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,1.2,NA,NA,1,NA
+6,red,AR6,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,0.5,NA,1,NA,1
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1.8,2.544690049,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,1
+6,red,AR6,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,y,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+6,red,AR6,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1.8,NA,NA,4,NA
+6,red,AR6,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,0.2,NA,NA,2,NA
+6,red,AR6,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1,NA,NA,1,NA
+6,white,AW6,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,base,NA,Hydrozoa,,NA,6,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,Hydrozoa,,NA,7,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,14,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,Membranipora,2.5,4.908738521,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,tip,NA,Membranipora,3,7.068583471,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,tip,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+6,white,AW6,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,6,NA
+6,white,AW6,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,9,NA
+6,white,AW6,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,8,NA
+6,white,AW6,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,2,NA
+6,white,AW6,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,y,tip,NA,Hydrozoa,0.2,NA,3,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,04/06/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,1,NA
+6,white,AW6,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,0.2,NA,NA,1,NA
+6,white,AW6,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,1.5,NA,1,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,tip,NA,Hydrozoa,0.4,NA,3,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,base,NA,Hydrozoa,,NA,1,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,tip,NA,Hydrozoa,0.2,NA,2,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+6,white,AW6,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,5,NA
+6,white,AW6,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1.5,NA,NA,5,NA
+6,white,AW6,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.4,NA,NA,1,NA
+6,white,AW6,NA,12/06/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,3,NA
+7,red,AR7,NA,04/06/2025,NA,meristem only:clean,,,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,Hydrozoa,,NA,4,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,Hydrozoa,,NA,3,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,Hydrozoa,,NA,20,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,tip,NA,Hydrozoa,,NA,4,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,middle,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,Pilosa,2.5,3.272492347,NA,NA,NA
+7,white,AW7,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,15,NA
+7,white,AW7,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,12,NA
+7,white,AW7,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,8,NA
+7,white,AW7,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,8,NA
+7,white,AW7,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,4,NA
+7,white,AW7,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,1,NA
+7,white,AW7,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,middle,NA,Membranipora,1.5,1.767145868,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+7,white,AW7,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+7,white,AW7,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,2,NA,1,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,middle,NA,Membranipora,2,3.141592654,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,y,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+7,white,AW7,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+7,white,AW7,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,2,NA,NA,7,NA
+7,white,AW7,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,0.3,NA,NA,1,NA
+8,white,AW8,NA,04/06/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,y,base,NA,Hydrozoa,0.5,NA,5,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,,NA,4,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,y,base,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+8,white,AW8,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,0.2,NA,NA,3,NA
+8,white,AW8,NA,04/06/2025,NA,,y,tip,NA,Spirobranchus,0.4,NA,NA,1,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,base,NA,,,NA,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,y,base,NA,,,NA,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,y,middle,NA,,,NA,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,y,tip,NA,Hydrozoa,0.1,NA,1,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,y,tip,NA,Pilosa,0.1,0.005235988,NA,NA,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,x,middle,NA,Spirobranchus,0.2,NA,NA,1,NA
+35,,AG35,NA,12/06/2025,NA,tag detached80,y,middle,NA,Spirobranchus,,NA,NA,5,NA
+9,green,AG9,NA,04/06/2025,NA,,y,tip,NA,Pilosa,0.1,0.005235988,NA,NA,NA
+9,orange,AO9,NA,04/06/2025,NA,tag only,,,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,y,middle,NA,Hydrozoa,0.8,NA,1,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,y,middle,NA,Membranipora,0.8,0.502654825,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+9,red,AR9,NA,04/06/2025,NA,,x,tip,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,middle,NA,Membranipora,1,0.785398163,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.7,0.3848451,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1.1,0.633554518,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Pilosa,1,0.523598776,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+9,red,AR9,NA,12/06/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,1,NA
+9,red,AR9,NA,12/06/2025,NA,,x,middle,NA,Spirobranchus,1,NA,NA,2,NA
+9,red,AR9,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,0.1,NA,NA,1,NA
+9,red,AR9,NA,12/06/2025,NA,,y,middle,NA,Spirobranchus,1.1,NA,NA,3,NA
+9,red,AR9,NA,12/06/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,1,NA
+9,white,AW9,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,middle,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Hydrozoa,,NA,15,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,3.5,9.621127502,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,1,0.785398163,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Membranipora,2,3.141592654,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1,0.523598776,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Pilosa,2,2.094395102,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Pilosa,1.5,1.178097245,NA,NA,NA
+9,white,AW9,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,4,NA
+9,white,AW9,NA,02/07/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,8,NA
+9,white,AW9,NA,02/07/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,10,NA
+9,white,AW9,NA,02/07/2025,NA,,y,base,NA,Spirobranchus,,NA,NA,16,NA
+9,white,AW9,NA,02/07/2025,NA,,y,middle,NA,Spirobranchus,,NA,NA,7,NA
+9,white,AW9,NA,02/07/2025,NA,,y,tip,NA,Spirobranchus,,NA,NA,5,NA
+9,white,AW9,NA,04/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,x,middle,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,x,middle,NA,Hydrozoa,,NA,2,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,y,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,y,middle,NA,Pilosa,0.2,0.020943951,NA,NA,NA
+9,white,AW9,NA,04/06/2025,NA,,x,middle,NA,Spirobranchus,,NA,NA,1,NA
+9,white,AW9,NA,04/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,1,NA
+9,white,AW9,NA,12/06/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,x,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,base,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,tip,NA,,,NA,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,x,middle,NA,Hydrozoa,0.4,NA,1,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,x,middle,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,y,middle,NA,Pilosa,0.6,0.188495559,NA,NA,NA
+9,white,AW9,NA,12/06/2025,NA,,x,tip,NA,Spirobranchus,,NA,NA,1,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,middle,NA,Hydrozoa,0.7,NA,16,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,middle,NA,Hydrozoa,0.6,NA,5,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,tip,NA,Hydrozoa,0.5,NA,1,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,base,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,base,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,middle,NA,Membranipora,0.2,0.031415927,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,middle,NA,Membranipora,0.1,0.007853982,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.3,0.070685835,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Membranipora,0.4,0.125663706,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,middle,NA,Membranipora,0.6,0.282743339,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,tip,NA,Membranipora,0.5,0.196349541,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,middle,NA,Pilosa,0.7,0.2565634,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,tip,NA,Pilosa,1.2,0.753982237,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,base,NA,Pilosa,0.4,0.083775804,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,base,NA,Pilosa,0.5,0.130899694,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,tip,NA,Pilosa,0.3,0.04712389,NA,NA,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,x,base,NA,Spirobranchus,0.2,NA,NA,2,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,base,NA,Spirobranchus,0.4,NA,NA,1,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,middle,NA,Spirobranchus,0.6,NA,NA,4,NA
+3,,AR3,NA,12/06/2025,NA,tag detached95,y,tip,NA,Spirobranchus,0.5,NA,NA,1,NA
+yt,blue,AB30,NA,02/07/2025,NA,,x,base,NA,,,NA,NA,NA,NA
+yt,blue,AB30,NA,02/07/2025,NA,,x,base,NA,Spirobranchus,,NA,NA,5,NA

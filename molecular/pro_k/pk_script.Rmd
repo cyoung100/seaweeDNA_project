@@ -1,0 +1,122 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+Pro_Test Comparison of powdered Proteinase K against in solution PK : Powdered form was diluted at 0, 5, 10, 20, and 40 mg/ml and compared agianst 20mg/ml PK solution. Tissue used was 0.025mg of chicken thigh.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+pk <- read.csv("prok_test_w.csv")
+```
+
+
+this is where i put my comments
+
+```{r}
+pk %>% 
+  ggplot(aes(x = as.factor(conc), y = yield, color = brand)) +
+  geom_boxplot() +
+  ylab("Yield - QuBit ng/ul") + xlab("Pro K concentration - mg/ml")
+```
+
+Melford powder: £104 for 100mg
+
+
+Qiagen solution: £167 for 5ml
+Qiagen powder: £144 for 100mg
+
+
+
+Pro_Test Comparison of powdered Proteinase K against in solution PK : Powdered form was diluted at 0, 5, 10, 20, and 40 mg/ml and compared agianst 20mg/ml PK solution. Tissue used was 0.025mg of chicken thigh.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+pk2 <- read.csv("pro_k_test_02_10_25.csv")
+```
+
+
+```{r}
+
+
+pk2 %>% 
+filter(conc != "0") %>% 
+ggplot(aes(x = conc, y = yield, colour = type)) +
+  geom_point() + geom_smooth(method = "lm")
+```
+
+
+```{r}
+pk %>%
+  ggplot(aes(x = as.factor(conc), y = yield, color = brand)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.6) +
+  stat_summary(fun = mean, geom = "point", 
+               shape = 18, size = 3, 
+               position = position_dodge(width = 0.75)) +
+  theme_minimal()
+
+```
+```{r}
+# ANOVA
+anova_result <- aov(yield ~ as.factor(conc), data = pk)
+summary(anova_result)
+
+# Kruskal–Wallis (non-parametric)
+kruskal.test(yield ~ as.factor(conc), data = pk)
+
+```
+
+```{r}
+anova_result2 <- aov(yield ~ as.factor(conc) * brand, data = pk)
+summary(anova_result2)
+
+```
+
+```{r}
+library(ggpubr)
+
+pk %>%
+  ggplot(aes(x = as.factor(conc), y = yield, color = brand)) +
+  geom_boxplot(outlier.shape = NA) +
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 3) +
+  stat_compare_means(aes(group = conc), method = "anova") +
+  theme_minimal()
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# --- compute group means ---
+means_df <- pk %>%
+  group_by(conc, brand) %>%
+  summarise(mean_yield = mean(yield, na.rm = TRUE), .groups = "drop")
+
+# --- plot with means as text ---
+ggplot(pk, aes(x = as.factor(conc), y = yield, color = brand)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.6) +
+  geom_point(data = means_df, aes(y = mean_yield), 
+             shape = 18, size = 3,
+             position = position_dodge(width = 0.75)) +
+  geom_text(data = means_df, aes(y = mean_yield, 
+                                 label = round(mean_yield, 2)),
+            vjust = -0.8,                # move label above the point
+            position = position_dodge(),
+            color = "black", size = 3.5) +
+  labs(x = "Concentration", y = "Yield", color = "Brand") +
+  theme_minimal(base_size = 13)
+
+```
+
+```{r}
+pk2 %>% 
+filter(conc != "0") %>% 
+ggplot(aes(x = conc, y = yield, colour = type)) +
+  geom_point() + geom_smooth(method = "lm")
+```
+

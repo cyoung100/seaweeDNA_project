@@ -1,0 +1,519 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+getwd()
+gastropoda <- read.csv("gastro_heatmap_full.csv")
+gastropoda <- clean_names(gastropoda) %>%
+  filter(site != "Scalpay")
+
+gastropoda <- gastropoda %>%
+  mutate(
+    # Species-specific blade Ab per cm² for Saccharina
+    gibbula_sacc_p_cm  = abd_gibbula_sacc / blade_area_sacc,
+    lacuna_sacc_p_cm   = abd_lacuna_sacc / blade_area_sacc,
+    patella_sacc_p_cm  = abd_patella_sacc / blade_area_sacc,
+    rissoa_sacc_p_cm   = abd_rissoa_sacc / blade_area_sacc,
+    
+    # Species-specific blade Ab per cm² for Alaria
+    gibbula_ala_p_cm  = abd_gibbula_ala / blade_area_ala,
+    lacuna_ala_p_cm   = abd_lacuna_ala / blade_area_ala,
+    patella_ala_p_cm  = abd_patella_ala / blade_area_ala,
+    rissoa_ala_p_cm   = abd_rissoa_ala / blade_area_ala
+  ) %>%
+  select(
+    -c(
+      abd_gibbula_sacc,
+      abd_lacuna_sacc,
+      abd_patella_sacc,
+      abd_rissoa_sacc,
+      abd_gibbula_ala,
+      abd_lacuna_ala,
+      abd_patella_ala,
+      abd_rissoa_ala,
+      blade_area_ala,
+      blade_area_sacc
+    )
+  )
+
+
+```
+
+
+```{r}
+gastropoda_long <- gastropoda %>%
+  pivot_longer(
+    cols = -c(sample_code, date, station_no, seaweed, site, day, month, year),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "_p_cm$") ~ "blade_Ab",
+      str_detect(species_id, "^plankton_") ~ "Ab",
+      TRUE ~ NA_character_
+    ),
+    
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "Plankton eDNA (RSV)",
+      measurement_type == "Ab" ~ "Plankton Ab (cell/L)",
+      str_detect(species_id, "_sacc_p_cm$") ~ "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+      str_detect(species_id, "_ala_p_cm$") ~ "Gastropoda Blade Ab - Alaria (indiv/cm2)",
+      TRUE ~ "Blade Ab (indiv/cm2)"
+    ),
+    
+    y_axis = case_when(
+      measurement_type == "otu" ~ paste("RSV", species_id),
+      species_id == "gibbula_sacc_p_cm" ~ "Gibbula (Sacc) Blade Ab",
+      species_id == "gibbula_ala_p_cm"  ~ "Gibbula (Ala) Blade Ab",
+      species_id == "lacuna_sacc_p_cm" ~ "Lacuna (Sacc) Blade Ab",
+      species_id == "lacuna_ala_p_cm"  ~ "Lacuna (Ala) Blade Ab",
+      species_id == "patella_sacc_p_cm" ~ "Patella (Sacc) Blade Ab",
+      species_id == "patella_ala_p_cm"  ~ "Patella (Ala) Blade Ab",
+      species_id == "rissoa_sacc_p_cm"  ~ "Rissoa (Sacc) Blade Ab",
+      species_id == "rissoa_ala_p_cm"   ~ "Rissoa (Ala) Blade Ab",
+      TRUE ~ measurement_origin
+    ),
+    
+    parsed_date = make_date(year, month, day)
+  )
+
+
+gastropoda_long <- gastropoda_long %>%
+  filter(!(measurement_type == "otu")) %>%                       # Keep all non-otu rows
+  bind_rows(
+    gastropoda_long %>%
+      filter(measurement_type == "otu") %>%
+      group_by(station_no, parsed_date, species_id) %>%
+      slice(1) %>%                                               # Keep only the first occurrence per OTU per sample
+      ungroup()
+  )
+
+
+
+gastropoda_long <- gastropoda_long %>%
+ mutate(
+    measurement_value = case_when(
+     measurement_origin == "Plankton eDNA (RSV)" ~ log1p(measurement_value),  # log1p avoids log(0)
+      TRUE ~ measurement_value  # keep other values unchanged
+   )
+ )
+
+```
+
+```{r}
+gastropoda_heatmap <- gastropoda_long %>%
+  mutate(
+    station = paste0("st", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+
+    origin_label = factor(measurement_origin, levels = c(
+      "Plankton eDNA (RSV)",
+      "Plankton Ab (cell/L)",
+      "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+      "Gastropoda Blade Ab - Alaria (indiv/cm2)"
+    )),
+
+    # Assign informative y-axis labels
+    y_axis = case_when(
+      species_id == "gibbula_sacc_p_cm" ~ "Gibbula Blade Ab (Sac)",
+      species_id == "gibbula_ala_p_cm"  ~ "Gibbula Blade Ab (Ala)",
+      species_id == "lacuna_sacc_p_cm"  ~ "Lacuna Blade Ab (Sac)",
+      species_id == "lacuna_ala_p_cm"   ~ "Lacuna Blade Ab  (Ala)",
+      species_id == "patella_sacc_p_cm" ~ "Patella Blade Ab (Sac)",
+      species_id == "patella_ala_p_cm"  ~ "Patella Blade Ab (Ala)",
+      species_id == "rissoa_sacc_p_cm"  ~ "Rissoa Blade Ab (Sacc)",
+      species_id == "rissoa_ala_p_cm"   ~ "Rissoa Blade Ab  (Ala)",
+      species_id == "plankton_gastropoda" ~ "Gastropoda Plankton Ab (cell/L)",
+      str_detect(species_id, "^otu_") ~ paste("RSV", species_id),
+      TRUE ~ species_id
+    ),
+
+    # Clean up RSV names into readable species format
+    y_axis = fct_recode(y_axis,
+      "Antarctoneptunea aurora (RSV)"       = "RSV otu_antarctoneptunea_aurora",
+      "Assiminea grayana (RSV)"            = "RSV otu_assiminea_grayana",
+      "Atlanta ariejansseni (RSV)"         = "RSV otu_atlanta_ariejansseni",
+      "Bulinus nasutus (RSV)"              = "RSV otu_bulinus_nasutus",
+      "Burnupia sp. (RSV)"                 = "RSV otu_burnupia_sp_ugsb_25228",
+      "Doto coronata (RSV)"                = "RSV otu_doto_coronata",
+      "Ercolania sp. (RSV)"                = "RSV otu_ercolania_sp_kh_2011",
+      "Glyptophysa sp. (RSV)"              = "RSV otu_glyptophysa_sp_11_pga_2018",
+      "Lacuna vincta (RSV)"                = "RSV otu_lacuna_vincta",
+      "Limapontia capitata (RSV)"          = "RSV otu_limapontia_capitata",
+      "Megalovalvata piligera (RSV)"       = "RSV otu_megalovalvata_piligera",
+      "Mitrella moleculina (RSV)"          = "RSV otu_mitrella_moleculina",
+      "Neritina canalis (RSV)"             = "RSV otu_neritina_canalis",
+     # "Total Gastropoda (RSV)"             = "RSV otu_total_gastropoda",
+      "Peringia ulvae (RSV)"               = "RSV otu_peringia_ulvae",
+      "Placida dendritica (RSV)"           = "RSV otu_placida_dendritica",
+      "Rissoa guernei (RSV)"               = "RSV otu_rissoa_guernei",
+      "Sconsia sp. (RSV)"                  = "RSV otu_sconsia_sp_mnhn_im_2013_61442",
+      "Segmentina nitida (RSV)"            = "RSV otu_segmentina_nitida",
+      "Siphonaria pectinata (RSV)"         = "RSV otu_siphonaria_pectinata",
+      "Stenophysa marmorata (RSV)"         = "RSV otu_stenophysa_marmorata",
+      "Steromphala cineraria (RSV)"        = "RSV otu_steromphala_cineraria",
+      "Therasia thaisa (RSV)"              = "RSV otu_therasia_thaisa"
+    )
+  )
+
+
+
+```
+
+
+
+#```{r}
+
+gastropoda_heatmap <- gastropoda_long %>%
+  mutate(
+    station = paste0("st", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c(
+      "Plankton eDNA (RSV)",
+      "Plankton Ab (cell/L)",
+      "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+      "Gastropoda Blade Ab - Alaria (indiv/cm2)"
+    )),
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE ~ measurement_origin
+    ),
+    y_axis = factor(
+      y_axis,
+      levels = c(
+        "RSV otu_doto_coronata",
+        "RSV otu_lacuna_vincta",
+        "RSV otu_rissoa_guernei",
+        "RSV otu_gastropoda_sp",
+        "Plankton Ab (cell/L)",
+        "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+        "Gastropoda Blade Ab - Alaria (indiv/cm2)"
+      )
+    ),
+    y_axis = fct_recode(y_axis,
+                        y_axis = fct_recode(y_axis,
+  "Gibbula (Sacc) Blade Ab" = "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+  "Gibbula (Ala) Blade Ab" = "Gastropoda Blade Ab - Alaria (indiv/cm2)",
+  "Lacuna (Sacc) Blade Ab" = "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+  "Lacuna (Ala) Blade Ab" = "Gastropoda Blade Ab - Alaria (indiv/cm2)",
+  # add other relevant taxa...
+)
+
+                        
+                        
+      "Doto coronata (RSV)"                       = "RSV otu_doto_coronata",
+      "Lacuna vincta (RSV)"                       = "RSV otu_lacuna_vincta",
+      "Rissoa guernei (RSV)"                      = "RSV otu_rissoa_guernei",
+      "Gastropoda sp. (RSV)"                      = "RSV otu_gastropoda_sp",
+      "Gastropoda Plankton Ab (cell/L)"    = "Plankton Ab (cell/L)",
+      "Gastropoda Blade Ab - Saccharina (indiv/cm2)"    = "Gastropoda Blade Ab - Saccharina (indiv/cm2)",
+      "Gastropoda Blade Ab - Alaria (indiv/cm2)"        = "Gastropoda Blade Ab - Alaria (indiv/cm2)"
+    )
+  )
+
+
+#```
+
+```{r}
+gastropoda_cleaned <- gastropoda_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# Pivot to matrix
+gastropoda_mat <- gastropoda_cleaned %>%
+  filter(!is.na(y_axis)) %>%                                # Ensure rownames are valid
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = NA) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# Handle non-finite values
+gastropoda_mat[!is.finite(gastropoda_mat)] <- NA
+
+
+
+```
+
+```{r}
+# Color scale using viridis magma
+viridis_magma <- viridis(100)
+value_range <- range(gastropoda_mat, na.rm = TRUE)
+
+# Remove non-finite values (Inf, -Inf) before calculating range
+finite_vals <- gastropoda_mat[is.finite(gastropoda_mat)]
+value_range <- range(finite_vals, na.rm = TRUE)
+
+# Fallback if all values were non-finite
+if (length(finite_vals) == 0 || diff(value_range) == 0) {
+  value_range <- c(0, 1)
+}
+
+col_fun_Ab <- colorRamp2(
+  seq(value_range[1], value_range[2], length.out = 100),
+  viridis(100)
+)
+```
+
+```{r}
+# Extract metadata from column names
+col_meta <- strsplit(colnames(gastropoda_mat), "_")
+dates <- sapply(col_meta, `[`, 1)
+stations <- paste0("S", sapply(col_meta, `[`, 2))  # Add S prefix
+
+# Format dates
+formatted_dates <- format(as.Date(dates), "%d %b")
+
+# Blank out most dates (e.g., every 3rd one only)
+sparse_date_labels <- rep("", length(formatted_dates))
+sparse_date_labels[seq(2, length(formatted_dates), by = 3)] <- formatted_dates[seq(2, length(formatted_dates), by = 3)]
+
+# Create annotations
+top_anno <- HeatmapAnnotation(
+  Station = anno_text(stations, rot = 0,  just = "center", gp = gpar(fontsize = 10)),
+  annotation_name_side = "left",
+  annotation_height = unit(0.6, "lines"),
+  which = "column"
+)
+
+bottom_anno <- HeatmapAnnotation(
+  Date = anno_text(sparse_date_labels, gp = gpar(fontsize = 12), rot = 0),
+  annotation_name_side = "left",
+  annotation_height = unit(1, "cm"),
+  which = "column"
+)
+
+```
+
+
+```{r}
+
+# Define color scale safely
+finite_vals <- gastropoda_mat[is.finite(gastropoda_mat)]
+value_range <- range(finite_vals, na.rm = TRUE)
+
+# Fallback if all values are NA or constant
+if (length(finite_vals) == 0 || diff(value_range) == 0) {
+  value_range <- c(0, 1)
+}
+
+col_fun_Ab <- colorRamp2(
+  seq(value_range[1], value_range[2], length.out = 100),
+  viridis(100, option = "viridis")
+)
+
+
+library(scico)
+
+# Subset the full matrix
+edna_mat_gastropoda <- gastropoda_mat[grepl("RSV", rownames(gastropoda_mat), ignore.case = TRUE), , drop = FALSE]
+plankton_mat_gastropoda <- gastropoda_mat[grepl("Ab \\(cell/L\\)", rownames(gastropoda_mat)), , drop = FALSE]
+Ab_mat_gastropoda <- gastropoda_mat[grepl("Blade Ab", rownames(gastropoda_mat)), , drop = FALSE]
+
+# Color scale using viridis
+viridis_magma <- viridis(100, option = "viridis")
+
+# Define separate color functions for each data type
+col_fun_edna <- colorRamp2(
+  seq(min(edna_mat_gastropoda, na.rm = TRUE), max(edna_mat_gastropoda, na.rm = TRUE), length.out = 100),
+  viridis_magma
+)
+
+col_fun_plankton <- colorRamp2(
+  seq(min(plankton_mat_gastropoda, na.rm = TRUE), max(plankton_mat_gastropoda, na.rm = TRUE), length.out = 100),
+  viridis_magma
+)
+
+col_fun_Ab <- colorRamp2(
+  seq(min(Ab_mat_gastropoda, na.rm = TRUE), max(Ab_mat_gastropoda, na.rm = TRUE), length.out = 100),
+  viridis_magma
+)
+
+# Generate heatmaps
+hm_edna_gastropoda <- Heatmap(
+  edna_mat_gastropoda,
+  name = "eDNA log(RSV)",
+  col = col_fun_edna,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = top_anno,
+  bottom_annotation = NULL,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "eDNA log(RSV)",
+    title_position = "topleft",
+    legend_direction = "vertical"
+  )
+)
+
+hm_plankton_gastropoda <- Heatmap(
+  plankton_mat_gastropoda,
+  name = "Plankton (cells/L)",
+  col = col_fun_plankton,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = NULL,
+  bottom_annotation = NULL,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "Plankton Abundance\n(cells/L)",
+    title_position = "topleft",
+    legend_direction = "vertical"
+  )
+)
+
+hm_Ab_gastropoda <- Heatmap(
+  Ab_mat_gastropoda,
+  name = "Blade Ab (ind/cm2)",
+  col = col_fun_Ab,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = NULL,
+  bottom_annotation = bottom_anno,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "Blade Abundance\n(ind/cm2)",
+    title_position = "topleft",
+    legend_direction = "vertical"
+  )
+)
+
+# Combine and draw
+draw(hm_edna_gastropoda %v% hm_plankton_gastropoda %v% hm_Ab_gastropoda,
+     heatmap_legend_side = "right",
+     merge_legend = FALSE)
+
+```
+
+
+```{r}
+library(tidyverse)
+library(janitor)
+
+# Load and clean column names
+otu_wide_c <- read.csv("otu_all_sp.csv") %>%
+  clean_names()
+
+gastropoda_cols_clean <- c(
+  "otu_lacuna_vincta",
+  "otu_mitrella_moleculina",
+  "otu_rissoa_guernei",
+  "otu_doto_coronata",
+  "lacuna_vincta", "lacuna_vincta_1", "lacuna_vincta_2",
+  "mitrella_moleculina", "mitrella_moleculina_1", "mitrella_moleculina_2",
+  "rissoa_guernei", "rissoa_guernei_1",
+  "doto_coronata", "doto_coronata_1", "doto_coronata_2", "doto_coronata_3",
+  "steromphala_cineraria",
+  "burnupia_sp_ugsb_25228",
+  "limapontia_capitata",
+  "siphonaria_pectinata",
+  "assiminea_grayana",
+  "glyptophysa_sp_11_pga_2018",
+  "atlanta_ariejansseni",
+  "placida_dendritica", "placida_dendritica_1",
+  "peringia_ulvae",
+  "stenophysa_marmorata",
+  "ercolania_sp_kh_2011", "ercolania_sp_kh_2011_1",
+  "antarctoneptunea_aurora",
+  "therasia_thaisa",
+  "neritina_canalis",
+  "sconsia_sp_mnhn_im_2013_61442",
+  "bulinus_nasutus",
+  "megalovalvata_piligera",
+  "segmentina_nitida"
+)
+# Function to apply the renaming rule
+rename_to_otu_style <- function(name) {
+  parts <- strsplit(name, "_")[[1]]
+  if (length(parts) >= 2) {
+    # Capitalise last part (species), keep rest lowercase
+    genus <- tolower(paste(parts[-length(parts)], collapse = "_"))
+    species <- stringr::str_to_title(parts[length(parts)])
+    paste0("otu_", genus, "_", species)
+  } else {
+    paste0("otu_", stringr::str_to_title(name))
+  }
+}
+colnames(gastropoda_data) <- sapply(colnames(gastropoda_data), rename_to_otu_style)
+
+gastropoda_data <- read.csv("gastro_otu.csv")
+
+# Identify matching columns
+gastropoda_found <- intersect(gastropoda_cols_clean, colnames(otu_wide_c))
+
+gastropoda_data <- otu_wide_c[, gastropoda_found]
+
+gastropoda_data <- read.csv("gastro_otu.csv") %>%
+  clean_names() %>%
+  select(order(colnames(.)))
+
+
+write.csv(gastropoda_data,"gastro_otu.csv")
+
+  
+  # Function to rename each column to "otu_Genus species"
+rename_otu_taxon <- function(name) {
+  parts <- strsplit(name, "_")[[1]]
+  if (length(parts) >= 2) {
+    genus <- stringr::str_to_title(parts[1])
+    species <- tolower(paste(parts[-1], collapse = " "))
+    paste("otu", genus, species)
+  } else {
+    paste("otu", stringr::str_to_title(name))
+  }
+}
+
+# Apply to column names in gastropoda_data
+colnames(gastropoda_data) <- sapply(colnames(gastropoda_data), rename_otu_taxon)
+  
+
+library(dplyr)
+library(janitor)
+library(stringr)
+
+
+
+# Step 1: Load and clean
+gastropoda_data <- read.csv("otu_wide_c.csv") %>%
+  clean_names()
+
+# Step 2: Collapse columns by base name (e.g. "lacuna_vincta")
+gastropoda_data_merge <- gastropoda_data %>%
+  select_if(is.numeric) %>%
+  rename_with(~ str_replace_all(., "_\\d+$", "")) %>%  # strip trailing _1, _2, etc.
+  group_by_all(.drop = FALSE) %>%
+  summarise(across(everything(), ~ sum(.x, na.rm = TRUE)), .groups = "drop")
+
+
+
+
+
+```
+

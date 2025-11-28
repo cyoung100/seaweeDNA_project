@@ -1,0 +1,401 @@
+---
+title: "R Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+
+theme_set(
+  theme_minimal(base_size = 12) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 12),
+      axis.text        = element_text(size = 12),
+      legend.title     = element_text(size = 12),
+      legend.text      = element_text(size = 12),
+      strip.text       = element_text(size = 12)
+    )
+)
+
+# 1) Read & compute per‐cm² abundances
+
+amphi <- read.csv("amphi_heatmap.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>% 
+  mutate(amphipod_p_cm = amphipod / for_standardizing,
+         caprellidae_p_cm = caprellidae / for_standardizing,
+         gammaridae_p_cm = gammaridae / for_standardizing,
+         jassa_p_cm = jassa / for_standardizing,
+         corophium_p_cm = corophium / for_standardizing,
+         parsed_date = make_date(year, month, day)) %>% 
+  select(-total_amphipoda, -for_standardizing)
+```
+
+```{r}
+
+library(tidyverse)
+library(tidyverse)
+
+amphi_longer <- amphi %>%
+  pivot_longer(
+    cols = -c(
+      seaweed, sample_code, site, location, station_no,
+      date, day, month, year, parsed_date, amphipod, jassa, caprellidae, gammaridae, corophium 
+    ),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_")       ~ "eDNA",
+      species_id == "amphipod_plankton"     ~ "plankton",
+      str_detect(species_id, "_p_cm$")      ~ "blade",
+      TRUE                                  ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "eDNA"                               ~ "Plankton eDNA (RSV)",
+      measurement_type == "plankton"                           ~ "Plankton Abundance (cell/L)",
+      measurement_type == "blade"  ~ "Blade Abundance - (ind/cm²)",
+      TRUE                                                     ~ NA_character_
+    ),
+    measurement_value = case_when(
+      measurement_type == "eDNA" ~ sqrt(measurement_value),
+      TRUE                       ~ measurement_value
+    )
+  )
+
+
+
+amphi_longer <- amphi_longer %>%
+  mutate(
+    # recode just the amphipod‐related species_id into nicer y‐axis labels
+    species_id = recode(
+      species_id,
+      # RSV (eDNA) OTUs
+      otu_niphargus_arbiter = "Niphargus arbiter",
+      otu_jassa_herdmani    = "Jassa herdmani",
+      otu_aora_gracilis     = "Aora gracilis",
+      # plankton abundance
+      amphipod_plankton     = "Amphipod Plankton\n Abundance (cells/L)",
+      # blade abundances on Saccharina & Alaria
+      jassa_p_cm            = "Jassa herdmani",
+      gammaridae_p_cm       = "Gammaridae",
+      corophium_p_cm        = "Corophium sp.",
+      caprellidae_p_cm      = "Caprellidae sp.",
+      amphipod_p_cm         = "Amphipod sp.",
+      .default              = species_id
+    )
+  )
+
+amphi_longer <- amphi_longer %>%
+  filter(parsed_date != as.Date("2021-06-15"))
+
+```
+
+```{r}
+# ─────────────────────────────────────────────────────────────────────────────
+# 4) Factor for plotting order
+# ─────────────────────────────────────────────────────────────────────────────
+
+order_ids <- amphi_longer %>% 
+  distinct(parsed_date, station_no) %>% 
+  arrange(parsed_date, station_no) %>% 
+  mutate(sample_order = paste(parsed_date, station_no, sep = "_")) %>% 
+  pull(sample_order)
+
+amphi_longer <- amphi_longer %>%
+  mutate(
+    station      = as.character(station_no),
+    sample_order = factor(paste(parsed_date, station, sep = "_"),
+                          levels = order_ids)
+  )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 5) Prepare axis‐tick labels
+# ─────────────────────────────────────────────────────────────────────────────
+
+parts          <- strsplit(levels(amphi_longer$sample_order), "_")
+dates          <- as.Date(sapply(parts, `[`, 1))
+raw_stations <- sapply(parts, `[`, 2)
+date_labels    <- ifelse(!duplicated(dates),
+                         format(dates, "%d %b"),
+                         "")
+
+station_labels <- paste0("S", raw_stations)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6) Split data for the four panels (blade now by seaweed)
+# ─────────────────────────────────────────────────────────────────────────────
+
+d_e      <- filter(amphi_longer, measurement_origin == "Plankton eDNA (RSV)")
+d_p      <- filter(amphi_longer, measurement_origin == "Plankton Abundance (cell/L)")
+d_b_sacc <- filter(amphi_longer,
+                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   seaweed == "Saccharina",
+                   species_id != "Corophium sp.")
+d_b_ala  <- filter(amphi_longer,
+                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   seaweed == "Alaria",
+                   species_id != "Corophium sp.")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 7) Shared fill‐scales
+# ─────────────────────────────────────────────────────────────────────────────
+
+library(viridis)
+
+scale_e <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Meroplankton\neDNA sqrt(ASV)",
+  na.value  = "grey90"
+)
+
+scale_p <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Meroplankton\nAbundance\n(cells/L)",
+  na.value  = "grey90"
+)
+
+scale_b_a <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Alaria frond\nAbundance\n(ind/cm²)",
+  na.value  = "grey90"
+)
+
+scale_b_s <- scale_fill_viridis_c(
+  option    = "magma", direction = -1,
+  name      = "Saccharina frond\nAbundance\n(ind/cm²)",
+  na.value  = "grey90"
+)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 8) Build each panel
+# ─────────────────────────────────────────────────────────────────────────────
+
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), 
+                      y = fct_rev(species_id), 
+                      fill = measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0),
+  #  sec.axis = dup_axis(name = NULL, labels = station_labels)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size = 10),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) + ylab("Planktonic eDNA\nRSV rel. abundance (%)") +
+  theme(axis.title.y = element_text(size = 10))
+
+p2 <- ggplot(d_p, aes(x = sample_order, y = species_id, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank()
+  ) +
+  ylab("Abundance\n(cells/L)")+
+  theme(axis.title.y = element_text(size = 10))
+
+p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
+                           y = fct_rev(species_id),
+                           fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_s +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Saccharina\n(ind/cm²)") +
+  theme(axis.title.y = element_text(size = 10))
+
+p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
+                          y = fct_rev(species_id),
+                          fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_a +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = date_labels,
+    expand = c(0,0),
+    name   = "Date"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_text(size = 10, vjust = 3, hjust = 0),
+    axis.title.x.bottom = element_text(margin = margin(t = 5)),
+    axis.ticks.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank(),
+          legend.title     = element_text(size = 10),  # <- uniform legend title
+      legend.text      = element_text(size = 10),
+  ) +
+  ylab("Alaria\n(ind/cm²)")+
+  theme(axis.title.y = element_text(size = 10))
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 9) Stack panels with shared legends
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(ncol = 1, heights = c(3, 3, 2, 2), guides = "collect") &
+  theme(
+    legend.position   = "top",
+    legend.direction = "horizontal",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(1, "lines"),
+    plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
+  )
+
+print(final_plot)
+
+
+
+svglite::svglite(
+  "amphi_KC.svg",
+  width  = 15,
+  height = 8.27
+)
+print(final_plot)
+dev.off()
+```
+
+
+################
+
+```{r}
+# --- after your amphi_longer pipeline ---
+
+# 1) average across stations for each date/species
+amphi_by_date <- amphi_longer %>%
+  group_by(
+    parsed_date,
+    seaweed,
+    measurement_origin,
+    species_id
+  ) %>%
+  summarise(
+    measurement_value = mean(measurement_value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# 2) set up a date‐only ordering and labels
+date_levels <- sort(unique(amphi_by_date$parsed_date))
+date_labels <- format(date_levels, "%d %b")
+
+amphi_by_date <- amphi_by_date %>%
+  mutate(
+    # numeric index for plotting
+    date_idx = as.numeric(factor(parsed_date, levels = date_levels))
+  )
+
+# 3) split into the four panels again
+d_e      <- filter(amphi_by_date, measurement_origin == "Plankton eDNA (RSV)")
+d_p      <- filter(amphi_by_date, measurement_origin == "Plankton Abundance (cell/L)")
+d_b_sacc <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Saccharina",
+    species_id != "Corophium sp."
+)
+d_b_ala  <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Alaria",
+    species_id != "Corophium sp."
+)
+
+# 4) recreate each panel, mapping x = date_idx and using the new breaks/labels
+p1 <- ggplot(d_e, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_e +
+   scale_x_continuous(
+    limits   = c(0.5, length(date_levels) + 0.5),
+    breaks   = seq_along(date_levels),
+    labels   = NULL,
+    expand   = c(0, 0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Meroplankton\neDNA sqrt(ASV)") + theme(axis.title.y = element_text(size = 11))
+
+p2 <- ggplot(d_p, aes(x = date_idx, y = species_id, fill = measurement_value)) +
+  geom_tile() + scale_p +
+  scale_x_continuous(expand = c(0,0)) +
+  theme(
+    axis.text.x      = element_blank(),
+    axis.ticks.x     = element_blank(),
+    axis.title.x        = element_blank(),
+    axis.text.y      = element_text(size = 10)
+  ) +
+  ylab("Abundance\n(cells/L)")+ theme(axis.title.y = element_text(size = 11))
+
+p3 <- ggplot(d_b_sacc, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_b_s +
+  scale_x_continuous(expand = c(0,0)) +
+  theme(
+    axis.text.x      = element_blank(),
+    axis.ticks.x     = element_blank(),
+    axis.title.x        = element_blank(),
+    axis.text.y      = element_text(size = 10)
+  ) +
+  ylab("Saccharina frond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+
+p4 <- ggplot(d_b_ala, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_b_a +
+  scale_x_continuous(
+    breaks = seq_along(date_levels),
+    labels = date_labels,
+    expand = c(0,0),
+    name   = "Date"
+  ) +
+  theme(
+    axis.text.x       = element_text(size = 10, angle = 45, hjust = 1, vjust = 1.2),
+    axis.ticks.x      = element_blank(),
+    axis.text.y       = element_text(size = 10)
+  ) +
+  ylab("Alaria frond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+
+# 5) stack & print
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(ncol = 1, heights = c(0.5,0.2,0.6,0.6), guides = "collect") &
+  theme(
+    legend.position   = "right",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+        legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(0.8, "lines"),
+    plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
+  )
+
+print(final_plot)
+
+```
+

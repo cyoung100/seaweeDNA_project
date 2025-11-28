@@ -1,0 +1,125 @@
+---
+title: "prelim_site_analysis"
+output: html_document
+date: "2025-03-19"
+---
+
+#data loadin 
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(vegan)
+library(lubridate)
+set.seed(123)
+
+site_data <- read.csv("raw data/seaweed_master_file(in).csv")
+
+site_data <- site_data %>% 
+  clean_names()
+
+#make new column with month and year
+site_data$date_sampled <- mdy(site_data$date_sampled)
+site_data$month <- month(site_data$date_sampled, label = T)
+
+#make column with station id
+site_data$station <- str_sub(site_data$sample, -3, -1)
+
+
+site_nutrients <- site_data %>% 
+  select(farm_location,
+         month,
+         station,
+         chlorophyll_ug_l,
+         salinity,
+         no3_no2,
+         no2_um,
+         no3_um,
+         po4_um) %>% 
+  na.omit()
+
+
+
+```
+
+```{r}
+# Create rownames (optional, for easier labeling)
+site_nutrients$SampleID <- paste(site_nutrients$farm_location, site_nutrients$month, site_nutrients$station, sep = "_")
+
+# Extract numeric variables for nMDS
+nutrient_matrix <- site_nutrients %>% select(chlorophyll_ug_l,
+         salinity,
+         no3_no2,
+         no2_um,
+         no3_um,
+         po4_um)
+
+# Standardize the data (optional)
+nutrient_matrix <- decostand(nutrient_matrix, method = "standardize") %>% 
+  na.omit()
+
+# Convert to a matrix
+rownames(nutrient_matrix) <- site_nutrients$SampleID
+nutrient_matrix <- as.matrix(nutrient_matrix)
+
+# Check data structure
+print(nutrient_matrix)
+
+```
+
+
+```{r}
+
+# Compute Bray-Curtis Dissimilarity
+dist_matrix <- vegdist(nutrient_matrix, method = "bray")
+
+# Run nMDS with 2 dimensions
+nmds_result <- metaMDS(dist_matrix, k = 2, trymax = 100)
+
+# Extract NMDS scores
+nmds_scores <- as.data.frame(scores(nmds_result))
+nmds_scores$SampleID <- rownames(nmds_scores)
+
+#merge nmds scores 
+nmds_scores <- merge(nmds_scores, site_nutrients, by = "SampleID")
+
+# Fit environmental variables (nutrient factors)
+env_fit <- envfit(nmds_result, nutrient_matrix, perm = 999)
+
+
+# Extract arrow scores (vectors of important factors)
+arrow_data <- as.data.frame(scores(env_fit, display = "vectors"))
+arrow_data$Variable <- rownames(arrow_data)
+
+# Scale arrows for better visualization
+arrow_data <- arrow_data %>%
+  mutate(NMDS1 = NMDS1 * 0.4,  # Adjust scale factor if needed
+         NMDS2 = NMDS2 * 0.4)
+
+
+```
+
+```{r}
+# Plot NMDS with Farms as Colors, Months as Shapes, and Arrows for Variables
+ggplot(nmds_scores, aes(x = NMDS1, y = NMDS2, color = farm_location)) +
+  geom_point(size = 4) +  # Plot points
+ # geom_text(aes(label = SampleID), vjust = -1, size = 3, show.legend = FALSE) +  # Add labels
+ geom_segment(data = arrow_data, aes(x = 0, y = 0, xend = NMDS1, yend = NMDS2), 
+               arrow = arrow(length = unit(0.3, "cm")), size = 1, color = "black") + # Arrows
+  geom_text(data = arrow_data, aes(x = NMDS1, y = NMDS2, label = Variable),
+            size = 4, hjust = 0.5, vjust = -0.5, color = "black") +  # Labels for arrows
+  theme_minimal() +
+  labs(title = "nMDS with Environmental Vectors", x = "NMDS1", y = "NMDS2") +
+  theme(legend.position = "right")
+```
+
+```{r}
+ggplot(nmds_scores, aes(x = NMDS1, y = NMDS2, color = farm_location, shape = month)) +
+  geom_point(size = 4) +  # Plot points
+ # geom_text(aes(label = SampleID), vjust = -1, size = 3, show.legend = FALSE) +  # Add labels
+  theme_minimal() +
+  labs(title = "nMDS of Nutrient Data", x = "NMDS1", y = "NMDS2") +
+  theme(legend.position = "right")
+```
+

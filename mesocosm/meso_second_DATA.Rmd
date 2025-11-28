@@ -1,0 +1,283 @@
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(readxl)
+library(lme4)
+library(ggpubr)
+
+# Load data
+meso<- read.csv("mill_mesocosm_full_data4_long.csv") %>% 
+  clean_names()
+meta <- read.csv("mesocosm_meta.csv")
+
+```
+`
+
+```{r}
+library(dplyr)
+library(janitor)
+
+# read + clean names only
+meta <- read.csv("mesocosm_meta.csv") %>% clean_names()
+dat  <- read.csv("mill_mesocosm_full_data4_long.csv") %>% clean_names()
+
+
+```
+```{r}
+library(dplyr)
+
+# Read your data
+df1 <- read.csv("mill_mesocosm_full_data4_long.csv")  # Main experimental data
+df2 <- read.csv("mesocosm_meta.csv")  # Blade measurements
+
+# Option 1: Join by seaweed_id and rock number
+# This works if you want all blade measurements linked to their parent rock
+result <- df2 %>%
+  full_join(df1, by = ("seaweed_id"))
+
+result <- result %>% 
+  clean_names()
+```
+
+```{r}
+meso <- read.csv("mesocosm_complete.csv")
+
+#write.csv(result, "mesocosm_complete.csv")
+```
+
+
+```{r}
+juvenile<- meso %>%
+  filter(grepl("juvenile", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = species)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("Membranipora" = "steelblue", "Pilosa" = "tomato"),
+    labels = c("Membranipora" = "M. membranacea",
+               "Pilosa" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+
+```{r}
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, colour = species)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ epibiont_sampling_date) +
+  labs(y = "Colony length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("Membranipora" = "steelblue", "Pilosa" = "tomato"),
+    labels = c("Membranipora" = "M. membranacea",
+               "Pilosa" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+```{r}
+adult<- meso %>%
+  filter(grepl("adult", age)) %>% 
+  group_by(seaweed_id, epibiont_sampling_date) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         species %in% c("Membranipora", "Pilosa")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    epibiont_sampling_date = factor(epibiont_sampling_date,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+```
+
+
+
+
+```{r}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = species)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ epibiont_sampling_date) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("Membranipora" = "steelblue", "Pilosa" = "tomato"),
+    labels = c("Membranipora" = "M. membranacea",
+               "Pilosa" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+
+```{r}
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, colour = species)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ epibiont_sampling_date) +
+  labs(y = "Colony max length (cm)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("Membranipora" = "steelblue", "Pilosa" = "tomato"),
+    labels = c("Membranipora" = "M. membranacea",
+               "Pilosa" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+
+```{r}
+hist(log(adult$colony_length_max))
+
+shapiro.test((adult$colony_length_max))
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Kruskal-Wallis tests for colony_length_max
+
+# 1. Overall test by nutrient treatment (ignoring other factors)
+kruskal.test(colony_length_max ~ nutrient_treatment, data = adult)
+
+# 2. Separate tests for each species
+## M. membranacea
+adult %>%
+  filter(species == "Membranipora") %>%
+  kruskal.test(colony_length_max ~ nutrient_treatment, data = .)
+
+## E. pilosa
+adult %>%
+  filter(species == "Pilosa") %>%
+  kruskal.test(colony_length_max ~ nutrient_treatment, data = .)
+
+# 3. Tests for each combination of species × turbulence × date
+library(tidyr)
+
+results <- adult %>%
+  group_by(species, turbulence, epibiont_sampling_date) %>%
+  summarise(
+    n = n(),
+    kruskal_p = if(n() > 5 && length(unique(nutrient_treatment)) > 1) {
+      kruskal.test(colony_length_max ~ nutrient_treatment)$p.value
+    } else {
+      NA
+    },
+    .groups = "drop"
+  )
+
+print(results)
+
+# 4. Post-hoc pairwise comparisons (if Kruskal is significant)
+library(FSA)
+
+# For M. membranacea only (since E. pilosa has low n)
+memb_data <- adult %>% filter(species == "Membranipora")
+
+# Overall post-hoc
+dunnTest(colony_length_max ~ nutrient_treatment, 
+         data = memb_data, 
+         method = "bonferroni")
+
+# 5. By turbulence and date for M. membranacea
+## High turbulence, 04/06/2025
+memb_data %>%
+  filter(turbulence == "High", epibiont_sampling_date == "04/06/2025") %>%
+  dunnTest(colony_length_max ~ nutrient_treatment, 
+           data = ., 
+           method = "bonferroni")
+
+## High turbulence, 12/06/2025
+memb_data %>%
+  filter(turbulence == "High", epibiont_sampling_date == "12/06/2025") %>%
+  dunnTest(colony_length_max ~ nutrient_treatment, 
+           data = ., 
+           method = "bonferroni")
+
+## Low turbulence, 04/06/2025
+memb_data %>%
+  filter(turbulence == "Low", epibiont_sampling_date == "04/06/2025") %>%
+  dunnTest(colony_length_max ~ nutrient_treatment, 
+           data = ., 
+           method = "bonferroni")
+
+## Low turbulence, 12/06/2025
+memb_data %>%
+  filter(turbulence == "Low", epibiont_sampling_date == "12/06/2025") %>%
+  dunnTest(colony_length_max ~ nutrient_treatment, 
+           data = ., 
+           method = "bonferroni")
+
+# 6. Alternative: More comprehensive approach with results table
+library(rstatix)
+
+stat_results <- adult %>%
+  group_by(species, turbulence, epibiont_sampling_date) %>%
+  kruskal_test(colony_length_max ~ nutrient_treatment) %>%
+  adjust_pvalue(method = "bonferroni") %>%
+  add_significance("p.adj")
+
+print(stat_results)
+
+# Post-hoc for significant results
+posthoc_results <- adult %>%
+  filter(species == "Membranipora") %>%
+  group_by(turbulence, epibiont_sampling_date) %>%
+  dunn_test(colony_length_max ~ nutrient_treatment, p.adjust.method = "bonferroni")
+
+print(posthoc_results)
+```
+
+High Turbulence:
+
+12/06/2025: N vs P (p.adj = 0.044*) - Phosphorus treatment had significantly higher colony length than Nitrogen
+02/07/2025: C vs P (p.adj = 0.011*) - Phosphorus significantly higher than Control
+
+Low Turbulence:
+
+12/06/2025: N vs P (p.adj = 0.030*) - Phosphorus significantly higher than Nitrogen
+
+Key Findings:
+Phosphorus Effect Emerges Over Time:
+
+Early sampling (04/06/2025): No significant differences in either turbulence level
+By 12/06/2025: P treatment shows significant advantage over N in both turbulence levels
+By 02/07/2025 (High turbulence only): P significantly exceeds Control
+
+Pattern Summary:
+
+Control vs Nitrogen: Never significantly different (all ns)
+Phosphorus treatment: Consistently produces largest colonies by mid-June
+Temporal effect: Differences become more pronounced over time (nutrient effects accumulate)
+
+Turbulence Interaction:
+
+High turbulence shows stronger/faster P effect (significant by 02/07)
+Low turbulence shows same pattern but less pronounced
+
+Interpretation:
+M. membranacea colonies are phosphorus-limited in these conditions. The significant differences appearing by 12/06 (one week after initial sampling) suggest:
+
+P is the primary limiting nutrient for bryozoan growth
+N enrichment alone doesn't enhance growth beyond control levels
+High turbulence may enhance nutrient uptake, amplifying the P effect
+
+Phosphorus enrichment significantly increased colony length compared to nitrogen treatment in both turbulence environments by 12 June (Dunn's test, p < 0.05), with effects becoming more pronounced over time in high turbulence conditions.

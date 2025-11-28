@@ -1,0 +1,127 @@
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+
+# Read data
+kelpcrofting_taxa <- read.csv("heatmap/kelpcrofting_focal_sp_clean4.csv")
+
+```
+
+```{r}
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(worrms)
+library(rgbif)
+library(taxize)
+library(purrr)
+library(tibble)
+library(stringr)
+
+# Input: vector of species names with NA taxonomy
+species_list <- kelpcrofting_taxa %>%
+  filter(is.na(phylum) | is.na(class)) %>%
+  pull(species_name) %>%
+  unique()
+
+# -----------------------------------------------
+# 1. WoRMS Lookup (via worrms)
+get_worms_tax <- function(name) {
+  tryCatch({
+    res <- wm_records_name(name)
+    if (length(res) > 0) res[1, ] else NULL
+  }, error = function(e) NULL)
+}
+
+worms_results <- purrr::map_df(species_list, function(sp) {
+  res <- get_worms_tax(sp)
+  if (!is.null(res)) {
+    tibble(
+      species_name = sp,
+      kingdom = res$kingdom,
+      phylum = res$phylum,
+      class = res$class,
+      order = res$order,
+      family = res$family,
+      genus = res$genus,
+      source = "WoRMS"
+    )
+  }
+})
+
+# -----------------------------------------------
+# 2. GBIF fallback
+get_gbif_tax <- function(name) {
+  tryCatch({
+    rec <- name_backbone(name = name)
+    if (!is.null(rec$phylum)) {
+      tibble(
+        species_name = name,
+        kingdom = rec$kingdom,
+        phylum = rec$phylum,
+        class = rec$class,
+        order = rec$order,
+        family = rec$family,
+        genus = rec$genus,
+        source = "GBIF"
+      )
+    } else NULL
+  }, error = function(e) NULL)
+}
+
+gbif_results <- purrr::map_df(
+  setdiff(species_list, worms_results$species_name),
+  get_gbif_tax
+)
+
+# -----------------------------------------------
+# 3. NCBI fallback via taxize
+get_ncbi_tax <- function(name) {
+  tryCatch({
+    rec <- classification(name, db = "ncbi")[[1]]
+    df <- rec %>%
+      filter(rank %in% c("kingdom", "phylum", "class", "order", "family", "genus")) %>%
+      pivot_wider(names_from = rank, values_from = name) %>%
+      mutate(species_name = name, source = "NCBI")
+    df
+  }, error = function(e) NULL)
+}
+
+ncbi_results <- purrr::map_df(
+  setdiff(species_list, union(worms_results$species_name, gbif_results$species_name)),
+  get_ncbi_tax
+)
+
+# -----------------------------------------------
+# 4. Combine
+taxonomy_combined <- bind_rows(worms_results, gbif_results, ncbi_results)
+
+# -----------------------------------------------
+# 5. Join to main dataset
+kelpcrofting_taxa_enriched <- kelpcrofting_taxa %>%
+  left_join(taxonomy_combined, by = "species_name", suffix = c("", "_filled")) %>%
+  mutate(
+    kingdom = coalesce(kingdom, kingdom_filled),
+    phylum  = coalesce(phylum, phylum_filled),
+    class   = coalesce(class, class_filled),
+    order   = coalesce(order, order_filled),
+    family  = coalesce(family, family_filled),
+    genus   = coalesce(genus, genus_filled)
+  ) %>%
+  select(-ends_with("_filled"))
+
+write.csv(kelpcrofting_taxa_enriched, "kelpcrofting_taxa_enriched.csv")
+
+```
+

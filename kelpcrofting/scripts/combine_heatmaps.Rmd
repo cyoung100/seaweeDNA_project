@@ -1,0 +1,46 @@
+
+Global scaling -  Fix the Z-score color scale globally - 
+```{r}
+# Load necessary packages
+library(viridis)
+library(circlize)
+
+# Combine all Z-score scaled matrices
+all_scaled_values <- c(
+  bryozoa_mat_scaled,
+  hydrozoa_mat_scaled,
+  bivalv_mat_scaled,
+  amphipod_mat_scaled,
+  gastro_mat_scaled,
+  copepod_mat_scaled
+)
+
+# Compute global Z-score range across all heatmaps
+global_range <- range(all_scaled_values, na.rm = TRUE)
+
+# Use Viridis "D" option for consistent blue-themed palette
+viridis_blue <- viridis(100, option = "D")  # or just: viridis(100)
+
+# Create global color function
+col_fun_global_fix <- colorRamp2(
+  seq(global_range[1], global_range[2], length.out = 100),
+  viridis_blue
+)
+
+
+
+```
+
+```{r}
+combined_map <- bryo %v% hydro %v% bivalv %v% amphi %v% gastro %v% cope
+
+# Draw them together
+draw(combined_map, merge_legend = F)
+```
+
+```{r}
+svg("combined_map.svg", width = 14, height = 8)
+draw(combined_map)
+dev.off()
+```
+

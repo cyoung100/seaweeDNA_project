@@ -1,0 +1,663 @@
+
+
+## Primer Design Checker ##
+
+# 1.Set-up
+ RUN ONCE
+```{r}
+# Install & load
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+if (!requireNamespace("Biostrings", quietly = TRUE)) BiocManager::install("Biostrings", ask = FALSE)
+if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
+
+library(Biostrings)
+library(tidyverse)
+
+# Path to genome (edit if needed)
+genome_file <- "mmem_genome.fna"
+
+# Load genome once and normalize names
+genome <- readDNAStringSet(genome_file)
+names(genome) <- sub(" .*", "", names(genome))  # keep only accession part (before first space)
+
+# Output directory
+out_dir <- "primer_assess_results"
+if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
+# Helper: primer cleaning and QC
+.clean_primer <- function(x) {
+  s <- toupper(gsub("[^ACGTNRYWSMKBDHV]", "", x))
+  if (nchar(s) == 0) stop("Primer cleaned to empty string. Check input: ", x)
+  invisible(DNAString(s)) # validates
+  s
+}
+.primer_qc <- function(seq) {
+  L  <- nchar(seq)
+  gc <- 100 * stringr::str_count(seq, "[GC]") / L
+  tm <- 2 * stringr::str_count(seq, "[AT]") + 4 * stringr::str_count(seq, "[GC]")
+  tibble(length_bp=L, GC_percent=round(gc,1), Tm_Wallace_C=tm)
+}
+```
+
+
+# 2. Core function
+```{r}
+assess_primers <- function(
+  family,               # e.g., "ltr1_fam42"
+  fwdP, revP,           # raw primer strings (any case; stray chars ok)
+  genome,               # DNAStringSet already loaded
+  out_dir = "primer_assess_results",
+  max_mismatch = 2,
+  size_min = 100, size_max = 300,
+  short_min = 100, short_max = 200,
+  export_short_fasta = TRUE
+) {
+  # ---- Primer cleaning + QC ----
+  fwd <- .clean_primer(fwdP)
+  rev <- .clean_primer(revP)
+  qcF <- .primer_qc(fwd)
+  qcR <- .primer_qc(rev)
+  dTm <- abs(qcF$Tm_Wallace_C - qcR$Tm_Wallace_C)
+
+  # ---- Match search ----
+  fwd_hits <- vmatchPattern(fwd, genome, max.mismatch = max_mismatch)
+  rev_hits <- vmatchPattern(reverseComplement(DNAString(rev)), genome, max.mismatch = max_mismatch)
+
+  get_hits_df <- function(hits, strand) {
+    if (length(hits) == 0) return(tibble(contig=character(), start=integer(), end=integer(), width=integer(), strand=character()))
+    tibble(contig = names(hits), hits = lapply(hits, as.data.frame)) |>
+      unnest(hits) |>
+      mutate(strand = strand) |>
+      select(contig, start, end, width, strand)
+  }
+  fdf <- get_hits_df(fwd_hits, "+")
+  rdf <- get_hits_df(rev_hits, "-")
+
+  # ---- Pair on same contig ----
+  pairs <- inner_join(fdf, rdf, by="contig", suffix=c("_fwd","_rev"), relationship="many-to-many") |>
+    mutate(product_size = start_rev - end_fwd + 1L) |>
+    filter(product_size >= size_min, product_size <= size_max) |>
+    arrange(contig, product_size)
+
+  # ---- Save detailed hits ----
+  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  run_csv <- file.path(out_dir, paste0(family, "_hits.csv"))
+  write.csv(pairs, run_csv, row.names = FALSE)
+
+  # Append to master detailed file
+  master_detail <- file.path(out_dir, "primer_hits_master.csv")
+  pairs_out <- pairs
+  pairs_out$family <- family
+  if (file.exists(master_detail)) {
+    write.csv(bind_rows(read.csv(master_detail), pairs_out), master_detail, row.names = FALSE)
+  } else {
+    write.csv(pairs_out, master_detail, row.names = FALSE)
+  }
+
+  # ---- Build & append summary ----
+  size_tab <- pairs |> count(product_size, name="n_loci") |> arrange(product_size)
+  total_amplicons <- nrow(pairs)
+  n_short <- sum(pairs$product_size >= short_min & pairs$product_size <= short_max)
+  min_ps  <- if (total_amplicons > 0) min(pairs$product_size) else NA_integer_
+  max_ps  <- if (total_amplicons > 0) max(pairs$product_size) else NA_integer_
+
+  summary_row <- tibble(
+    timestamp   = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+    family      = family,
+    fwd_primer  = fwd,               # <-- NEW: record cleaned sequences
+    rev_primer  = rev,               # <-- NEW: record cleaned sequences
+    fwd_len     = qcF$length_bp,
+    rev_len     = qcR$length_bp,
+    fwd_GC      = qcF$GC_percent,
+    rev_GC      = qcR$GC_percent,
+    Tm_fwd_WC   = qcF$Tm_Wallace_C,
+    Tm_rev_WC   = qcR$Tm_Wallace_C,
+    delta_Tm    = dTm,
+    max_mismatch = max_mismatch,
+    size_min    = size_min,
+    size_max    = size_max,
+    total_amplicons = total_amplicons,
+    n_short_amplicons = n_short,
+    min_product_size  = min_ps,
+    max_product_size  = max_ps,
+    product_sizes     = paste(size_tab$product_size, collapse = ";"),
+    product_counts    = paste(size_tab$n_loci, collapse = ";"),
+    detailed_csv      = run_csv
+  )
+
+  master_summary <- file.path(out_dir, "primer_summary_master.csv")
+  if (file.exists(master_summary)) {
+    write.csv(bind_rows(read.csv(master_summary), summary_row), master_summary, row.names = FALSE)
+  } else {
+    write.csv(summary_row, master_summary, row.names = FALSE)
+  }
+
+  # ---- Optional: export short amplicons ----
+  fasta_path <- NA_character_
+  if (export_short_fasta && total_amplicons > 0) {
+    sh <- pairs |> filter(product_size >= short_min, product_size <= short_max)
+    if (nrow(sh) > 0) {
+      seqs <- vector("list", nrow(sh)); heads <- character(nrow(sh))
+      for (i in seq_len(nrow(sh))) {
+        ctg <- sh$contig[i]
+        if (!ctg %in% names(genome)) next
+        seqs[[i]] <- as.character(subseq(genome[[ctg]], start = sh$start_fwd[i], end = sh$end_rev[i]))
+        heads[i]  <- paste0(">", family, "_", ctg, "_", sh$product_size[i], "bp")
+      }
+      keep <- !sapply(seqs, is.null)
+      if (any(keep)) {
+        fasta_lines <- as.vector(rbind(heads[keep], unlist(seqs[keep])))
+        fasta_path  <- file.path(out_dir, paste0(family, "_short_", short_min, "-", short_max, "bp.fasta"))
+        writeLines(fasta_lines, fasta_path)
+      }
+    }
+  }
+
+  # ---- Console & plots ----
+  cat("\n---", family, "---\n")
+  print(select(summary_row, family, total_amplicons, n_short_amplicons,
+               min_product_size, max_product_size, delta_Tm, fwd_GC, rev_GC))
+
+  if (exists("plot_amplicon_map") && nrow(pairs) > 0) {
+    p_map  <- plot_amplicon_map(pairs, paste("Amplicon map —", family))
+    p_size <- plot_size_distribution(pairs, family)
+    ggsave(file.path(out_dir, paste0(family, "_map.png")),  p_map,  width = 9, height = 6, dpi = 300)
+    ggsave(file.path(out_dir, paste0(family, "_sizes.png")), p_size, width = 7, height = 5, dpi = 300)
+  }
+
+  invisible(list(summary = summary_row, pairs = pairs, short_fasta = fasta_path))
+}
+```
+
+
+#### Plots
+
+(Once)
+
+
+```{r}
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(forcats))
+
+# 1) Map of amplicons along contigs for one run
+plot_amplicon_map <- function(pairs, title = "Predicted amplicons (map)") {
+  if (nrow(pairs) == 0) {
+    return(ggplot() + theme_minimal() +
+             labs(title = paste(title, "— no amplicons in range"),
+                  x = "Position (bp)", y = "Contig"))
+  }
+  ggplot(pairs, aes(y = contig)) +
+    geom_segment(aes(x = start_fwd, xend = end_rev), size = 2) +
+    geom_point(aes(x = start_fwd), size = 2) +
+    geom_point(aes(x = end_rev),   size = 2) +
+    theme_minimal() +
+    labs(title = title,
+         subtitle = "Segment = amplicon; points = primer ends",
+         x = "Genomic position (bp)", y = "Contig")
+}
+
+# 2) Product-size distribution for one run
+plot_size_distribution <- function(pairs, family, binwidth = 10) {
+  if (nrow(pairs) == 0) {
+    return(ggplot() + theme_minimal() +
+             labs(title = paste("Product sizes —", family),
+                  subtitle = "No amplicons in selected window"))
+  }
+  ggplot(pairs, aes(x = product_size)) +
+    geom_histogram(binwidth = binwidth, boundary = 0) +
+    geom_vline(xintercept = 200, linetype = 2) +
+    geom_vline(xintercept = 100, linetype = 2) +
+    theme_minimal() +
+    labs(title = paste("Product sizes —", family),
+         subtitle = "Dashed lines at 100 & 200 bp (typical eDNA-qPCR window)",
+         x = "Product size (bp)", y = "Count")
+}
+
+# 3) Rolling overview from master summary (all families)
+plot_master_overview <- function(summary_master_df) {
+  if (nrow(summary_master_df) == 0) {
+    return(ggplot() + theme_minimal() +
+             labs(title = "Master overview", subtitle = "No entries yet"))
+  }
+  df <- summary_master_df |>
+    mutate(family = fct_reorder(family, total_amplicons, .desc = TRUE))
+
+  p1 <- ggplot(df, aes(x = family, y = total_amplicons)) +
+    geom_col() +
+    coord_flip() +
+    theme_minimal() +
+    labs(title = "Total amplicons per family (windowed)",
+         x = NULL, y = "Amplicons (in size window)")
+
+  p2 <- ggplot(df, aes(x = family, y = n_short_amplicons)) +
+    geom_col() +
+    coord_flip() +
+    theme_minimal() +
+    labs(title = "Short amplicons (100–200 bp)",
+         x = NULL, y = "Count")
+
+  # return as a list you can print with patchwork or individually
+  list(total = p1, short = p2)
+}
+
+# 4) Product-size histogram across families from master hits
+plot_master_hist <- function(hits_master_df, binwidth = 10) {
+  if (nrow(hits_master_df) == 0) {
+    return(ggplot() + theme_minimal() +
+             labs(title = "Product sizes across families", subtitle = "No entries yet"))
+  }
+  ggplot(hits_master_df, aes(x = product_size, fill = family)) +
+    geom_histogram(binwidth = binwidth, position = "identity", alpha = 0.5) +
+    theme_minimal() +
+    labs(title = "Product-size distribution across families",
+         x = "Product size (bp)", y = "Count")
+}
+
+
+```
+
+
+
+## 3. Run for inputs: edit lines only
+```{r}
+# >>> EDIT THESE THREE LINES FOR EACH RUN <<<
+family_name <- "rnd-1_family-103_1895_copies"
+fwdP <- "CTGCCTGTTTTGCGGACAAT"
+revP <- "CCTGTGAGACAGGGTTTCCA"
+
+res <- assess_primers(
+  family = family_name,
+  fwdP = fwdP,
+  revP = revP,
+  genome = genome,                # from Chunk 1
+  out_dir = out_dir,
+  max_mismatch = 2,               # tighten to 0–1 if you want stricter mapping
+  size_min = 100, size_max = 300, # window used to count amplicons
+  short_min = 100, short_max = 200,
+  export_short_fasta = TRUE
+)
+
+
+```
+
+```{r}
+# Live plots for this run
+pairs_now <- res$pairs
+p_map  <- plot_amplicon_map(pairs_now, title = paste("Amplicon map —", family_name))
+p_size <- plot_size_distribution(pairs_now, family = family_name, binwidth = 10)
+
+p_map
+p_size
+
+```
+
+
+
+
+## 4. Quick look at the rolling logs
+```{r}
+# Master per-amplicon log (all families so far)
+hits_master <- read.csv(file.path(out_dir, "primer_hits_master.csv"))
+head(hits_master)
+
+# Master per-primer summary
+summary_master <- read.csv(file.path(out_dir, "primer_summary_master.csv"))
+summary_master |> arrange(desc(timestamp)) |> select(timestamp, family, total_amplicons, n_short_amplicons, product_sizes, product_counts)
+
+```
+```{r}
+# Load masters
+hits_master    <- read.csv(file.path(out_dir, "primer_hits_master.csv"))
+summary_master <- read.csv(file.path(out_dir, "primer_summary_master.csv"))
+
+# Overview plots
+ov <- plot_master_overview(summary_master)
+ov$total
+ov$short
+
+# Cross-family size histogram
+plot_master_hist(hits_master, binwidth = 10)
+
+```
+
+
+
+```{r}
+############################################################
+# 🔍  AUTO-SUMMARY: interpret all primers so far
+############################################################
+
+summarise_primers <- function(summary_file = file.path(out_dir, "primer_summary_master.csv")) {
+  if (!file.exists(summary_file)) {
+    cat("No primer summary file found.\n")
+    return(invisible(NULL))
+  }
+
+  df <- read.csv(summary_file)
+
+  # Keep latest entries per family (if rerun multiple times)
+  df_latest <- df %>%
+    group_by(family) %>%
+    slice_max(order_by = timestamp, n = 1) %>%
+    ungroup()
+
+  # Add derived metrics
+  df_latest <- df_latest %>%
+    mutate(
+      ratio_short = ifelse(total_amplicons > 0, n_short_amplicons / total_amplicons, NA),
+      category = case_when(
+        total_amplicons <= 10 & ratio_short > 0.5 ~ "Ideal (low-copy, short)",
+        total_amplicons <= 20 ~ "Good",
+        total_amplicons <= 100 ~ "Moderate (repetitive)",
+        total_amplicons > 100 ~ "Too repetitive",
+        TRUE ~ "Unknown"
+      )
+    )
+
+  cat("\n=========================\n")
+  cat("📊 PRIMER FAMILY SUMMARY\n")
+  cat("=========================\n\n")
+
+  df_latest %>%
+    select(family, total_amplicons, n_short_amplicons,
+           min_product_size, max_product_size, delta_Tm,
+           fwd_GC, rev_GC, category) %>%
+    arrange(total_amplicons) %>%
+    print(n = Inf)
+
+  # Identify best candidate(s)
+  best <- df_latest %>%
+    filter(category %in% c("Ideal (low-copy, short)", "Good")) %>%
+    arrange(total_amplicons, delta_Tm, abs(fwd_GC - rev_GC))
+
+  if (nrow(best) > 0) {
+    cat("\n✅ Recommended primer(s):\n")
+    for (i in seq_len(nrow(best))) {
+      cat("•", best$family[i],
+          "—", best$total_amplicons[i], "amplicons,",
+          "size", best$min_product_size[i], "-", best$max_product_size[i], "bp,",
+          "ΔTm", best$delta_Tm[i], "°C, GC", best$fwd_GC[i], "/", best$rev_GC[i], "%\n")
+    }
+  } else {
+    cat("\n⚠️  No ideal primers found yet; all sets are highly repetitive.\n")
+  }
+
+  cat("\n📈 Interpretation rules applied:\n",
+      " • Ideal primer: <10 total amplicons and mostly 100–200 bp fragments.\n",
+      " • Good primer: ≤20 amplicons and short fragment window.\n",
+      " • Moderate: ≤100 amplicons (may still work if short and single melt peak).\n",
+      " • Too repetitive: >100 amplicons — unsuitable for qPCR/eDNA.\n",
+      " • ΔTm ≤ 2 °C and GC 40–60 % are preferred for thermodynamic balance.\n\n",
+      "Best candidates are typically those with few loci and short (100–200 bp) amplicons,\n",
+      "balanced Tm (~58–62 °C), and GC % in the 45–55 % range — matching eDNA qPCR design principles.\n\n"
+  )
+
+  invisible(df_latest)
+}
+
+# ---- Run automatically after each session ----
+summarise_primers()
+
+```
+
+## Additional section:
+
+Computes Tm, GC%, hairpin length, self- and hetero- 3′ matches, and a recommended Ta.
+
+Creates/updates primer_master_summary.csv, de-duplicating by (family, forward, reverse).
+
+Adds a qc_flag column (ok or reason to check).
+
+```{r}
+# ---- Helpers (only once per script) ----
+revcomp <- function(x){
+  xc <- chartr("ACGTUacgtu","TGCAAtgcaa",x)
+  paste0(rev(strsplit(xc,"",TRUE)[[1]]), collapse = "")
+}
+gc_pct <- function(x){
+  b <- strsplit(toupper(x), "", TRUE)[[1]]
+  100 * sum(b %in% c("G","C")) / length(b)
+}
+tm_wallace <- function(x){
+  b <- strsplit(toupper(x), "", TRUE)[[1]]
+  2 * sum(b %in% c("A","T")) + 4 * sum(b %in% c("G","C"))
+}
+tm_simple_nn <- function(x, Na_mM = 50, primer_nM = 300){
+  L <- nchar(x); GC <- gc_pct(x)/100
+  81.5 + 16.6*log10(Na_mM/1000) + 0.41*(100*GC) - 675/L - 0.00075*(primer_nM - 250)
+}
+longest_3p_match <- function(a, b_rc){
+  a <- toupper(a); b_rc <- toupper(b_rc)
+  maxmatch <- 0
+  for(k in 1:nchar(a)){
+    sub_a <- substr(a, nchar(a)-k+1, nchar(a))
+    sub_b <- substr(b_rc, 1, k)
+    eq <- strsplit(sub_a,"")[[1]] == strsplit(sub_b,"")[[1]]
+    m_consec <- rle(rev(eq))$lengths[1]
+    maxmatch <- max(maxmatch, m_consec)
+  }
+  maxmatch
+}
+hairpin_3p_stem <- function(x, min_loop = 3){
+  s <- toupper(x); rc <- revcomp(s); best <- 0; L <- nchar(s)
+  for(loop in min_loop:10){
+    for(stem in 4:min(12, L - loop - 1)){
+      seg1 <- substr(s, L-stem+1, L)
+      seg2 <- substr(rc, 1+loop, loop+stem)
+      if(nchar(seg1)==nchar(seg2)){
+        if(all(strsplit(seg1,"")[[1]] == strsplit(seg2,"")[[1]])) best <- max(best, stem)
+      }
+    }
+  }
+  best
+}
+assess_primer_pair <- function(forward, reverse, Na_mM = 50, primer_nM = 300){
+  f <- toupper(gsub("\\s","",forward)); r <- toupper(gsub("\\s","",reverse))
+  f_rc <- revcomp(f); r_rc <- revcomp(r)
+  tibble::tibble(
+    primer = c("Forward","Reverse","Pair"),
+    seq     = c(f, r, paste0(f," / ",r)),
+    len_nt  = c(nchar(f), nchar(r), NA_integer_),
+    gc_pct  = c(gc_pct(f), gc_pct(r), NA_real_),
+    tm_w    = c(tm_wallace(f), tm_wallace(r), NA_real_),
+    tm_C    = c(tm_simple_nn(f, Na_mM, primer_nM),
+                tm_simple_nn(r, Na_mM, primer_nM), NA_real_),
+    hairpin3p_bp = c(hairpin_3p_stem(f), hairpin_3p_stem(r), NA_integer_),
+    self3p_bp    = c(longest_3p_match(f, f_rc), longest_3p_match(r, r_rc), NA_integer_),
+    hetero3p_bp  = c(NA_integer_, NA_integer_,
+                     max(longest_3p_match(f, r_rc), longest_3p_match(r, f_rc)))
+  )
+}
+
+# ---- Append/update into primer_master_summary.csv ----
+summarise_primers <- function(family, forward, reverse,
+                              Na_mM = 50, primer_nM = 300,
+                              master_csv = "primer_master_summary.csv",
+                              product_bp = NA_integer_) {
+
+  qc <- assess_primer_pair(forward, reverse, Na_mM, primer_nM)
+
+  # pull values into a single summary row
+  out <- tibble::tibble(
+    timestamp_utc = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+    family        = family,
+    forward       = toupper(gsub("\\s","",forward)),
+    reverse       = toupper(gsub("\\s","",reverse)),
+    len_f         = qc$len_nt[qc$primer=="Forward"],
+    len_r         = qc$len_nt[qc$primer=="Reverse"],
+    tm_f_C        = qc$tm_C[qc$primer=="Forward"],
+    tm_r_C        = qc$tm_C[qc$primer=="Reverse"],
+    tm_delta_C    = abs(diff(qc$tm_C[qc$primer!="Pair"])),
+    gc_f_pct      = qc$gc_pct[qc$primer=="Forward"],
+    gc_r_pct      = qc$gc_pct[qc$primer=="Reverse"],
+    hairpin_f_bp  = qc$hairpin3p_bp[qc$primer=="Forward"],
+    hairpin_r_bp  = qc$hairpin3p_bp[qc$primer=="Reverse"],
+    self3p_f_bp   = qc$self3p_bp[qc$primer=="Forward"],
+    self3p_r_bp   = qc$self3p_bp[qc$primer=="Reverse"],
+    hetero3p_bp   = qc$hetero3p_bp[qc$primer=="Pair"],
+    Ta_recommended_C = round(min(qc$tm_C[qc$primer!="Pair"]) - 3),
+    product_bp    = product_bp,
+    qc_flag = dplyr::case_when(
+      tm_delta_C > 3                      ~ "check_tmdiff",
+      hetero3p_bp >= 4                    ~ "check_hetero3p",
+      self3p_f_bp >= 5 | self3p_r_bp >= 5 ~ "check_self3p",
+      hairpin_f_bp >= 6 | hairpin_r_bp >= 6 ~ "check_hairpin",
+      TRUE ~ "ok"
+    )
+  )
+
+  # read, append, de-duplicate on (family, forward, reverse)
+  if (file.exists(master_csv)) {
+    old <- suppressMessages(readr::read_csv(master_csv, show_col_types = FALSE))
+    combined <- dplyr::bind_rows(old, out) |>
+      dplyr::distinct(family, forward, reverse, .keep_all = TRUE)
+  } else {
+    combined <- out
+  }
+
+  readr::write_csv(combined, master_csv)
+  out
+}
+
+# ---- Example call (your Membranipora pair) ----
+#summarise_primers(
+ # family  = "Membranipora_membranacea",
+  #forward = "GCGACAAATTGGAGAATTTT",
+  #reverse = "CCAATTGAAACCCTGTGAGACA",
+  #product_bp = 108,                          # from Primer-BLAST
+  #master_csv = "primer_master_summary.csv"
+#)
+
+```
+
+
+
+```{r}
+library(dplyr)
+library(readr)
+library(glue)
+library(purrr)
+library(stringr)
+library(tidyr)
+library(tibble)
+
+`%||%` <- function(a, b) if (is.null(a) || is.na(a)) b else a
+
+num_fmt <- function(x, digits = 1, na = "NA") {
+  xnum <- suppressWarnings(as.numeric(x))
+  ifelse(is.na(xnum), na, sprintf(paste0("%.", digits, "f"), xnum))
+}
+
+master_csv <- "primer_master_summary.csv"
+stopifnot(file.exists(master_csv))
+df <- suppressMessages(read_csv(master_csv, show_col_types = FALSE))
+
+# --- Force numerics where expected ---
+cols_to_num <- c(
+  "len_f","len_r","product_bp",
+  "tm_f_C","tm_r_C","tm_delta_C",
+  "gc_f_pct","gc_r_pct",
+  "self3p_f_bp","self3p_r_bp","hetero3p_bp",
+  "hairpin_f_bp","hairpin_r_bp",
+  "Ta_recommended_C","score"
+)
+
+df <- df %>%
+  mutate(across(any_of(cols_to_num), ~ suppressWarnings(as.numeric(.))))
+
+# Recompute helper columns if needed
+ranked <- df %>%
+  mutate(
+    gc_dev      = pmax(abs(gc_f_pct - 50), abs(gc_r_pct - 50), na.rm = TRUE),
+    self3p_max  = pmax(self3p_f_bp, self3p_r_bp, na.rm = TRUE),
+    hairpin_max = pmax(hairpin_f_bp, hairpin_r_bp, na.rm = TRUE),
+    hetero3p    = coalesce(hetero3p_bp, Inf),
+    tm_delta    = coalesce(tm_delta_C, Inf)
+  ) %>%
+  mutate(
+    .computed_score = tm_delta*1.0 +
+                      hetero3p*2.0 +
+                      self3p_max*1.5 +
+                      hairpin_max*1.0 +
+                      gc_dev*0.5 +
+                      ifelse(qc_flag == "ok", 0, 100),
+    score = if ("score" %in% names(cur_data())) {
+      # use the column explicitly; if it exists, fill NAs with computed
+      coalesce(suppressWarnings(as.numeric(.data$score)), .computed_score)
+    } else {
+      .computed_score
+    }
+  ) %>%
+  select(-.computed_score)
+
+top3_by_family <- ranked %>%
+  group_by(family) %>%
+  arrange(score, desc(product_bp), .by_group = TRUE) %>%
+  slice_head(n = 3) %>%
+  ungroup()
+
+make_statement <- function(r){
+  glue(
+"• {r$family}: {r$len_f}F/{r$len_r}R nt → product {r$product_bp %||% 'NA'} bp.
+  Tm: {num_fmt(r$tm_f_C)}°C (F) vs {num_fmt(r$tm_r_C)}°C (R), ΔTm = {num_fmt(r$tm_delta)}°C.
+  GC: {num_fmt(r$gc_f_pct)}% (F), {num_fmt(r$gc_r_pct)}% (R).
+  3′ interactions: self {r$self3p_f_bp}/{r$self3p_r_bp} bp (F/R), hetero {r$hetero3p_bp %||% 'NA'} bp.
+  Hairpins (3′ stem): {r$hairpin_f_bp} bp (F), {r$hairpin_r_bp} bp (R).
+  Recommended Ta: ~{r$Ta_recommended_C}°C. QC: {r$qc_flag}. Score: {num_fmt(r$score, 2)}."
+  )
+}
+
+# Map rows robustly (no apply)
+blocks <- top3_by_family %>%
+  group_split(family) %>%
+  map_chr(function(g){
+    header <- paste0("== ", unique(g$family), " ==")
+    lines  <- pmap_chr(as.list(g), ~ make_statement(list(...)))
+    paste(c(header, lines, ""), collapse = "\n")
+  })
+
+cat("Top 3 primer designs per family:\n\n", paste(blocks, collapse = "\n"), sep = "")
+
+# Save to file as before
+writeLines(c("Top 3 primer designs per family:", "", blocks),
+           "primer_top3_per_family.txt")
+message("Saved: primer_top3_per_family.txt")
+
+
+```
+
+
+```{r}
+library(dplyr)
+library(readr)
+library(tidyr)
+
+top3_tbl <- top3_by_family %>%
+  transmute(
+    family,
+    forward,
+    reverse,
+    product_bp,
+    tm_f_C = round(tm_f_C, 1),
+    tm_r_C = round(tm_r_C, 1),
+    tm_delta_C = round(tm_delta, 1),
+    gc_f_pct = round(gc_f_pct, 1),
+    gc_r_pct = round(gc_r_pct, 1),
+    self3p_f_bp, self3p_r_bp, hetero3p_bp,
+    hairpin_f_bp, hairpin_r_bp,
+    Ta_recommended_C, qc_flag,
+    score = round(score, 2)
+  )
+
+readr::write_csv(top3_tbl, "primer_top3_per_family.csv")
+message("Saved: primer_top3_per_family.csv")
+
+# If knitting to HTML/PDF:
+if (requireNamespace("knitr", quietly = TRUE)) {
+  knitr::kable(top3_tbl, align = "l", caption = "Top 3 primer designs per family")
+}
+
+```
+

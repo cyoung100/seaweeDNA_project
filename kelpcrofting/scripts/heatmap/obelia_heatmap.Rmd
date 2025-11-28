@@ -1,0 +1,274 @@
+bryozoa
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+
+# Read data
+kelpcrofting_taxa <- read.csv("kelpcrofting_focal_sp_clean4.csv")
+
+getwd()
+
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+find_unique_bryozoa_mentions <- function(df) {
+  # 1. Column names containing "bryozoa"
+  bryozoa_cols <- names(df)[str_detect(names(df), regex("bryozoa", ignore_case = TRUE))]
+
+  # 2. Unique cell values containing "bryozoa"
+  bryozoa_cells <- df %>%
+    mutate(across(everything(), as.character)) %>%
+    pivot_longer(everything(), names_to = "column", values_to = "value") %>%
+    filter(str_detect(value, regex("bryozoa", ignore_case = TRUE))) %>%
+     filter(str_detect(value, regex("bryozoa", ignore_case = TRUE))) %>%
+       filter(str_detect(value, regex("Bryozoa", ignore_case = TRUE))) %>%
+    distinct(value) %>%
+    pull(value)
+
+  list(
+    column_names = unique(bryozoa_cols),
+    cell_values = unique(bryozoa_cells)
+  )
+}
+
+# Example usage
+unique_bryozoa_mentions <- find_unique_bryozoa_mentions(kelpcrofting_taxa)
+
+# View results
+unique_bryozoa_mentions$column_names
+unique_bryozoa_mentions$cell_values
+```
+
+
+
+
+
+```{r}
+bryozoa_terms <- c(
+  "zooplank_abundance_total_bryozoaa", 
+  "zooplank abundance total bryozoaa", 
+  "otu_total_bryozoaa", 
+  "total bryozoaa", 
+  "total_bryozoaa_2", 
+  "total bryozoaa 2", 
+  "bryozoa", 
+  "bryozoaa"
+)
+
+```
+
+```{r}
+obelia_terms <- c("obelia")  # Add more variations if needed
+
+obelia_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(if_any(everything(), ~ str_detect(., regex(paste(obelia_terms, collapse = "|"), ignore_case = TRUE)))) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("edna", "plankton", "blade_coverage")),
+    y_axis = factor(origin_label, levels = c("edna", "plankton", "blade_coverage"))
+  ) %>%
+  arrange(parsed_date, station_no)
+
+```
+
+```{r}
+# Deduplicate
+obelia_cleaned <- obelia_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# Matrix and scale
+obelia_mat <- obelia_cleaned %>%
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = 0) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+obelia_mat_scaled <- t(scale(t(obelia_mat)))
+
+```
+
+```{r}
+# Deduplicate
+obelia_cleaned <- obelia_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# Matrix and scale
+obelia_mat <- obelia_cleaned %>%
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = 0) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+obelia_mat_scaled <- t(scale(t(obelia_mat)))
+
+```
+
+```{r}
+obelia <- Heatmap(
+  obelia_mat_scaled,
+  name = "Z-score",
+  col = col_fun,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = T,
+  show_column_names = T,
+  na_col = "grey90",
+  top_annotation = top_anno,           # reuse or rebuild based on Obelia sample_order
+  bottom_annotation = NULL,
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+draw(obelia)
+
+```
+
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+
+# 1. Filter only Obelia-related species/OTUs
+obelia_data <- kelpcrofting_taxa %>%
+  filter(str_detect(species_id, regex("obelia", ignore_case = TRUE))) %>%
+  mutate(parsed_date = dmy(date))
+
+# 2. Create sample_order and use species_id as y-axis (row ID)
+obelia_data <- obelia_data %>%
+  mutate(
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+    y_axis = species_id
+  )
+
+# 3. Deduplicate by averaging measurement_value per species × sample
+obelia_cleaned <- obelia_data %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# 4. Pivot to wide format matrix
+obelia_mat <- obelia_cleaned %>%
+  pivot_wider(
+    names_from = sample_order,
+    values_from = measurement_value,
+    values_fill = 0
+  ) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# 5. Z-score scaling (by row/species)
+obelia_mat_scaled <- t(scale(t(obelia_mat)))
+
+# 6. Create magma color scale function
+col_fun <- colorRamp2(
+  c(-2, 0, 2),                # typical Z-score range
+  c("blue", "white", "yellow")
+)
+
+
+# 7. Generate heatmap
+Heatmap(
+  obelia_mat_scaled,
+  name = "Z-score",
+  col = col_fun,
+  na_col = "grey90",
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  row_names_gp = gpar(fontsize = 9),
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+```
+
+```{r}
+# Filter all hydrozoa mentions (including low-resolution phylum-only entries)
+hydrozoa_total <- kelpcrofting_taxa %>%
+  filter(
+    str_detect(species_id, regex("hydrozoa", ignore_case = TRUE)),
+    measurement_origin == "blade_coverage"  # ✅ restrict to blade measurements
+  ) %>%
+  mutate(
+    parsed_date = dmy(date),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  group_by(sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop") %>%
+  mutate(y_axis = "Hydrozoa_total_blade_coverage")
+
+
+```
+
+```{r}
+combined_cleaned <- bind_rows(
+  obelia_cleaned,            # your original OTU-level data
+  hydrozoa_total[, c("y_axis", "sample_order", "measurement_value")]
+)
+
+```
+
+```{r}
+combined_mat <- combined_cleaned %>%
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = NA) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+combined_mat_scaled <- t(scale(t(combined_mat)))
+
+```
+
+```{r}
+col_fun <- colorRamp2(
+  seq(min(combined_mat_scaled, na.rm = TRUE), max(combined_mat_scaled, na.rm = TRUE), length.out = 100),
+  viridis(100, option = "magma")
+)
+
+Heatmap(
+  combined_mat_scaled,
+  name = "Z-score",
+  col = col_fun,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  na_col = "grey90",
+  row_names_gp = gpar(fontsize = 9),
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+```
+
+```{r}
+library(dplyr)
+
+species_abundance <- kelpcrofting_taxa %>%
+  filter(measurement_origin == "abundance") %>%
+  distinct(species_id) %>%
+  arrange(species_id)
+
+# View results
+print(species_abundance)
+
+```
+

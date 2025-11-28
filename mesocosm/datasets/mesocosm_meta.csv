@@ -1,0 +1,157 @@
+Origin,Tag_color,tag_no,rock_no,seaweed_id,Date,Longest_blade,collected from,biofouling removed 14_5_25,no_blades,initial tank,Nutrient_treatment_tank,Main_experiment_tank,Turbulence,Nutrient_treatment,Swab_prior_enrichment,Swab_after_ernichment_16_5
+Adult_local,White,1,,AW1,13_5_2025,130,FSC slip,,,,2,6,High,P,81,121
+Adult_local,White,2,,AW2,13_5_2025,120,FSC slip,,,,3,3,Low,C,82,147
+Adult_local,White,4,,AW4,13_5_2025,130,FSC slip,,,,1,6,High,N,83,105
+Adult_local,Red,9,,AR9,27_4_2025,130,FSC slip,,,,2,6,High,P,84,120
+Adult_local,Red,1,,AR1,27_4_2025,100,FSC slip,,,3,1,7,Low,N,8,102
+Adult_local,Red,2,,AR2,27_4_2025,110,FSC slip,,,4,2,7,Low,P,2,128
+Adult_local,Red,3,,AR3,27_4_2025,80,FSC slip,,,2,3,5,Low,C,13,144
+Adult_local,White,3,,AW3,27_4_2025,162,FSC slip,,,1,2,4,High,P,21,124
+Adult_local,Red,4,,AR4,27_4_2025,81,FSC slip,,,2,2,7,Low,P,18,130
+Adult_local,Red,5,,AR5,27_4_2025,64,FSC slip,,,2,3,6,High,C,14,148
+Adult_local,White,5,,AW5,27_4_2025,163,FSC slip,,,2,2,3,Low,P,12,125
+Adult_local,White,6,,AW6,27_4_2025,180,FSC slip,,,2,1,4,High,N,16,101
+Adult_local,Red,6,,AR6,27_4_2025,92,FSC slip,,,2,3,4,High,C,17,140
+Adult_local,White,7,,AW7,27_4_2025,190,FSC slip,,,2,3,7,Low,C,15,141
+Adult_local,Red,7,,AR7,27_4_2025,60,FSC slip,,,2,1,3,Low,N,19,110
+Adult_local,Red,8,,AR8,27_4_2025,61,FSC slip,,,2,2,,,P,20,129
+Adult_local,White,8,,AW8,27_4_2025,170,FSC slip,,,2,1,2,High,N,11,109
+Adult_local,White,9,,AW9,13_5_2025,120,FSC slip,,,1,3,5,Low,C,85,142
+Adult_local,White,10,,AW10,27_4_2025,123,FSC slip,,,3,1,5,Low,N,9,103
+Adult_local,Red,10,,AR10,27_4_2025,60,FSC slip,,,1,1,,,N,(6) 23,111
+Adult_local,White,11,,AW11,27_4_2025,150,FSC slip,,,3,3,2,High,C,4,150
+Adult_local,White,12,,AW12,27_4_2025,130,FSC slip,,,3,2,2,High,P,7,127
+Adult_local,White,13,,AW13,27_4_2025,140,FSC slip,,,4,1,3,Low,N,1,100
+Adult_local,White,14,,AW14,27_4_2025,130,FSC slip,,,3,3,6,High,C,3,149
+Adult_local,White,15,,AW15,27_4_2025,115,FSC slip,,,3,3,7,Low,C,10,144
+Adult_local,White,16,,AW16,27_4_2025,130,FSC slip,,,3,2,5,Low,P,5,122
+Adult_local,Blue,17,,AB17,12_5_2025,190,farland,hydro=112;bryo=8;maerl2,,,5,6,High,N,49,112
+Adult_local,Blue,18,,AB18,12_5_2025,120,farland,hydro=6;bryo=1,,,5,4,High,N,50,115
+Adult_local,Blue,19,,AB19,12_5_2025,150,farland,bryo=1;hydro=28;maerl=5,,,6,5,Low,P,51,136
+Adult_local,Blue,20,,AB20,12_5_2025,270,farland,bryo=4;hydro=14;snail=1,,,7,4,High,C,52,153
+Adult_local,Blue,21,,AB21,12_5_2025,240,farland,hydro=59;bryo=10;snail=1;maerl=1,,,6,2,High,P,53,137
+Adult_local,Blue,22,,AB22,12_5_2025,250,farland,hydro=345;bryo=1,,,7,5,Low,C,54,155
+Adult_local,Blue,23,,AB23,12_5_2025,240,farland,hydro=62;bryo=19+1colony 2cm; maerl=11,,,5,2,High,N,55,116
+Adult_local,Blue,24,,AB24,12_5_2025,200,farland,hydro=16;bryo=2;donut=12;snail=5,,,6,6,High,P,56,131
+Adult_local,Blue,25,,AB25,12_5_2025,160,farland,clean,,,7,2,High,C,57,156
+Adult_local,Blue,26,,AB26,12_5_2025,190,farland,hydro=12;bryo=18;donut=2;maerl=3,,,5,3,Low,N,58,114
+Adult_local,Blue,27,,AB27,12_5_2025,210,farland,hydro=29;bryo=8,,,6,3,Low,P,59,135
+Adult_local,Blue,28,,AB28,12_5_2025,320,farland,bryo=19;hydro=123;donut=5;maerl=5,,,7,6,High,C,60,151
+Adult_local,Blue,29,,AB29,12_5_2025,230,farland,hydro=137;bryo=1,,,5,5,Low,N,61,113
+Adult_local,Blue,30,,AB30,12_5_2025,200,farland,bryo=11;hydro=37,,,6,4,High,P,62,134
+Adult_local,Blue,31,,AB31,12_5_2025,240,farland,"bryo=29;hydro=74,blueRay_limpet=1",,,7,3,Low,C,63,152
+Adult_local,Blue,32,,AB32,12_5_2025,120,farland,clean,,,5,7,Low,N,64,117
+Adult_local,Blue,33,,AB33,12_5_2025,170,farland,bryo=14;hydro=5;snail=1,,,6,7,Low,P,65,133
+Adult_local,Green,34,,AG34,12_5_2025,66,farland,clean,,,7,7,Low,C,66,157
+Adult_local,Green,35,,AG35,12_5_2025,65,farland,clean,,,5,2,High,N,67,118
+Adult_local,Green,36,,AG36,12_5_2025,175,farland,hydro=37;bryo=1;donut=1;maerl=1,,,6,5,Low,P,68,132
+Adult_local,Green,37,,AG37,12_5_2025,200,farland,bryo=14;hydro11;maerl=4;snail=1,,,7,3,Low,C,69,154
+Adult_local,Green,38,,AG38,12_5_2025,40,farland,clean,,,6,,,P,70,138
+Adult_local,Green,39,,AG39,13_5_2025,160,FSC slip,some snails,,,1,6,High,N,71,108
+Adult_local,Green,40,,AG40,13_5_2025,190,FSC slip,some snails,,,1,5,Low,N,72,104
+Adult_local,Green,41,,AG41,13_5_2025,110,FSC slip,some snails,,,2,3,Low,P,73,126
+Adult_local,Green,42,,AG42,13_5_2025,130,FSC slip,some snails,,,2,2,High,P,74,123
+Adult_local,Green,43,,AG43,13_5_2025,110,FSC slip,some snails,,,3,,,C,75,143
+Adult_local,Green,44,,AG44,13_5_2025,140,FSC slip,some snails,,,3,4,High,C,76,146
+Adult_local,Green,45,,AG45,13_5_2025,190,FSC slip,some snails,,,1,4,High,N,77,107
+Adult_local,Green,46,,AG46,13_5_2025,200,FSC slip,some snails,,,2,4,High,P,78,119
+Adult_local,Green,47,,AG47,13_5_2025,120,FSC slip,some snails,,,3,2,High,C,79,139
+Adult_local,Green,48,,AG48,13_5_2025,190,FSC slip,some snails,,,1,7,Low,N,80,106
+Kilchoan_young,Orange_yellow,,14,YO14,12_5_2025,60,marivate_kilchoan,,3,7,2,5,Low,P,30,168
+Kilchoan_young,Orange_yellow,,20,YO20,12_5_2025,51,marivate_kilchoan,,6,5,1,5,Low,N,45,167
+Kilchoan_young,Orange_yellow,,15,YO15,12_5_2025,44,marivate_kilchoan,,2,7,3,3,Low,C,31,166
+Kilchoan_young,Orange_yellow,,1,YO01,12_5_2025,43,marivate_kilchoan,,1,5,1,7,Low,N,39,163
+Kilchoan_young,Orange_yellow,,16,YO16,12_5_2025,65,marivate_kilchoan,,7,7,3,5,Low,C,29,177
+Kilchoan_young,Orange_yellow,,4,YO04,12_5_2025,47,marivate_kilchoan,,3,5,1,3,Low,N,36,165
+Kilchoan_young,Orange_yellow,,22,YO22,12_5_2025,39,marivate_kilchoan,,15,6,3,4,High,C,48,182
+Kilchoan_young,Orange_yellow,,11,YO11,12_5_2025,62,marivate_kilchoan,,4,7,1,4,High,N,26,160
+Kilchoan_young,Orange_yellow,,23,YO23,12_5_2025,39,marivate_kilchoan,,3,5,3,2,High,C,76,176
+Kilchoan_young,Orange_yellow,,21,YO21,12_5_2025,36,marivate_kilchoan,1 juvenile mussel,7,6,2,3,Low,P,48,174
+Kilchoan_young,Orange_yellow,,5,YO05,12_5_2025,62,marivate_kilchoan,,7,5,2,4,High,P,38,172
+Kilchoan_young,Orange_yellow,,8,YO08,12_5_2025,40,marivate_kilchoan,,4,5,1,6,High,N,33,162
+Kilchoan_young,Orange_yellow,,18,YO18,12_5_2025,49,marivate_kilchoan,,2,6,3,3,Low,C,43,181
+Kilchoan_young,Orange_yellow,,13,YO13,12_5_2025,55,marivate_kilchoan,,7,7,3,7,Low,C,28,179
+Kilchoan_young,Orange_yellow,,19,YO19,12_5_2025,38,marivate_kilchoan,,4,6,2,2,High,P,42,173
+Kilchoan_young,Orange_yellow,,2,YO02,12_5_2025,30,marivate_kilchoan,,1,5,2,3,Low,P,32,171
+Kilchoan_young,Orange_yellow,,25,YO25,12_5_2025,60,marivate_kilchoan,,8,6,1,2,High,N,44,161
+Kilchoan_young,Orange_yellow,,12,YO12,12_5_2025,39,marivate_kilchoan,,7,7,2,6,High,P,25,169
+Kilchoan_young,Orange_yellow,,17,YO17,12_5_2025,30,marivate_kilchoan,,4,7,1,2,High,N,27,164
+Kilchoan_young,Orange_yellow,,3,YO03,12_5_2025,38,marivate_kilchoan,1 juvenile mussel,2,5,2,2,High,P,40,170
+Kilchoan_young,Orange_yellow,,10,YO10,12_5_2025,30,marivate_kilchoan,,4,7,2,7,Low,P,29,fell
+Kilchoan_young,Orange_yellow,,7,YO07,12_5_2025,24,marivate_kilchoan,,3,5,3,3,Low,C,35,175
+Kilchoan_young,Orange_yellow,,9,YO09,12_5_2025,23,marivate_kilchoan,,3,5,3,2,High,C,37,180
+Kilchoan_young,Orange_yellow,,6,YO06,12_5_2025,30,marivate_kilchoan,,3,5,3,6,High,C,41,178
+Kilchoan_young,Orange_yellow,,24,YO24,12_5_2025,,marivate_kilchoan,fallen bottom of tank,5,,,,,,,
+Kilchoan_young,Orange_yellow,,26,YO26,12_5_2025,,marivate_kilchoan,was small and extra so discarted,3,,,,,,,
+Kilchoan_young,Orange_yellow,,14,YO14,27_4_2025,70,marivate_kilchoan,,3,7,,,,,30,
+Kilchoan_young,Orange_yellow,,20,YO20,27_4_2025,30,marivate_kilchoan,,6,5,,,,,45,
+Kilchoan_young,Orange_yellow,,15,YO15,27_4_2025,43,marivate_kilchoan,,2,7,,,,,31,
+Kilchoan_young,Orange_yellow,,1,YO01,27_4_2025,60,marivate_kilchoan,,1,5,,,,,39,
+Kilchoan_young,Orange_yellow,,16,YO16,27_4_2025,30,marivate_kilchoan,,7,7,,,,,29,
+Kilchoan_young,Orange_yellow,,4,YO04,27_4_2025,42,marivate_kilchoan,,3,5,,,,,36,
+Kilchoan_young,Orange_yellow,,22,YO22,27_4_2025,58,marivate_kilchoan,,15,6,,,,,48,
+Kilchoan_young,Orange_yellow,,11,YO11,27_4_2025,30,marivate_kilchoan,,4,7,,,,,26,
+Kilchoan_young,Orange_yellow,,23,YO23,27_4_2025,37,marivate_kilchoan,,3,5,,,,,76,
+Kilchoan_young,Orange_yellow,,21,YO21,27_4_2025,55,marivate_kilchoan,,7,6,,,,,48,
+Kilchoan_young,Orange_yellow,,5,YO05,27_4_2025,30,marivate_kilchoan,,7,5,,,,,38,
+Kilchoan_young,Orange_yellow,,8,YO08,27_4_2025,35,marivate_kilchoan,,4,5,,,,,33,
+Kilchoan_young,Orange_yellow,,18,YO18,27_4_2025,50,marivate_kilchoan,,2,6,,,,,43,
+Kilchoan_young,Orange_yellow,,13,YO13,27_4_2025,30,marivate_kilchoan,,7,7,,,,,28,
+Kilchoan_young,Orange_yellow,,19,YO19,27_4_2025,33,marivate_kilchoan,,4,6,,,,,42,
+Kilchoan_young,Orange_yellow,,2,YO02,27_4_2025,50,marivate_kilchoan,,1,5,,,,,32,
+Kilchoan_young,Orange_yellow,,25,YO25,27_4_2025,28,marivate_kilchoan,was small and extra so discarted,8,6,,,,,44,
+Kilchoan_young,Orange_yellow,,12,YO12,27_4_2025,27,marivate_kilchoan,,7,7,,,,,25,
+Kilchoan_young,Orange_yellow,,24,YO24,27_4_2025,25,marivate_kilchoan,fallen bottom of tank,5,,,,,,,
+Kilchoan_young,Orange_yellow,,26,YO26,27_4_2025,24,marivate_kilchoan,,3,,,,,,,
+Kilchoan_young,Orange_yellow,,17,YO17,27_4_2025,23,marivate_kilchoan,,4,7,,,,,27,
+Kilchoan_young,Orange_yellow,,3,YO03,27_4_2025,21,marivate_kilchoan,,2,5,,,,,40,
+Kilchoan_young,Orange_yellow,,10,YO10,27_4_2025,18,marivate_kilchoan,,4,7,,,,,29,
+Kilchoan_young,Orange_yellow,,7,YO07,27_4_2025,13,marivate_kilchoan,,3,5,,,,,35,
+Kilchoan_young,Orange_yellow,,9,YO09,27_4_2025,3,marivate_kilchoan,,3,5,,,,,37,
+Kilchoan_young,Orange_yellow,,6,YO06,27_4_2025,1,marivate_kilchoan,,3,5,,,,,41,
+Kilchoan_young,,,,,4_12_2025,0.5,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.6,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.5,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,1,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.3,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.7,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.8,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,2,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,0.53,,,,,,,,,,
+Kilchoan_young,,,,,4_12_2025,22,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,11,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,23,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,11,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,9,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,20,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,16,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,18,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,20,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,12,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,11,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,20,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,9,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,18,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,9,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,17,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,12,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,8,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,18,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,13,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,7,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,21,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,13,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,12,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,9,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,7,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,2,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,10,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,12,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,17,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,10,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,17,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,10,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,2,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,30,,,,,,,,,,
+Kilchoan_young,,,,,16_2_2025,,,,,,,,,,,

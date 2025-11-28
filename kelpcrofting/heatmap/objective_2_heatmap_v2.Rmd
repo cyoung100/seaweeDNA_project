@@ -1,0 +1,275 @@
+```{r}
+library(xfun)
+```
+
+
+# Load packages
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(stringr)
+
+```
+
+```{r}
+kelpcroft_full <- read.csv("raw_data/all_kelpcroftdata.csv")
+klpcrft_otu <- read.csv("raw_data/kelpcroft_otu.csv")
+
+kelpcrofting_samples <- clean_names(kelpcroft_full)
+kelpcrofting_otu_raw <- clean_names(klpcrft_otu)
+
+```
+
+
+Convert text abundance columns to numeric 0-4
+```{r}
+kelpcrofting_text_abundance_cols <- c(
+  "sponge", "ascidiacea", "trichodesmium", "diatoms", "licmophora",
+  "striatella", "filamentous_green_algae", "fillamentous_algae", "fucus",
+  "hydroid", "campanulariidae", "obelia", "bryozoans", "membraniporidae",
+  "electra_pilosa", "kelp", "licmophora_1", "laminaria_digitata",
+  "macroalga_sporangio", "macroalgae", "red_algae", "ceramidae", "codium",
+  "sacharina", "sacharina_latissima"
+)
+
+abundance_mapping <- c(
+  "rare" = 1, "present" = 2, "numerous" = 3,
+  "dominant" = 4, "dominante" = 4, "dominate" = 4, " " = 0
+)
+
+kelpcrofting_samples_converted <- kelpcrofting_samples %>%
+  mutate(across(
+    all_of(kelpcrofting_text_abundance_cols),
+    ~ as.character(.x) %>%
+      recode(!!!abundance_mapping) %>%
+      as.numeric() %>%
+      replace_na(0)
+  ))
+
+```
+
+
+Pivot samples to longer format and assign measurement type
+```{r}
+kelpcrofting_long <- kelpcrofting_samples_converted %>%
+  pivot_longer(
+    cols = -c(sample_code, date, location, station_no, seaweed, site, year, month, day, notes_on_blades, sample_no),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "blade") ~ "blade_coverage",
+      TRUE ~ "abundance"
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade",
+      TRUE ~ NA_character_
+    )
+  )
+
+```
+
+
+
+TAXA
+Extract the taxonomy table
+```{r}
+library(readr)
+library(dplyr)
+library(tidyr)
+
+kelpcrofting_otu_taxonomy <- read_csv("raw_data/kelpcroft_otu.csv", skip_empty_rows = FALSE)
+
+```
+
+Clean data
+```{r}
+# Remove completely empty columns if any
+kelpcrofting_otu_raw <- kelpcrofting_otu_raw %>% select(where(~ !all(is.na(.))))
+
+# Define the list of "true" species columns
+species_cols <- names(kelpcrofting_otu_raw)
+
+# Build taxonomy table from first 7 rows
+kelpcrofting_otu_taxonomy <- tibble(
+  species_id = species_cols,
+  kingdom = as.character(kelpcrofting_otu_raw[1, species_cols] %>% unlist()),
+  phylum = as.character(kelpcrofting_otu_raw[2, species_cols] %>% unlist()),
+  class = as.character(kelpcrofting_otu_raw[3, species_cols] %>% unlist()),
+  order = as.character(kelpcrofting_otu_raw[4, species_cols] %>% unlist()),
+  family = as.character(kelpcrofting_otu_raw[5, species_cols] %>% unlist()),
+  genus = as.character(kelpcrofting_otu_raw[6, species_cols] %>% unlist()),
+  species_name = as.character(kelpcrofting_otu_raw[7, species_cols] %>% unlist())
+)
+
+kelpcrofting_otu_taxonomy$species_final <- gsub("OTU_","",kelpcrofting_otu_taxonomy$species_name)
+
+kelpcrofting_otu_taxonomy <- kelpcrofting_otu_taxonomy %>%
+  mutate(
+    species_id = species_name %>%
+      tolower() %>%       # all lowercase
+      str_replace_all(" ", "_") %>%  # replace spaces with underscores
+      str_replace_all("[^a-z0-9_]", "") %>%
+      str_replace_all("otu_","")# remove any weird characters just in case
+  )
+
+```
+
+
+
+Join genus information from taxonomy
+```{r}
+# Join taxonomy into kelpcrofting_long
+kelpcrofting_long_joined <- kelpcrofting_long %>%
+  left_join(
+    kelpcrofting_otu_taxonomy,
+    by = c("species_id" = "species_id")
+  )
+
+
+kelpcrofting_long_joined %>%
+  distinct(genus)
+
+```
+
+TAXA PACKAGE 
+```{r}
+library(worrms)
+```
+
+```{r}
+#kelpcrofting_long$species_name <- gsub("otu_", "",kelpcrofting_long$species_id)
+
+
+# Create a list of unique species names
+#species_list <- unique(kelpcrofting_long$species_name)
+
+# Function to safely fetch taxonomy info
+
+
+fetch_taxonomy_safe <- function(name) {
+  tryCatch(
+    {
+      Sys.sleep(0.5)  # polite, avoid hammering server
+      worm <- wm_records_name(name)
+      if (length(worm) > 0) worm[1, ] else NULL
+    },
+    error = function(e) NULL
+  )
+}
+
+# Map across all species
+#taxonomy_lookup <- purrr::map_df(species_list, fetch_taxonomy_safe)
+
+#write.csv(taxonomy_lookup, "taxonomy_lookup.csv")
+
+taxonomy_lookup <- read.csv("taxonomy_lookup.csv")
+# Now taxonomy_lookup contains WoRMS info for  species
+
+```
+
+
+```{r}
+# Fix scientific name to snake_case
+taxonomy_lookup <- taxonomy_lookup %>%
+  mutate(
+    scientificname_snake = valid_name %>%
+      tolower() %>%       # all lowercase
+      str_replace_all(" ", "_") %>%  # replace spaces with underscores
+      str_replace_all("[^a-z0-9_]", "")  # remove any weird characters just in case
+  )
+
+
+
+
+
+```
+
+Subset taxa rows not found in worrms and run through biomaRt
+```{r}
+kelpcrofting_long_joined_no_genus <- kelpcrofting_long_joined %>%
+  filter(is.na(genus)) %>%
+  mutate(species_name_query = str_replace_all(species_id, "_", " "))
+
+species_list_2 <- kelpcrofting_long_joined_no_genus$species_name_query%>% unique()
+
+species_list_2 <- kelpcrofting_long_joined_no_genus %>%
+  distinct(species_name_query)
+
+
+```
+
+
+
+```{r}
+#kelpcrofting_long$species_name <- gsub("otu_", "",kelpcrofting_long$species_id)
+
+
+# Create a list of unique species names
+#species_list <- unique(kelpcrofting_long$species_name)
+
+# Function to safely fetch taxonomy info
+fetch_taxonomy_safe <- function(name) {
+  tryCatch(
+    {
+      Sys.sleep(0.5)  # polite, avoid hammering server
+      worm <- wm_records_name(name)
+      if (length(worm) > 0) worm[1, ] else NULL
+    },
+    error = function(e) NULL
+  )
+}
+
+# Map across all species
+#taxonomy_lookup_2 <- purrr::map_df(species_list_2, fetch_taxonomy_safe)
+
+view(species_list_2)
+
+
+taxonomy_lookup_2 <- read.csv("taxonomy_lookup_2.csv")
+taxonomy_lookup <- taxonomy_lookup[, -c(1, 2)]  # Removes 1st and 3rd columns
+taxonomy_lookup_2 <- taxonomy_lookup_2[, -c(1)]  # Removes 1st column
+
+taxonomy_lookup_2 <- taxonomy_lookup_2 %>%
+  mutate(
+    scientificname_snake = valid_name %>%
+      tolower() %>%       # all lowercase
+      str_replace_all(" ", "_") %>%  # replace spaces with underscores
+      str_replace_all("[^a-z0-9_]", "")  # remove any weird characters just in case
+  )
+
+
+
+taxon_merged <- rbind(taxonomy_lookup_2, taxonomy_lookup)
+
+taxon_levels <- subset(taxon_merged, select = c(kingdom, phylum, class, order, family, genus, scientificname_snake, valid_name))
+
+# Join taxonomy into kelpcrofting_long
+kelpcrofting_long_joined_taxa <- kelpcrofting_long_joined %>%
+  right_join(
+    taxon_levels,
+    by = c("species_id" = "scientificname_snake")
+  )
+
+taxon_levels <- taxon_levels  %>%
+  rename("species_id" = "scientificname_snake")
+
+merged_kelpcrofting_long_joined_taxa <- merge(kelpcrofting_long_joined, taxon_levels, by = "species_id")  # Common column 'id'
+
+
+kelp_final <- merged_kelpcrofting_long_joined_taxa[, -c(16, 20)]  # Removes 1st and 3rd columns
+
+
+
+
+
+
+```
+
+

@@ -1,0 +1,518 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+getwd()
+obelia <- read.csv("obelia_heatmap_allOTU.csv", fileEncoding = "latin1")
+obelia <- clean_names(obelia) %>% 
+  filter(site != "Scalpay") 
+  
+
+```
+
+
+```{r}
+obelia_long <- obelia %>%
+  pivot_longer(
+    cols = -c(sample_code, date, station_no, seaweed, site, day, month, year),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "plankton") ~ "abundance",
+      str_detect(species_id, "percent_blade") ~ "blade_coverage",
+      TRUE ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "Plankton eDNA (RSV)",
+      measurement_type == "abundance" ~ "Plankton Abundance (cell/L)",
+      species_id == "saccharina_percent_blade_hydrozoans" ~ "Hydrozoan Blade Coverage - Saccharina (%)",
+      species_id == "alaria_percent_blade_hydrozoans"     ~ "Hydrozoan Blade Coverage - Alaria (%)",
+      TRUE ~ "Hydrozoan Blade\n Coverage (%)"  # fallback for legacy coverage column
+    ),
+    parsed_date = make_date(year, month, day)
+  )
+
+obelia_long <- obelia_long %>%
+  filter(!(measurement_type == "otu")) %>%                       # Keep all non-otu rows
+  bind_rows(
+    obelia_long %>%
+      filter(measurement_type == "otu") %>%
+      group_by(station_no, parsed_date, species_id) %>%
+      slice(1) %>%                                               # Keep only the first occurrence per OTU per sample
+      ungroup()
+  )
+
+
+
+obelia_long <- obelia_long %>%
+  mutate(
+    measurement_value = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ log1p(measurement_value),  # log1p avoids log(0)
+      TRUE ~ measurement_value  # keep other values unchanged
+    )
+  )
+
+obelia_heatmap <- obelia_long %>%
+  mutate(
+    station = paste0("st", station_no),
+
+    # Seaweed shortcodes
+    seaweed_code = case_when(
+      seaweed == "Saccharina" ~ "SA",
+      seaweed == "Alaria" ~ "ALA",
+      TRUE ~ "UNK"
+    ),
+
+    # Create new sample ID for blade coverage
+    sample_code_sw = paste(site, year, sprintf("%02d", month), sprintf("%02d", day), station_no, seaweed_code, sep = "_"),
+
+    # Conditional sample_order
+    sample_order = case_when(
+      str_detect(measurement_origin, "Blade Coverage") ~ sample_code_sw,
+      TRUE ~ paste(parsed_date, station_no, sep = "_")
+    ),
+
+    # Assign origin labels and y-axis
+    origin_label = factor(measurement_origin, levels = c(
+      "Plankton eDNA (RSV)",
+      "Plankton Abundance (cell/L)",
+      "Hydrozoan Blade Coverage - Saccharina (%)",
+      "Hydrozoan Blade Coverage - Alaria (%)"
+    )),
+
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE ~ measurement_origin
+    ),
+
+    y_axis = factor(
+      y_axis,
+      levels = c(
+        paste0("RSV ", c(
+          "otu_aglaophenia_pluma", "otu_aglaophenia_tubulifera", "otu_apolemia_sp",
+          "otu_bougainvillia_muscus", "otu_clytia_sp_1_sl_2013", "otu_clytia_sp_2_afc_2016",
+          "otu_coryne_pintneri", "otu_dynamena_pumila", "otu_ectopleura_larynx",
+          "otu_eutima_mira", "otu_forskalia_tholoides", "otu_garveia_annulata",
+          "otu_halecium_sp_bmoo_08734", "otu_laodicea_sp_haw02", "otu_mitrocomella_brownei",
+          "otu_obelia_bidentata", "otu_obelia_dichotoma", "otu_obelia_sp_3_sl_2013",
+          "otu_obelia_sp_mzusp_3356", "otu_orthopyxis_crenata", "otu_pennaria_disticha",
+          "otu_rhizorhagium_arenosum", "otu_sarsia_tubulosa", "otu_siphonophorae_sp_nhm_339",
+          "otu_tiaropsis_multicirrata"
+        )),
+        "Plankton Abundance (cell/L)",
+        "Hydrozoan Blade Coverage - Saccharina (%)",
+        "Hydrozoan Blade Coverage - Alaria (%)"
+      )
+    ),
+
+    y_axis = fct_recode(y_axis,
+      "Aglaophenia pluma (RSV)" = "RSV otu_aglaophenia_pluma",
+      "Aglaophenia tubulifera (RSV)" = "RSV otu_aglaophenia_tubulifera",
+      "Apolemia sp. (RSV)" = "RSV otu_apolemia_sp",
+      "Bougainvillia muscus (RSV)" = "RSV otu_bougainvillia_muscus",
+      "Clytia sp. 1 (RSV)" = "RSV otu_clytia_sp_1_sl_2013",
+      "Clytia sp. 2 (RSV)" = "RSV otu_clytia_sp_2_afc_2016",
+      "Coryne pintneri (RSV)" = "RSV otu_coryne_pintneri",
+      "Dynamena pumila (RSV)" = "RSV otu_dynamena_pumila",
+      "Ectopleura larynx (RSV)" = "RSV otu_ectopleura_larynx",
+      "Eutima mira (RSV)" = "RSV otu_eutima_mira",
+      "Forskalia tholoides (RSV)" = "RSV otu_forskalia_tholoides",
+      "Garveia annulata (RSV)" = "RSV otu_garveia_annulata",
+      "Halecium sp. (RSV)" = "RSV otu_halecium_sp_bmoo_08734",
+      "Laodicea sp. (RSV)" = "RSV otu_laodicea_sp_haw02",
+      "Mitrocomella brownei (RSV)" = "RSV otu_mitrocomella_brownei",
+      "Obelia bidentata (RSV)" = "RSV otu_obelia_bidentata",
+      "Obelia dichotoma (RSV)" = "RSV otu_obelia_dichotoma",
+      "Obelia sp. 3 (RSV)" = "RSV otu_obelia_sp_3_sl_2013",
+      "Obelia sp. MZUSP 3356 (RSV)" = "RSV otu_obelia_sp_mzusp_3356",
+      "Orthopyxis crenata (RSV)" = "RSV otu_orthopyxis_crenata",
+      "Pennaria disticha (RSV)" = "RSV otu_pennaria_disticha",
+      "Rhizorhagium arenosum (RSV)" = "RSV otu_rhizorhagium_arenosum",
+      "Sarsia tubulosa (RSV)" = "RSV otu_sarsia_tubulosa",
+      "Siphonophorae sp. NHM_339 (RSV)" = "RSV otu_siphonophorae_sp_nhm_339",
+      "Tiaropsis multicirrata (RSV)" = "RSV otu_tiaropsis_multicirrata",
+      "Hydrozoa Plankton Abundance (cell/L)" = "Plankton Abundance (cell/L)",
+      "Hydrozoan Blade Coverage (%) - Sac" = "Hydrozoan Blade Coverage - Saccharina (%)",
+      "Hydrozoan Blade Coverage (%) - Ala" = "Hydrozoan Blade Coverage - Alaria (%)"
+    )
+  )
+
+# Load and clean blade coverage data (example from your screenshot)
+blade_coverage <- read.csv("obelia_heatmap_allOTU.csv") %>%
+  clean_names()
+
+# Pivot longer to align with eDNA/plankton structure
+blade_coverage_long <- blade_coverage %>%
+  pivot_longer(
+    cols = c(saccharina_percent_blade_hydrozoans, alaria_percent_blade_hydrozoans),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = "blade_coverage",
+    measurement_origin = case_when(
+      species_id == "saccharina_percent_blade_hydrozoans" ~ "Hydrozoan Blade Coverage - Saccharina (%)",
+      species_id == "alaria_percent_blade_hydrozoans"     ~ "Hydrozoan Blade Coverage - Alaria (%)"
+    ),
+    parsed_date = make_date(year, month, day)
+  )
+
+
+
+
+# Add blade coverage to obelia_long
+obelia_long <- obelia_long %>%
+  bind_rows(blade_coverage_long)
+
+```
+
+
+```{r}
+library(forcats)
+# Prepare for heatmap (Obelia eDNA OTUs)
+obelia_heatmap <- obelia_long %>%
+  mutate(
+    station = paste0("st", station_no),
+    
+    # Seaweed shortcodes
+    seaweed_code = case_when(
+      seaweed == "Saccharina" ~ "SA",
+      seaweed == "Alaria" ~ "ALA",
+      TRUE ~ "UNK"
+    ),
+    
+    # Create seaweed-specific sample code (for coverage only)
+    sample_code_sw = paste(site, year, sprintf("%02d", month), sprintf("%02d", day), station_no, seaweed_code, sep = "_"),
+
+    # Conditional sample_order
+    sample_order = case_when(
+      str_detect(measurement_origin, "Blade Coverage") ~ sample_code_sw,
+      TRUE ~ paste(parsed_date, station_no, sep = "_")
+    ),
+    station = paste0("st", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+    
+    origin_label = factor(measurement_origin, levels = c(
+      "Plankton eDNA (RSV)", 
+      "Plankton Abundance (cell/L)", 
+      "Hydrozoan Blade Coverage - Saccharina (%)",
+      "Hydrozoan Blade Coverage - Alaria (%)"
+    )),
+    
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE ~ measurement_origin
+    ),
+    
+    y_axis = factor(
+      y_axis,
+      levels = c(
+        # Add all Hydrozoa OTU species of interest here
+        paste0("RSV ", c(
+          "otu_aglaophenia_pluma",
+          "otu_aglaophenia_tubulifera",
+          "otu_apolemia_sp",
+          "otu_bougainvillia_muscus",
+          "otu_clytia_sp_1_sl_2013",
+          "otu_clytia_sp_2_afc_2016",
+          "otu_coryne_pintneri",
+          "otu_dynamena_pumila",
+          "otu_ectopleura_larynx",
+          "otu_eutima_mira",
+          "otu_forskalia_tholoides",
+          "otu_garveia_annulata",
+          "otu_halecium_sp_bmoo_08734",
+          "otu_laodicea_sp_haw02",
+          "otu_mitrocomella_brownei",
+          "otu_obelia_bidentata",
+          "otu_obelia_dichotoma",
+          "otu_obelia_sp_3_sl_2013",
+          "otu_obelia_sp_mzusp_3356",
+          "otu_orthopyxis_crenata",
+          "otu_pennaria_disticha",
+          "otu_rhizorhagium_arenosum",
+          "otu_sarsia_tubulosa",
+          "otu_siphonophorae_sp_nhm_339",
+          "otu_tiaropsis_multicirrata"
+        )),
+        "Plankton Abundance (cell/L)",
+        "Hydrozoan Blade Coverage - Saccharina (%)",
+        "Hydrozoan Blade Coverage - Alaria (%)"
+      )
+    ),
+    
+    y_axis = fct_recode(y_axis,
+      "Aglaophenia pluma (RSV)"              = "RSV otu_aglaophenia_pluma",
+      "Aglaophenia tubulifera (RSV)"         = "RSV otu_aglaophenia_tubulifera",
+      "Apolemia sp. (RSV)"                   = "RSV otu_apolemia_sp",
+      "Bougainvillia muscus (RSV)"           = "RSV otu_bougainvillia_muscus",
+      "Clytia sp. 1 (RSV)"                   = "RSV otu_clytia_sp_1_sl_2013",
+      "Clytia sp. 2 (RSV)"                   = "RSV otu_clytia_sp_2_afc_2016",
+      "Coryne pintneri (RSV)"                = "RSV otu_coryne_pintneri",
+      "Dynamena pumila (RSV)"                = "RSV otu_dynamena_pumila",
+      "Ectopleura larynx (RSV)"              = "RSV otu_ectopleura_larynx",
+      "Eutima mira (RSV)"                    = "RSV otu_eutima_mira",
+      "Forskalia tholoides (RSV)"            = "RSV otu_forskalia_tholoides",
+      "Garveia annulata (RSV)"               = "RSV otu_garveia_annulata",
+      "Halecium sp. (RSV)"                   = "RSV otu_halecium_sp_bmoo_08734",
+      "Laodicea sp. (RSV)"                   = "RSV otu_laodicea_sp_haw02",
+      "Mitrocomella brownei (RSV)"           = "RSV otu_mitrocomella_brownei",
+      "Obelia bidentata (RSV)"               = "RSV otu_obelia_bidentata",
+      "Obelia dichotoma (RSV)"               = "RSV otu_obelia_dichotoma",
+      "Obelia sp. 3 (RSV)"                   = "RSV otu_obelia_sp_3_sl_2013",
+      "Obelia sp. MZUSP 3356 (RSV)"          = "RSV otu_obelia_sp_mzusp_3356",
+      "Orthopyxis crenata (RSV)"             = "RSV otu_orthopyxis_crenata",
+      "Pennaria disticha (RSV)"              = "RSV otu_pennaria_disticha",
+      "Rhizorhagium arenosum (RSV)"          = "RSV otu_rhizorhagium_arenosum",
+      "Sarsia tubulosa (RSV)"                = "RSV otu_sarsia_tubulosa",
+      "Siphonophorae sp. NHM_339 (RSV)"      = "RSV otu_siphonophorae_sp_nhm_339",
+      "Tiaropsis multicirrata (RSV)"         = "RSV otu_tiaropsis_multicirrata",
+      "Hydrozoa Plankton Abundance (cell/L)" = "Plankton Abundance (cell/L)",
+      "Hydrozoan Blade Coverage (%) - Sac" = "Hydrozoan Blade Coverage - Saccharina (%)",
+      "Hydrozoan Blade Coverage (%) - Ala"    = "Hydrozoan Blade Coverage - Alaria (%)"
+    )
+  )
+
+
+
+```
+
+```{r}
+# Deduplicate
+# Deduplicate while filtering out coverage rows
+obelia_cleaned <- obelia_heatmap %>%
+ group_by(y_axis, sample_order, seaweed) %>%
+ summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop") %>% 
+  select(-seaweed)
+  
+  
+#obelia_coverage_mat <- obelia_heatmap %>% 
+  
+
+
+
+
+
+# Matrix and scale
+obelia_mat <- obelia_cleaned %>%
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = NA) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+
+```
+
+```{r}
+# Color scale using viridis magma
+viridis_magma <- viridis(100, option = "viridis")
+value_range <- range(obelia_mat, na.rm = TRUE)
+col_fun <- colorRamp2(seq(value_range[1], value_range[2], length.out = 100), viridis_magma)
+```
+
+```{r}
+# Extract metadata from column names
+col_meta <- strsplit(colnames(obelia_mat), "_")
+dates <- sapply(col_meta, `[`, 1)
+stations <- paste0("S", sapply(col_meta, `[`, 2))  # Add S prefix
+
+# Format dates
+formatted_dates <- format(as.Date(dates), "%d %b")
+
+# Blank out most dates (e.g., every 3rd one only)
+sparse_date_labels <- rep("", length(formatted_dates))
+sparse_date_labels[seq(2, length(formatted_dates), by = 3)] <- formatted_dates[seq(2, length(formatted_dates), by = 3)]
+
+# Create annotations
+top_anno <- HeatmapAnnotation(
+  Station = anno_text(stations, rot = 0, just = "center", gp = gpar(fontsize = 10)),
+  annotation_name_side = "left",
+  annotation_height = unit(0.6, "lines"),
+  which = "column"
+)
+
+
+bottom_anno <- HeatmapAnnotation(
+  Date = anno_text(sparse_date_labels, rot = 0,  just = c("top", "right"), gp = gpar(fontsize =10)),
+  annotation_name_side = "left",
+  annotation_height = unit(1, "lines"),
+  which = "column",
+    gap = unit(5, "mm")
+)
+```
+
+
+
+
+
+```{r}
+library(scico)
+library(colorspace)
+
+
+# Split matrix by data type
+edna_mat_obelia <- obelia_mat[grepl("RSV", rownames(obelia_mat)), , drop = FALSE]
+plankton_mat_obelia <- obelia_mat[grepl("Abundance \\(cell/L\\)", rownames(obelia_mat)), , drop = FALSE]
+coverage_mat_obelia <- obelia_mat[grepl("Blade Coverage", rownames(obelia_mat)), , drop = FALSE]
+
+################
+edna_mat_obelia <- obelia_mat[grepl("RSV", rownames(obelia_mat)), , drop = FALSE]
+plankton_mat_obelia <- obelia_mat[grepl("Abundance", rownames(obelia_mat)), , drop = FALSE]
+coverage_mat_obelia <- obelia_mat[grepl("Coverage", rownames(obelia_mat)), , drop = FALSE]
+
+
+
+
+# Color functions using colorspace palettes
+library(scico)
+library(circlize)
+
+library(viridisLite)
+library(circlize)
+
+# Color functions using viridis palette for all
+col_fun_edna <- colorRamp2(
+  seq(min(edna_mat_obelia, na.rm = TRUE), max(edna_mat_obelia, na.rm = TRUE), length.out = 100),
+  viridis(100, option = "viridis")
+)
+
+col_fun_plankton <- colorRamp2(
+  seq(min(plankton_mat_obelia, na.rm = TRUE), max(plankton_mat_obelia, na.rm = TRUE), length.out = 100),
+  viridis(100, option = "viridis")
+)
+
+col_fun_coverage <- colorRamp2(
+  seq(0, 100, length.out = 100),
+  viridis(100, option = "viridis")
+)
+
+
+
+
+# Heatmaps
+hm_edna_obelia <- Heatmap(
+  edna_mat_obelia,
+  name = "eDNA log(RSV)",
+  col = col_fun_edna,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = top_anno,
+  bottom_annotation = NULL,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "eDNA log(RSV)",
+       title_position = "topleft",
+    legend_direction = "vertical" 
+  )
+)
+
+hm_plankton_obelia <- Heatmap(
+  plankton_mat_obelia,
+  name = "Plankton (cells/L)",
+  col = col_fun_plankton,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = NULL,
+  bottom_annotation = NULL,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "Plankton (cells/L)",
+     title_position = "topleft",
+    legend_direction = "vertical" 
+  )
+)
+
+hm_coverage_obelia <- Heatmap(
+  coverage_mat_obelia,
+  name = "Blade Coverage (%)",
+  col = col_fun_coverage,
+  show_row_names = TRUE,
+  row_names_side = "left",
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  na_col = "grey90",
+  top_annotation = NULL,
+  bottom_annotation = bottom_anno,
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(
+    title = "Blade Coverage (%)",
+     title_position = "topleft",
+    legend_direction = "vertical" 
+  )
+)
+
+# Combine and draw
+plot_hydro <- draw(hm_edna_obelia %v% hm_plankton_obelia %v% hm_coverage_obelia,
+     heatmap_legend_side = "right",
+     merge_legend = FALSE)
+
+write.csv(obelia_sac_long, "osl.csv")
+
+```
+
+
+```{r}
+draw(hm_edna_obelia %v% hm_plankton_obelia %v% hm_coverage_obelia)
+
+```
+
+
+```{r}
+# Vector of Hydrozoa-related names in clean_names() style
+hydrozoa_cols_clean <- c(
+  "aglaophenia_pluma", "aglaophenia_pluma_1",
+  "aglaophenia_tubulifera", "aglaophenia_tubulifera_1",
+  "apolemia_sp", "apolemia_sp_1",
+  "bougainvillia_muscus", "bougainvillia_muscus_1", "bougainvillia_muscus_2",
+  "bougainvillia_muscus_3", "bougainvillia_muscus_4", "bougainvillia_muscus_5",
+  "clytia_sp_1_sl_2013", "clytia_sp_1_sl_2013_1", "clytia_sp_1_sl_2013_2",
+  "clytia_sp_1_sl_2013_3", "clytia_sp_1_sl_2013_4",
+  "clytia_sp_2_afc_2016", "clytia_sp_2_afc_2016_1", "clytia_sp_2_afc_2016_2",
+  "clytia_sp_2_afc_2016_3", "clytia_sp_2_afc_2016_4",
+  "coryne_pintneri", "coryne_pintneri_1",
+  "dynamena_pumila", "ectopleura_larynx", "eutima_mira",
+  "forskalia_tholoides", "garveia_annulata", "halecium_sp_bmoo_08734",
+  "hydrozoa_otus", "laodicea_sp_haw02", "mitrocomella_brownei",
+  "obelia_bidentata", "obelia_bidentata_1", "obelia_bidentata_2", "obelia_bidentata_3",
+  "obelia_dichotoma", "obelia_dichotoma_1", "obelia_dichotoma_2", "obelia_dichotoma_3",
+  "obelia_sp_3_sl_2013", "obelia_sp_mzusp_3356", "orthopyxis_crenata",
+  "otu_obelia", "otu_obelia_bidentata", "otu_obelia_bidentata_1",
+  "otu_obelia_dichotoma", "otu_obelia_dichotoma_1", "otu_obelia_sp",
+  "pennaria_disticha", "plankton_obelia", "rhizorhagium_arenosum",
+  "sarsia_tubulosa", "sarsia_tubulosa_1",
+  "siphonophorae_sp_nhm_339", "siphonophorae_sp_nhm_339_1", "siphonophorae_sp_nhm_339_2",
+  "tiaropsis_multicirrata"
+)
+
+# Extract matching columns from clean_names() dataframe
+hydrozoa_found <- intersect(hydrozoa_cols_clean, colnames(otu_wide_c))  # assuming clean_names() already applied
+hydrozoa_data <- otu_wide_c[, hydrozoa_found]
+
+```
+

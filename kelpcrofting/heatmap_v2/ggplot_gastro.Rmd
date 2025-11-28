@@ -1,0 +1,261 @@
+```{r}
+
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+
+# 1) Global theme at fontsize 14
+theme_set(
+  theme_minimal(base_size = 14) +
+    theme(
+      axis.title   = element_text(size = 14),
+      axis.text    = element_text(size = 14),
+      legend.title = element_text(size = 14),
+      legend.text  = element_text(size = 14),
+      strip.text   = element_text(size = 14)
+    )
+)
+
+# 2) Load & compute per‐cm2 blade abundances
+g <- read.csv("gastro_heatmap_full.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>%
+  mutate(
+    parsed_date       = make_date(year, month, day),
+    gibbula_sacc_p_cm = abd_gibbula_sacc / blade_area_sacc,
+    lacuna_sacc_p_cm  = abd_lacuna_sacc  / blade_area_sacc,
+    patella_sacc_p_cm = abd_patella_sacc / blade_area_sacc,
+    rissoa_sacc_p_cm  = abd_rissoa_sacc  / blade_area_sacc,
+    gibbula_ala_p_cm  = abd_gibbula_ala  / blade_area_ala,
+    lacuna_ala_p_cm   = abd_lacuna_ala   / blade_area_ala,
+    patella_ala_p_cm  = abd_patella_ala  / blade_area_ala,
+    rissoa_ala_p_cm   = abd_rissoa_ala   / blade_area_ala
+  ) %>%
+  select(-starts_with("abd_"), -blade_area_sacc, -blade_area_ala)
+
+# 3) Pivot longer & classify
+g_long <- g %>%
+  pivot_longer(
+    cols      = -c(sample_code, date, station_no, seaweed, site, day, month, year, parsed_date),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_")      ~ "eDNA",
+      str_detect(species_id, "^plankton_") ~ "plankton",
+      str_detect(species_id, "_p_cm$")     ~ "blade",
+      TRUE                                 ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "eDNA"    ~ "Plankton eDNA (RSV)",
+      measurement_type == "plankton"~ "Plankton Abundance (cell/L)",
+      measurement_type == "blade"   & str_detect(species_id, "_sacc_")  ~ "Blade Abundance - Saccharina (ind/cm²)",
+      measurement_type == "blade"   & str_detect(species_id, "_ala_")   ~ "Blade Abundance - Alaria (ind/cm²)",
+      TRUE                           ~ NA_character_
+    ),
+  measurement_value = case_when(
+measurement_type == "plankton"      ~ measurement_value,
+ measurement_type =="eDNA" ~ log1p(measurement_value),
+ TRUE                                 ~ measurement_value),
+    y_axis = case_when(
+      measurement_type == "eDNA"     ~ paste("RSV", species_id),
+       measurement_type == "plankton" & species_id == "plankton_gastropoda" ~ "Gastropod Plankton\nAbundance (cell/L)",
+      species_id == "lacuna_sacc_p_cm" ~ "Lacuna Blade Ab - Sac",
+      species_id == "lacuna_ala_p_cm"  ~ "Lacuna Blade Ab - Ala",
+      species_id == "gibbula_sacc_p_cm"~ "Gibbula Blade Ab - Sac",
+      species_id == "gibbula_ala_p_cm" ~ "Gibbula Blade Ab - Ala",
+      species_id == "patella_sacc_p_cm"~ "Patella Blade Ab - Sac",
+      species_id == "patella_ala_p_cm" ~ "Patella Blade Ab - Ala",
+      species_id == "rissoa_sacc_p_cm" ~ "Rissoa Blade Ab - Sac",
+      species_id == "rissoa_ala_p_cm"  ~ "Rissoa Blade Ab - Ala",
+      TRUE                            ~ species_id
+    ) %>%
+      fct_recode(
+        "Antarctoneptunea aurora (RSV)"       = "RSV otu_antarctoneptunea_aurora",
+        "Assiminea grayana (RSV)"            = "RSV otu_assiminea_grayana",
+        "Atlanta ariejansseni (RSV)"         = "RSV otu_atlanta_ariejansseni",
+        "Bulinus nasutus (RSV)"              = "RSV otu_bulinus_nasutus",
+        "Burnupia sp. (RSV)"                 = "RSV otu_burnupia_sp_ugsb_25228",
+        "Doto coronata (RSV)"                = "RSV otu_doto_coronata",
+        "Ercolania sp. (RSV)"                = "RSV otu_ercolania_sp_kh_2011",
+        "Glyptophysa sp. (RSV)"              = "RSV otu_glyptophysa_sp_11_pga_2018",
+        "Lacuna vincta (RSV)"                = "RSV otu_lacuna_vincta",
+        "Limapontia capitata (RSV)"          = "RSV otu_limapontia_capitata",
+        "Megalovalvata piligera (RSV)"       = "RSV otu_megalovalvata_piligera",
+        "Mitrella moleculina (RSV)"          = "RSV otu_mitrella_moleculina",
+        "Neritina canalis (RSV)"             = "RSV otu_neritina_canalis",
+        "Peringia ulvae (RSV)"               = "RSV otu_peringia_ulvae",
+        "Placida dendritica (RSV)"           = "RSV otu_placida_dendritica",
+        "Rissoa guernei (RSV)"               = "RSV otu_rissoa_guernei",
+        "Sconsia sp. (RSV)"                  = "RSV otu_sconsia_sp_mnhn_im_2013_61442",
+        "Segmentina nitida (RSV)"            = "RSV otu_segmentina_nitida",
+        "Siphonaria pectinata (RSV)"         = "RSV otu_siphonaria_pectinata",
+        "Stenophysa marmorata (RSV)"         = "RSV otu_stenophysa_marmorata",
+        "Steromphala cineraria (RSV)"        = "RSV otu_steromphala_cineraria",
+        "Therasia thaisa (RSV)"              = "RSV otu_therasia_thaisa"
+      )
+  ) %>%
+  filter(!is.na(measurement_origin)) %>%
+  mutate(
+    station      = paste0("", station_no),
+    sample_order = paste(parsed_date, station, sep = "_")
+  )
+
+# 4) Factor for plotting order
+order_ids <- g_long %>%
+  distinct(parsed_date, station, sample_order) %>%
+  arrange(parsed_date, station) %>%
+  pull(sample_order)
+
+g_long <- g_long %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+# 5) Prepare axis labels
+parts          <- strsplit(as.character(order_ids), "_")
+dates          <- as.Date(sapply(parts, `[`, 1))
+station_labels <- paste0("", sapply(parts, `[`, 2))
+date_labels    <- ifelse(!duplicated(dates), format(dates, "%d %b"), "")
+
+# 6) Split data for panels
+d_e <- filter(g_long, measurement_origin == "Plankton eDNA (RSV)")
+d_p <- filter(g_long, measurement_origin == "Plankton Abundance (cell/L)")
+d_b_sacc <- filter(g_long, measurement_origin == "Blade Abundance - Saccharina (ind/cm²)")
+d_b_ala <- filter(g_long, measurement_origin == "Blade Abundance - Alaria (ind/cm²)")
+
+# 7) Shared fill scales
+
+library(viridis)
+
+# 7) Shared fill scales with reversed Viridis
+scale_e <- scale_fill_viridis_c(
+  option    = "magma",
+  direction = -1,
+  name      = "eDNA log(RSV)",
+  na.value  = "grey90"
+)
+
+scale_p <- scale_fill_viridis_c(
+  option    = "magma",
+  direction = -1,
+  name      = "Plankton Ab\n(cell/L)",
+  na.value  = "grey90"
+)
+
+scale_b_sacc <- scale_fill_viridis_c(
+  option    = "magma",
+  direction = -1,
+  name      = "Saccharina\n(ind/cm²)",
+  na.value  = "grey90"
+)
+
+scale_b_ala <- scale_fill_viridis_c(
+  option    = "magma",
+  direction = -1,
+  name      = "Alaria\n(ind/cm²)",
+  na.value  = "grey90"
+)
+
+
+# 8) Build plots
+p1 <- ggplot(d_e, aes(x=as.numeric(sample_order), y=y_axis, fill=measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0),
+    sec.axis = dup_axis(name=NULL, labels=station_labels)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size=10, vjust=0.5),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab(NULL)
+
+p2 <- ggplot(d_p, aes(x=sample_order, y=y_axis, fill=measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  theme_minimal() +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.y  = element_text(size=10)
+  ) +
+  ylab(NULL)
+
+p3 <- ggplot(d_b_sacc, aes(x=as.numeric(sample_order), y=y_axis, fill=measurement_value)) +
+  geom_tile(color = NA) + scale_b_sacc +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank()
+  ) +
+  ylab(NULL)
+
+p4 <- ggplot(d_b_ala, aes(x=as.numeric(sample_order), y=y_axis, fill=measurement_value)) +
+  geom_tile(color = NA) + scale_b_ala +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = date_labels,
+    expand = c(0, 0),
+    name   = "Date"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_text(size=10, angle=0, vjust=3, hjust=0),
+    axis.title.x.bottom = element_text(margin=margin(t=5)),
+    axis.ticks.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab(NULL)
+
+p4
+
+ggplot(d_b_ala, aes(y = measurement_value, x = parsed_date)) +
+  geom_boxplot()
+
+# 9) Stack panels with separate legends
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(
+    ncol    = 1, 
+    heights = c(6, 1, 1, 1),
+    guides  = "collect"
+  ) &
+  theme(
+    legend.position     = "right",
+    legend.title        = element_text(size=10),
+    legend.text         = element_text(size=10),
+    legend.key.height   = unit(0.8, "lines"),
+    legend.key.width    = unit(0.8, "lines")
+  )
+
+print(final_plot)
+```
+

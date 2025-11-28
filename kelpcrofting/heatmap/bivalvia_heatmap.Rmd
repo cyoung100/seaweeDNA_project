@@ -1,0 +1,195 @@
+bivalvpds
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+
+# Read data
+kelpcrofting_taxa <- read.csv("kelpcrofting_focal_sp_clean.csv")
+
+kelpcrofting_taxa <- kelpcrofting_taxa %>%
+  mutate(
+    species_id = str_replace(species_id, "total_gasteropoda", "total_bivalvia"),
+    species_name = str_replace(species_name, "total gasteropoda", "total bivalvia")
+  )
+
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+find_unique_bivalv_mentions <- function(df) {
+  # 1. Column names containing "hydro"
+  bivalv_cols <- names(df)[str_detect(names(df), regex("bivalv", ignore_case = TRUE))]
+
+  # 2. Unique cell values containing "hydro"
+  bivalv_cells <- df %>%
+    mutate(across(everything(), as.character)) %>%
+    pivot_longer(everything(), names_to = "column", values_to = "value") %>%
+    filter(str_detect(value, regex("bivalv", ignore_case = TRUE))) %>%
+     filter(str_detect(value, regex("bivalv", ignore_case = TRUE))) %>%
+    distinct(value) %>%
+    pull(value)
+
+  list(
+    column_names = unique(bivalv_cols),
+    cell_values = unique(bivalv_cells)
+  )
+}
+
+# Example usage
+unique_bivalv_mentions <- find_unique_bivalv_mentions(kelpcrofting_taxa)
+
+# View results
+unique_bivalv_mentions$column_names
+unique_bivalv_mentions$cell_values
+```
+
+
+
+
+
+```{r}
+# Filter and transform hydrozoa data
+bivalv_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(
+    str_detect(species_name, regex("bivalv", ignore_case = TRUE)) |
+      str_detect(class, regex("bivalv", ignore_case = TRUE)) |
+      str_detect(species_id, regex("bivalv", ignore_case = TRUE))
+  ) %>%
+  filter(!(str_detect(species_id, "total") & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("edna", "plankton", "blade_abundance")),
+    y_axis = factor(origin_label,
+                    levels = c("edna", "plankton", "blade_abundance"))
+  ) %>%
+  arrange(parsed_date, station_no)
+
+# Deduplicate by averaging across sample_order × y_axis
+bivalv_cleaned <- bivalv_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# Pivot to wide matrix and convert to matrix
+bivalv_heatmap_mat <- bivalv_cleaned %>%
+  pivot_wider(names_from = sample_order, values_from = measurement_value, values_fill = 0) %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# Z-score scaling
+bivalv_mat_scaled <- t(scale(t(bivalv_heatmap_mat)))
+
+# Color scale using viridis magma
+viridis_magma <- viridis(100, option = "M")
+value_range <- range(bivalv_mat_scaled, na.rm = TRUE)
+col_fun <- colorRamp2(seq(value_range[1], value_range[2], length.out = 100), viridis_magma)
+
+# Build annotation: station below, date above
+bivalv_sample_meta <- bivalv_heatmap %>%
+  select(sample_order, parsed_date, station_no) %>%
+  distinct() %>%
+  arrange(parsed_date, station_no)
+
+station_labels <- paste("S", bivalv_sample_meta$station_no)
+date_labels <- format(bivalv_sample_meta$parsed_date, "%b %d")
+date_label_vector <- rep("", length(date_labels))
+date_label_vector[seq(2, length(date_labels), by = 3)] <- date_labels[seq(2, length(date_labels), by = 3)]
+
+bivalv_top_anno <- HeatmapAnnotation(
+  Date = anno_text(date_label_vector, rot = 0, gp = gpar(fontsize = 8)),
+  Station = anno_text(station_labels, rot = 90, gp = gpar(fontsize = 6)),
+  annotation_name_side = "left",
+  annotation_height = unit(c(1, 2), "lines")
+)
+# Extract metadata from column names
+col_meta <- strsplit(colnames(bivalv_mat_scaled), "_")
+dates <- sapply(col_meta, `[`, 1)
+stations <- paste0("S", sapply(col_meta, `[`, 2))  # Add S prefix
+
+# Format dates
+formatted_dates <- format(as.Date(dates), "%b %d")
+
+# Blank out most dates (e.g., every 3rd one only)
+sparse_date_labels <- rep("", length(formatted_dates))
+sparse_date_labels[seq(2, length(formatted_dates), by = 3)] <- formatted_dates[seq(2, length(formatted_dates), by = 3)]
+```
+
+
+```{r}
+
+
+# Create annotations
+top_anno <- HeatmapAnnotation(
+  Station = anno_text(stations, rot = 0,  just = "center", gp = gpar(fontsize = 10)),
+  annotation_name_side = "left",
+  annotation_height = unit(0.6, "lines"),
+  which = "column"
+)
+
+bottom_anno <- HeatmapAnnotation(
+  Date = anno_text(sparse_date_labels, rot = 0,  just = c("top", "right"), gp = gpar(fontsize =10)),
+  annotation_name_side = "left",
+  annotation_height = unit(1, "lines"),
+  which = "column",
+    gap = unit(5, "mm")
+)
+
+# Extract row split groups from rownames
+row_groups <- case_when(
+  grepl("edna", rownames(bivalv_mat_scaled), ignore.case = TRUE) ~ "OTU",
+  grepl("plankton", rownames(bivalv_mat_scaled), ignore.case = TRUE) ~ "Plankton",
+  grepl("blade", rownames(bivalv_mat_scaled), ignore.case = TRUE) ~ "Blade abundance",
+  TRUE ~ "Other"
+)
+row_groups <- factor(row_groups, levels = c("OTU", "Plankton", "Blade abundance"))
+
+```
+
+
+```{r}
+
+bivalv <- Heatmap(
+  bivalv_mat_scaled,
+  name = "Z-score",
+  height = unit(nrow(bivalv_mat_scaled) * 10, "mm"),
+  row_split = row_groups,
+  col = col_fun_global_fix,
+  na_col = "grey90",
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = FALSE,                         
+  row_title_side = "left",                        
+  row_title_gp = gpar(fontsize = 10),
+  row_title_rot = 0,
+  show_column_names = FALSE,
+  top_annotation = NULL,
+  bottom_annotation = NULL,
+  heatmap_legend_param = list(title = "Z - Score")
+)
+draw(bivalv)
+
+
+```
+
+```{r}
+svg("bivalv_heatmap.svg", width = 14, height = 8)
+draw(m)
+dev.off()
+```
+
+

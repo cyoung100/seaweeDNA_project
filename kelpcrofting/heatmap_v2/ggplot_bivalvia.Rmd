@@ -1,0 +1,260 @@
+-
+
+```{r}
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+
+theme_set(
+  theme_minimal(base_size = 14) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 14),
+      axis.text        = element_text(size = 14),
+      legend.title     = element_text(size = 14),
+      legend.text      = element_text(size = 14),
+      strip.text       = element_text(size = 14)
+    )
+)
+
+# 1) Read & compute per‐cm² abundances
+bivalvia <- read.csv("bivalvia_heatmap.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    # Saccharina‐type blades
+    across(ends_with("_sacc_abd"), ~ .x / blade_area,
+           .names = "{str_replace(.col,'_abd','_p_cm')}"),
+    # Alaria‐type blades
+    across(ends_with("_ala_abd"),  ~ .x / blade_area,
+           .names = "{str_replace(.col,'_abd','_p_cm')}")
+  ) %>%
+  select(-blade_area, -ends_with("_abd"))
+
+# 2) Pivot longer & classify + initial y_axis
+biv_long <- bivalvia %>%
+  pivot_longer(
+    cols      = -c(sample_code, date, station_no, seaweed, site, day, month, year, parsed_date),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_")      ~ "eDNA",
+      str_detect(species_id, "^plankton_") ~ "plankton",
+      str_detect(species_id, "_p_cm$")     ~ "blade",
+      TRUE                                 ~ NA_character_
+    ),
+    measurement_origin = case_when(
+      measurement_type == "eDNA"      ~ "Plankton eDNA (RSV)",
+      measurement_type == "plankton"  ~ "Plankton Abundance (cell/L)",
+      measurement_type == "blade" &
+        str_detect(species_id, "_sacc_p_cm$") ~ "Blade Abundance – Saccharina (ind/cm²)",
+      measurement_type == "blade" &
+        str_detect(species_id, "_ala_p_cm$") ~ "Blade Abundance – Alaria (ind/cm²)",
+      TRUE                             ~ NA_character_
+    ),
+    # only log-transform eDNA
+    measurement_value = if_else(
+      measurement_type == "eDNA",
+      log1p(measurement_value),
+      measurement_value
+    ),
+    # initial y_axis
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      measurement_origin == "Plankton Abundance (cell/L)" &
+        species_id == "plankton_bivalvia"         ~ "Bivalvia Plankton Ab\n(cell/L)",
+      measurement_origin == "Blade Abundance – Saccharina (ind/cm²)" ~
+        recode(species_id,
+          bivalve_sacc_p_cm       = "Bivalvia Blade Ab - Sac",
+          mytilus_sacc_p_cm       = "Mytilus Blade Ab - Sac",
+          ostrea_sacc_p_cm        = "Ostrea Blade Ab - Sac",
+          pecten_sacc_p_cm        = "Pecten Blade Ab - Sac",
+          scallop_brown_sacc_p_cm = "Scallop Blade Ab - Sac"
+        ),
+      measurement_origin == "Blade Abundance – Alaria (ind/cm²)" ~
+        recode(species_id,
+          bivalve_ala_p_cm        = "Bivalvia Blade Ab - Ala",
+          mytilus_ala_p_cm        = "Mytilus Blade Ab - Ala",
+          ostrea_ala_p_cm         = "Ostrea Blade Ab - Ala",
+          pecten_ala_p_cm         = "Pecten Blade Ab - Ala",
+          scallop_brown_ala_p_cm  = "Scallop Blade Ab - Ala"
+        ),
+      TRUE ~ species_id
+    )
+  ) %>%
+  filter(!is.na(measurement_origin)) %>%
+  # 2b) fct_recode for RSV & plankton
+  mutate(
+    y_axis = fct_recode(
+      y_axis,
+      "Mytilus edulis (RSV)"             = "RSV otu_mytilus_edulis",
+      "Mytilus edulis complex (RSV)"     = "RSV otu_mytilus_edulis_complex",
+      "Musculus sp. (RSV)"               = "RSV otu_musculus_sp",
+      "Dosinia lupinus (RSV)"            = "RSV otu_dosinia_lupinus",
+      "Dosinia exoleta (RSV)"            = "RSV otu_dosinia_exoleta",
+      "Kurtiella bidentata (RSV)"        = "RSV otu_kurtiella_bidentata",
+      "Montacutona sigalionidcola (RSV)" = "RSV otu_montacutona_sigalionidcola",
+      "Mytilidae sp. (RSV)"              = "RSV otu_mytilidae",
+      "Bivalvia sp. (RSV)"               = "RSV otu_bivalvia_sp",
+      "Bivalvia Plankton Ab (cell/L)"    = "Bivalvia Plankton Ab\n(cell/L)"
+    )
+  ) %>%
+  # 2c) drop “S” prefix from station
+  mutate(
+    station      = as.character(station_no),
+    sample_order = paste(parsed_date, station, sep = "_")
+  )
+
+# 3) Set plotting order & axis labels
+order_ids <- biv_long %>%
+  distinct(parsed_date, station, sample_order) %>%
+  arrange(parsed_date, as.integer(station)) %>%
+  pull(sample_order)
+
+biv_long <- biv_long %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+parts          <- strsplit(as.character(order_ids), "_")
+dates          <- as.Date(sapply(parts, `[`, 1))
+station_labels <- sapply(parts, `[`, 2)    # now just numbers
+date_labels    <- ifelse(!duplicated(dates),
+                         format(dates, "%d %b"),
+                         "")
+
+# 4) Split into 4 panels
+d_e    <- filter(biv_long, measurement_origin == "Plankton eDNA (RSV)")
+d_p    <- filter(biv_long, measurement_origin == "Plankton Abundance (cell/L)")
+d_sacc <- filter(biv_long, measurement_origin == "Blade Abundance – Saccharina (ind/cm²)")
+d_ala  <- filter(biv_long, measurement_origin == "Blade Abundance – Alaria (ind/cm²)")
+
+# 5) Compute maxima for blade panels
+max_sacc <- max(d_sacc$measurement_value, na.rm = TRUE)
+max_ala  <- max(d_ala$measurement_value,  na.rm = TRUE)
+
+# 6) Define color scales
+scale_e <- scale_fill_gradient(
+  low      = "#fff5f0", high = "#67000d",
+  name     = "eDNA log(RSV)", na.value = "grey90"
+)
+scale_p <- scale_fill_gradient(
+  low      = "#fff5f0", high = "#67000d",
+  name     = "Plankton Ab\n(cell/L)", na.value = "grey90"
+)
+scale_s <- scale_fill_gradient(
+  low      = "#fff5f0", high = "#67000d",
+  limits   = c(0, max_sacc), oob = scales::squish,
+  name     = "Blade Ab (Sac)\nind/cm²", na.value = "grey90"
+)
+scale_a <- scale_fill_gradient(
+  low      = "#fff5f0", high = "#67000d",
+  limits   = c(0, max_ala),  oob = scales::squish,
+  name     = "Blade Ab (Ala)\nind/cm²", na.value = "grey90"
+)
+
+# 7) Shared x‐axis spec
+x_axis <- scale_x_continuous(
+  limits = c(0.5, length(order_ids)+0.5),
+  breaks = seq_along(order_ids),
+  labels = date_labels,
+  name   = "Date"
+)
+
+# 8) Build each panel
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank()
+  ) +
+  ylab(NULL)
+
+p2 <- ggplot(d_p, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank()
+  ) +
+  ylab(NULL)
+
+p3 <- ggplot(d_sacc, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_s + x_axis +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank()
+  ) +
+  ylab(NULL)
+
+p4 <- ggplot(d_ala, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_a + x_axis +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size=10),
+    axis.title.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank()
+  ) +
+  ylab(NULL)
+
+# 9) Combine with patchwork
+final_plot <- (p1 / p2 /p3 / p4) +
+  plot_layout(heights = c(3, 1, 1, 1), guides = "collect") &
+   theme(
+    legend.position     = "right",
+    legend.title        = element_text(size=10),
+    legend.text         = element_text(size=10),
+    legend.key.height   = unit(0.8, "lines"),
+    legend.key.width    = unit(0.8, "lines"))
+
+print(final_plot)
+```

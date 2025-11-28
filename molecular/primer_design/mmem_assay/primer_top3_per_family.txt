@@ -1,0 +1,10 @@
+Top 3 primer designs per family:
+
+== rnd-1_family-1_2262_eurofin ==
+• rnd-1_family-1_2262_eurofin: 22F/21R nt → product 107.5 bp.
+Tm: 46.0°C (F) vs 45.3°C (R), ΔTm = 0.7°C.
+GC: 40.9% (F), 42.9% (R).
+3′ interactions: self 8/17 bp (F/R), hetero 9 bp.
+Hairpins (3′ stem): 0 bp (F), 0 bp (R).
+Recommended Ta: ~42°C. QC: check_hetero3p. Score: 148.71.
+

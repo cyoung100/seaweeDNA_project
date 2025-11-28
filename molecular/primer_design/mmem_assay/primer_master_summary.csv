@@ -1,0 +1,2 @@
+timestamp_utc,family,forward,reverse,len_f,len_r,tm_f_C,tm_r_C,tm_delta_C,gc_f_pct,gc_r_pct,hairpin_f_bp,hairpin_r_bp,self3p_f_bp,self3p_r_bp,hetero3p_bp,Ta_recommended_C,product_bp,qc_flag
+2025-11-13 11:14:47,rnd-1_family-1_2262_eurofin,AGAATACCACATAGCAGTTTCC,GCGATGCAAAACTCAAAGTAG,22,21,45.95631116288698,45.29397350054933,0.6623376623376558,40.90909090909091,42.857142857142854,0,0,8,17,9,42,107.5,check_hetero3p

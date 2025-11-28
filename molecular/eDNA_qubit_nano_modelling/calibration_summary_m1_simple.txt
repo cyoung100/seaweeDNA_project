@@ -1,0 +1,43 @@
+QUBIT Calibration Summary
+=========================
+Date: 2025-10-24 13:44 BST
+
+Calibration samples used: 15
+Excluded below LOD: 0  (LOD_Q = 0.050 ng/µL)
+Winsor limits: d230 [-1.107, 0.897], d280 [-0.075, 0.177]
+
+Chosen model: m1_simple
+Formula: logQ ~ logND + d280_w
+R^2 (robust): 0.8548
+Robust scale: 0.1417
+
+Coefficients:
+(Intercept)       logND      d280_w 
+ -0.8564944   1.2289105  -1.7638826 
+
+95% Robust CIs:
+                2.5 %     97.5 %
+(Intercept) -1.465513 -0.2474759
+logND        0.916043  1.5417781
+d280_w      -3.239315 -0.2884500
+
+In-sample GMFE: 1.31x
+In-sample Median Fold Error: 1.17x
+CV RMSE (log10): 0.264
+CV Median Fold Error: 1.52x
+CV 75th% Fold Error: 1.71x
+
+Domain of validity (do not extrapolate beyond):
+  ND_conc:  [27.550, 204.770] ng/µL
+  Qubit:    [4.360, 55.400] ng/µL
+  260/280:  [1.815, 2.197]
+  260/230:  [0.796, 3.518]
+  d280_w:   [-0.075, 0.177]
+  d230_w:   [-1.107, 0.897]
+
+Files written:
+  Predictions + PIs: nanodrop_to_qubit_predictions_m1_simple.csv
+  Robust weights:    calibration_point_weights_m1_simple.csv
+  Obs vs Pred plot:  calibration_obs_vs_pred_m1_simple.png
+  Residuals plot:    calibration_resid_vs_fitted_m1_simple.png
+  Domain table:      calibration_domain_m1_simple.csv

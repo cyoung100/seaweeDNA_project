@@ -1,0 +1,360 @@
+```{r}
+# ==============================================================================
+# QUBIT CALIBRATION: End-to-end script
+# - LOD handling
+# - Robust fit (lmrob) with retries (fixes non-convergence)
+# - Compare full vs simpler model (drop d230_w)
+# - K-fold CV (same folds), fold-error metrics
+# - Predictions + 95% prediction intervals, exports
+# - Robust weights + domain of validity + diagnostics
+# ==============================================================================
+
+# ---- Packages ----
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(readr)
+  library(ggplot2)
+  library(robustbase)
+})
+
+cat("Loading data...\n")
+cal <- read_csv("matt/matt_edna_qubit_correction.csv", show_col_types = FALSE)
+nd  <- read_csv("matt/matt_nano_22_10.csv", show_col_types = FALSE)
+
+# ---- Config (safe defaults) ----
+if (!exists("CONFIG")) {
+  CONFIG <- list(
+    log_floor    = 0.1,           # floor before log10 to avoid -Inf
+    winsor_probs = c(0.05, 0.95), # 5–95% winsorization
+    select_rule  = list(
+      cv_rmse_win     = 0.02,     # prefer lower CV RMSE; if within 0.02 log10, call it a tie
+      scale_tie_break = TRUE      # on tie, prefer lower robust scale; prefer simpler if still tie
+    ),
+    LOD_Q = 0.05                  # Qubit LOD/LLQ for censoring
+  )
+}
+
+# ---- Standardise column names (guard 'a60_230' typo) ----
+fix_a260_230 <- function(df) {
+  if (!"a260_230" %in% names(df) && "a60_230" %in% names(df)) {
+    df <- dplyr::rename(df, a260_230 = .data[["a60_230"]])
+  }
+  df
+}
+cal <- fix_a260_230(cal)
+nd  <- fix_a260_230(nd)
+
+# ---- Validate required columns ----
+required_cal <- c("sample_id","ND_conc","a260_280","a260_230","qubit_conc")
+required_nd  <- c("sample_id","ND_conc","a260_280","a260_230")
+stopifnot(all(required_cal %in% names(cal)))
+stopifnot(all(required_nd  %in% names(nd)))
+
+cat(sprintf("Calibration samples: %d | NanoDrop samples: %d\n", nrow(cal), nrow(nd)))
+
+# ---- Handle blanks / below-LOD in calibration ----
+cal <- cal %>%
+  mutate(is_below_lod = is.na(qubit_conc) | qubit_conc <= CONFIG$LOD_Q)
+cal_train <- cal %>% filter(!is_below_lod)
+cat(sprintf("Calibration n used: %d | Excluded below LOD: %d\n",
+            nrow(cal_train), sum(cal$is_below_lod)))
+
+# ---- Feature engineering ----
+engineer_features <- function(df, winsor_limits = NULL, is_calibration = TRUE) {
+  if (is_calibration) {
+    df <- df %>%
+      mutate(
+        logND = log10(pmax(ND_conc, CONFIG$log_floor)),
+        logQ  = log10(pmax(qubit_conc, CONFIG$log_floor)),
+        d280  = `a260_280` - 2,
+        d230  = `a260_230` - 2
+      )
+  } else {
+    df <- df %>%
+      mutate(
+        logND = log10(pmax(ND_conc, CONFIG$log_floor)),
+        d280  = `a260_280` - 2,
+        d230  = `a260_230` - 2
+      )
+  }
+
+  df <- df %>% distinct(sample_id, .keep_all = TRUE)
+
+  if (!is.null(winsor_limits)) {
+    df <- df %>%
+      mutate(
+        d230_w = pmin(pmax(d230, winsor_limits$d230[1]), winsor_limits$d230[2]),
+        d280_w = pmin(pmax(d280, winsor_limits$d280[1]), winsor_limits$d280[2])
+      )
+    return(df)
+  } else {
+    limits <- list(
+      d230 = quantile(df$d230, CONFIG$winsor_probs, na.rm = TRUE),
+      d280 = quantile(df$d280, CONFIG$winsor_probs, na.rm = TRUE)
+    )
+    df <- df %>%
+      mutate(
+        d230_w = pmin(pmax(d230, limits$d230[1]), limits$d230[2]),
+        d280_w = pmin(pmax(d280, limits$d280[1]), limits$d280[2])
+      )
+    return(list(data = df, limits = limits))
+  }
+}
+
+cat("\nEngineering features...\n")
+cal_result    <- engineer_features(cal_train, is_calibration = TRUE)
+cal_train     <- cal_result$data
+winsor_limits <- cal_result$limits
+
+cat(sprintf("Winsor limits  d230:[%.3f, %.3f]  d280:[%.3f, %.3f]\n",
+            winsor_limits$d230[1], winsor_limits$d230[2],
+            winsor_limits$d280[1], winsor_limits$d280[2]))
+
+# ---- QC: drop any engineered NAs (should be none) ----
+missing_summary <- cal_train %>%
+  summarise(across(c(logQ, logND, d230_w, d280_w), ~sum(is.na(.))))
+if (any(missing_summary > 0)) {
+  cat("\nWarning: Missing values detected (post-engineering):\n")
+  print(missing_summary)
+  cal_train <- cal_train %>% filter(complete.cases(logQ, logND, d230_w, d280_w))
+  cat(sprintf("Rows after removing missing: %d\n", nrow(cal_train)))
+}
+
+# ---- Robust fits with retries (fix non-convergence) ----
+safe_lmrob <- function(formula, data) {
+  ctrl1 <- lmrob.control(setting = "KS2014",
+                         maxit.scale = 2000,
+                         max.it      = 400,
+                         refine.tol  = 1e-7,
+                         trace       = FALSE)
+  fit <- try(lmrob(formula, data = data, control = ctrl1), silent = TRUE)
+  if (!inherits(fit, "try-error") && is.finite(fit$scale)) return(fit)
+
+  ctrl2 <- lmrob.control(setting = "KS2014",
+                         init        = "S",
+                         maxit.scale = 4000,
+                         max.it      = 800,
+                         refine.tol  = 1e-6,
+                         trace       = FALSE)
+  fit <- try(lmrob(formula, data = data, control = ctrl2), silent = TRUE)
+  if (!inherits(fit, "try-error") && is.finite(fit$scale)) return(fit)
+
+  ctrl3 <- lmrob.control(setting = "KS2014",
+                         psi         = "huber",
+                         maxit.scale = 4000,
+                         max.it      = 800,
+                         refine.tol  = 1e-6,
+                         trace       = FALSE)
+  fit <- lmrob(formula, data = data, control = ctrl3)
+  fit
+}
+
+cat("\n=== Model fits (robust with retries) ===\n")
+m1_full   <- safe_lmrob(logQ ~ logND + d230_w + d280_w, data = cal_train)
+m1_simple <- safe_lmrob(logQ ~ logND + d280_w,           data = cal_train)
+
+cat(sprintf("m1_full    R²=%.4f  scale=%.4f\n",
+            summary(m1_full)$r.squared, m1_full$scale))
+cat(sprintf("m1_simple  R²=%.4f  scale=%.4f\n",
+            summary(m1_simple)$r.squared, m1_simple$scale))
+
+# ---- K-fold CV comparison (same folds) ----
+set.seed(1)
+K <- min(5, nrow(cal_train))
+fold_id <- sample(rep(1:K, length.out = nrow(cal_train)))
+
+cv_err <- function(mod_formula) {
+  cv <- lapply(1:K, function(k){
+    trn <- cal_train[fold_id != k, , drop = FALSE]
+    tst <- cal_train[fold_id == k, , drop = FALSE]
+    fit <- safe_lmrob(mod_formula, trn)
+    data.frame(obs=tst$logQ, pred=predict(fit, newdata=tst))
+  }) %>% dplyr::bind_rows()
+  rmse    <- sqrt(mean((cv$obs - cv$pred)^2))
+  medfold <- median(10^abs(cv$obs - cv$pred))
+  q75fold <- unname(quantile(10^abs(cv$obs - cv$pred), 0.75))
+  c(rmse = rmse, med_fold = medfold, q75_fold = q75fold)
+}
+
+cv_full   <- cv_err(logQ ~ logND + d230_w + d280_w)
+cv_simple <- cv_err(logQ ~ logND + d280_w)
+
+cat(sprintf("\nCV (log10 RMSE | median× | 75th×)\n  full   : %.3f | %.2fx | %.2fx\n  simple : %.3f | %.2fx | %.2fx\n",
+            cv_full["rmse"], cv_full["med_fold"], cv_full["q75_fold"],
+            cv_simple["rmse"], cv_simple["med_fold"], cv_simple["q75_fold"]))
+
+# ---- Selection: prefer lower CV RMSE; if within delta, use lower scale; then simplicity ----
+delta <- CONFIG$select_rule$cv_rmse_win
+choose_simple <- function() {
+  if (abs(cv_full["rmse"] - cv_simple["rmse"]) <= delta) {
+    if (CONFIG$select_rule$scale_tie_break) {
+      if (m1_simple$scale < m1_full$scale - 1e-9) return(TRUE)
+      if (abs(m1_simple$scale - m1_full$scale) <= 1e-6) return(TRUE) # prefer simpler on exact tie
+      return(FALSE)
+    } else {
+      return(TRUE)
+    }
+  } else {
+    return(cv_simple["rmse"] < cv_full["rmse"])
+  }
+}
+use_simple <- choose_simple()
+best_model <- if (use_simple) m1_simple else m1_full
+best_tag   <- if (use_simple) "m1_simple" else "m1_full"
+cat(sprintf("\n=== CHOSEN MODEL: %s ===\n", best_tag))
+print(coef(best_model))
+cat("\nRobust 95% CIs:\n"); print(confint(best_model))
+
+# ---- Save robust weights (on chosen model) ----
+cal_train$.w <- best_model$rweights
+weights_out  <- cal_train %>%
+  arrange(.w) %>%
+  select(sample_id, qubit_conc, ND_conc, a260_280, a260_230, d230_w, d280_w, .w)
+weights_file <- sprintf("calibration_point_weights_%s.csv", best_tag)
+write_csv(weights_out, weights_file)
+cat(sprintf("Saved robust weights to: %s\n", weights_file))
+
+# ---- Predict for NanoDrop dataset with 95% PIs ----
+nd_prep <- engineer_features(nd, winsor_limits = winsor_limits, is_calibration = FALSE)
+
+pi_nd <- as.data.frame(predict(best_model, newdata = nd_prep, interval = "prediction"))
+names(pi_nd) <- c("logQ_pred","logQ_lwr","logQ_upr")
+
+nd_preds <- nd_prep %>%
+  bind_cols(pi_nd) %>%
+  mutate(
+    qubit_pred = pmax(10^logQ_pred, 0),
+    qubit_lb   = pmax(10^logQ_lwr, 0),
+    qubit_ub   = pmax(10^logQ_upr, 0),
+    ND_to_Qb_cf = ifelse(ND_conc > 0, qubit_pred / ND_conc, NA_real_)
+  ) %>%
+  select(sample_id, ND_conc, a260_280, a260_230, d230_w, d280_w,
+         qubit_pred, qubit_lb, qubit_ub, ND_to_Qb_cf)
+
+pred_file <- sprintf("nanodrop_to_qubit_predictions_%s.csv", best_tag)
+write_csv(nd_preds, pred_file)
+cat(sprintf("\nWrote predictions (with PIs) to: %s\n", pred_file))
+
+# ---- Diagnostics on calibration (for chosen model) ----
+cal_diag <- cal_train %>%
+  mutate(
+    .fitted = predict(best_model, newdata = cal_train),
+    .resid  = logQ - .fitted,
+    Q_obs   = qubit_conc,
+    Q_pred  = 10^.fitted
+  )
+
+p1 <- ggplot(cal_diag, aes(x = Q_obs, y = Q_pred)) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2) +
+  geom_point() +
+  labs(x = "Observed Qubit (ng/µL)", y = "Predicted Qubit (ng/µL)",
+       title = sprintf("Calibration: Observed vs Predicted (%s)", best_tag))
+
+p2 <- ggplot(cal_diag, aes(x = .fitted, y = .resid)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_point() +
+  labs(x = "Fitted log10(Qubit)", y = "Residual",
+       title = sprintf("Residuals vs Fitted (%s)", best_tag))
+
+print(p1); print(p2)
+plot_obs_pred_file <- sprintf("calibration_obs_vs_pred_%s.png", best_tag)
+plot_resid_file    <- sprintf("calibration_resid_vs_fitted_%s.png", best_tag)
+ggsave(plot_obs_pred_file, p1, width = 5.5, height = 4.5, dpi = 300)
+ggsave(plot_resid_file,    p2, width = 5.5, height = 4.5, dpi = 300)
+cat(sprintf("Saved diagnostic plots: %s, %s\n", plot_obs_pred_file, plot_resid_file))
+
+# ---- Accuracy metrics (fold error, in-sample & CV) ----
+res_log <- cal_diag$.resid
+GMFE  <- 10^mean(abs(res_log), na.rm = TRUE)
+MedFE <- 10^median(abs(res_log), na.rm = TRUE)
+cat(sprintf("In-sample GMFE: %.2fx | Median Fold Error: %.2fx\n", GMFE, MedFE))
+
+# Reuse previously computed CV summaries for chosen model
+if (use_simple) {
+  cv_rmse <- cv_simple["rmse"]; cv_med <- cv_simple["med_fold"]; cv_q75 <- cv_simple["q75_fold"]
+} else {
+  cv_rmse <- cv_full["rmse"];   cv_med <- cv_full["med_fold"];   cv_q75 <- cv_full["q75_fold"]
+}
+cat(sprintf("CV RMSE (log10): %.3f | CV Median Fold Error: %.2fx | CV 75th%%: %.2fx\n",
+            cv_rmse, cv_med, cv_q75))
+
+# ---- Ranges to report (domain of validity) ----
+rng <- cal_train %>% summarise(
+  ND_min = min(ND_conc, na.rm=TRUE),
+  ND_max = max(ND_conc, na.rm=TRUE),
+  Q_min  = min(qubit_conc, na.rm=TRUE),
+  Q_max  = max(qubit_conc, na.rm=TRUE),
+  a280_min = min(a260_280, na.rm=TRUE),
+  a280_max = max(a260_280, na.rm=TRUE),
+  a230_min = min(a260_230, na.rm=TRUE),
+  a230_max = max(a260_230, na.rm=TRUE),
+  d280_min = min(d280_w, na.rm=TRUE),
+  d280_max = max(d280_w, na.rm=TRUE),
+  d230_min = min(d230_w, na.rm=TRUE),
+  d230_max = max(d230_w, na.rm=TRUE)
+)
+rng_file <- sprintf("calibration_domain_%s.csv", best_tag)
+write_csv(rng, rng_file)
+print(rng)
+cat(sprintf("Saved domain-of-validity table to: %s\n", rng_file))
+# ==============================================================================
+
+```
+
+```{r}
+# ---- Text summary (human-readable) ----
+sum_file <- sprintf("calibration_summary_%s.txt", best_tag)
+
+coef_lines <- capture.output(print(coef(best_model)))
+ci_lines   <- capture.output(print(confint(best_model)))
+
+rng_vals <- rng[1, ]
+summary_lines <- c(
+  "QUBIT Calibration Summary",
+  "=========================",
+  sprintf("Date: %s", format(Sys.time(), "%Y-%m-%d %H:%M %Z")),
+  "",
+  sprintf("Calibration samples used: %d", nrow(cal_train)),
+  sprintf("Excluded below LOD: %d  (LOD_Q = %.3f ng/µL)", sum(cal$is_below_lod), CONFIG$LOD_Q),
+  sprintf("Winsor limits: d230 [%.3f, %.3f], d280 [%.3f, %.3f]",
+          winsor_limits$d230[1], winsor_limits$d230[2],
+          winsor_limits$d280[1], winsor_limits$d280[2]),
+  "",
+  sprintf("Chosen model: %s", best_tag),
+  sprintf("Formula: %s", paste(deparse(formula(best_model)), collapse = " ")),
+  sprintf("R^2 (robust): %.4f", summary(best_model)$r.squared),
+  sprintf("Robust scale: %.4f", best_model$scale),
+  "",
+  "Coefficients:",
+  coef_lines,
+  "",
+  "95% Robust CIs:",
+  ci_lines,
+  "",
+  sprintf("In-sample GMFE: %.2fx", GMFE),
+  sprintf("In-sample Median Fold Error: %.2fx", MedFE),
+  sprintf("CV RMSE (log10): %.3f", cv_rmse),
+  sprintf("CV Median Fold Error: %.2fx", cv_med),
+  sprintf("CV 75th%% Fold Error: %.2fx", cv_q75),
+  "",
+  "Domain of validity (do not extrapolate beyond):",
+  sprintf("  ND_conc:  [%.3f, %.3f] ng/µL", rng_vals$ND_min,  rng_vals$ND_max),
+  sprintf("  Qubit:    [%.3f, %.3f] ng/µL", rng_vals$Q_min,   rng_vals$Q_max),
+  sprintf("  260/280:  [%.3f, %.3f]",      rng_vals$a280_min, rng_vals$a280_max),
+  sprintf("  260/230:  [%.3f, %.3f]",      rng_vals$a230_min, rng_vals$a230_max),
+  sprintf("  d280_w:   [%.3f, %.3f]",      rng_vals$d280_min, rng_vals$d280_max),
+  sprintf("  d230_w:   [%.3f, %.3f]",      rng_vals$d230_min, rng_vals$d230_max),
+  "",
+  "Files written:",
+  sprintf("  Predictions + PIs: %s", pred_file),
+  sprintf("  Robust weights:    %s", weights_file),
+  sprintf("  Obs vs Pred plot:  %s", plot_obs_pred_file),
+  sprintf("  Residuals plot:    %s", plot_resid_file),
+  sprintf("  Domain table:      %s", rng_file)
+)
+
+writeLines(summary_lines, sum_file)
+cat(sprintf("Saved summary to: %s\n", sum_file))
+
+```
+

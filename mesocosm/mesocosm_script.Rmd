@@ -1,0 +1,253 @@
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(readxl)
+library(lme4)
+library(ggpubr)
+```
+
+
+```{r}
+meso <- read.csv("mesocosm_joined.csv")
+```
+#in data colony area was calculated by multiplying max length by Pi for M.membranacea and by 2/3 pi for E.pilosa, several frond IDs recorded during sampling do not appear in meta indicating misreading during collection. 
+
+```{r}
+#juvenile seaweed
+
+juvenile<- meso_join %>%
+  filter(grepl("^Y", seaweed_id)) %>% 
+  group_by(seaweed_id, date_sampled) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         sp %in% c("mm", "ep")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    date_sampled = factor(date_sampled,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+
+juvenile %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = sp)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ date_sampled) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("mm" = "steelblue", "ep" = "tomato"),
+    labels = c("mm" = "M. membranacea",
+               "ep" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#filter adult seaweed structure factors, remove NAs
+
+adult<- meso_join %>%
+  filter(grepl("^A", seaweed_id)) %>% 
+  group_by(seaweed_id, date_sampled) %>% 
+  filter(!is.na(turbulence),
+       turbulence != "",
+         sp %in% c("mm", "ep")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment,
+                                levels = c("C", "N", "P")),
+    date_sampled = factor(date_sampled,
+                          levels = c("04/06/2025", "12/06/2025", "02/07/2025"))
+  )
+
+adult %>% 
+  ggplot(aes(x = nutrient_treatment, y = colony_area, colour = sp)) +
+  geom_boxplot() +
+  facet_grid(turbulence~ date_sampled) +
+  labs(y = "Colony area (cm²)",
+       x = "Nutrient Treatment",
+       colour = "Species") +   
+  scale_colour_manual(
+    values = c("mm" = "steelblue", "ep" = "tomato"),
+    labels = c("mm" = "M. membranacea",
+               "ep" = "E. pilosa")  
+  ) +
+  theme_minimal()
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# 1) Count colonies per tagged frond (mm & ep only), omit "notag" and NA treatments/tanks
+colony_counts_adult <- adult %>%
+  filter(!is.na(turbulence),
+         turbulence != "",
+         sp %in% c("mm", "ep")) %>%
+  group_by(seaweed_id, date_sampled, sp,
+           nutrient_treatment, turbulence) %>%
+  summarise(n_colonies = n(), .groups = "drop") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment, levels = c("C","N","P")),
+    date_sampled       = factor(date_sampled, levels = c("04/06/2025","12/06/2025","02/07/2025")),
+    turbulence         = factor(turbulence, levels = c("Low","High")),  
+    sp                 = factor(sp, levels = c("ep","mm"), 
+                                labels = c("E. pilosa","M. membranacea"))
+  )
+
+# 2) Plot
+ggplot(colony_counts_adult, aes(x = nutrient_treatment, y = n_colonies, colour = sp)) +
+  geom_boxplot(outlier.shape = NA, width = 0.65) +
+  geom_jitter(position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.65), alpha = 0.6) +
+  stat_summary(fun = mean, geom = "point",
+               position = position_dodge(width = 0.65), shape = 18, size = 2.6) +
+  facet_grid(turbulence ~ date_sampled) +
+  labs(x = "Nutrient Treatment", y = "Colonies per tagged frond", colour = "Species") 
+```
+
+```{r}
+# 1) Count colonies per tagged frond (mm & ep only), omit "notag" and NA treatments/tanks
+colony_counts_juvenile <- juvenile %>%
+  filter(!is.na(turbulence),
+         turbulence != "",
+         sp %in% c("mm", "ep")) %>%
+  group_by(seaweed_id, date_sampled, sp,
+           nutrient_treatment, turbulence) %>%
+  summarise(n_colonies = n(), .groups = "drop") %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment, levels = c("C","N","P")),
+    date_sampled       = factor(date_sampled, levels = c("04/06/2025","12/06/2025","02/07/2025")),
+    turbulence         = factor(turbulence, levels = c("Low","High")),  
+    sp                 = factor(sp, levels = c("ep","mm"), 
+                                labels = c("E. pilosa","M. membranacea"))
+  )
+
+# 2) Plot
+ggplot(colony_counts_juvenile, aes(x = nutrient_treatment, y = n_colonies, colour = sp)) +
+  geom_boxplot(outlier.shape = NA, width = 0.65) +
+  geom_jitter(position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.65), alpha = 0.6) +
+  stat_summary(fun = mean, geom = "point",
+               position = position_dodge(width = 0.65), shape = 18, size = 2.6) +
+  facet_grid(turbulence ~ date_sampled) +
+  labs(x = "Nutrient Treatment", y = "Colonies per tagged frond", colour = "Species") 
+```
+
+
+
+```{r}
+hist(adult$colony_area) # very skewed]
+hist(log(adult$colony_area)) #better but not sufficent
+
+```
+
+```{r}
+hist(sqrt(adult$colony_area))
+hist((adult$colony_area)^(1/3))
+```
+
+```{r}
+library(dplyr)
+library(rstatix)
+
+d <- meso_join %>%
+  filter(!is.na(turbulence), turbulence != "",
+         sp %in% c("mm","ep")) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment, levels = c("C","N","P")),
+    date_sampled       = factor(date_sampled, levels = c("04/06/2025","12/06/2025","02/07/2025")),
+    turbulence         = factor(turbulence, levels = c("Low","High")),
+    sp                 = factor(sp, levels = c("ep","mm"))
+  )
+
+# A) Turbulence effect within each Species × Nutrient (2 levels → Wilcoxon)
+turbl_tests <- d %>%
+  group_by(sp, nutrient_treatment) %>%
+  wilcox_test(colony_area ~ turbulence, exact = FALSE) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(sp, nutrient_treatment)
+
+# B) Species differences within each Nutrient × Turbulence (Wilcoxon)
+species_tests <- d %>%
+  group_by(nutrient_treatment, turbulence) %>%
+  wilcox_test(colony_area ~ sp, exact = FALSE) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(nutrient_treatment, turbulence)
+
+# C) Nutrient effect within each Species × Turbulence (Kruskal + Dunn post-hoc)
+nut_kw <- d %>%
+  group_by(sp, turbulence) %>%
+  kruskal_test(colony_area ~ nutrient_treatment) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(sp, turbulence)
+
+nut_dunn <- d %>%
+  group_by(sp, turbulence) %>%
+  dunn_test(colony_area ~ nutrient_treatment, p.adjust.method = "BH") %>%
+  arrange(sp, turbulence, group1, group2)
+
+turbl_tests
+result <-species_tests
+nut_kw
+nut_dunn
+
+
+```
+
+M. membranacea showed smaller colony areas under high turbulence, most strongly in Nitrogen treatment (adj. p = 0.004).
+
+```{r}
+library(dplyr)
+library(rstatix)
+
+# --- Prep ---
+d_counts <- colony_counts_adult %>%
+  filter(!is.na(turbulence), !is.na(nutrient_treatment)) %>%
+  mutate(
+    nutrient_treatment = factor(nutrient_treatment, levels = c("C","N","P")),
+    date_sampled       = factor(date_sampled, levels = c("04/06/2025","12/06/2025","02/07/2025")),
+    turbulence         = factor(turbulence, levels = c("Low","High")),
+    sp                 = factor(sp, levels = c("E. pilosa","M. membranacea"))
+  )
+
+# A) Turbulence effect within each Species × Nutrient
+turb_tests <- d_counts %>%
+  group_by(sp, nutrient_treatment) %>%
+  wilcox_test(n_colonies ~ turbulence, exact = FALSE) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(sp, nutrient_treatment)
+
+# B) Species differences within each Nutrient × Turbulence
+species_tests <- d_counts %>%
+  group_by(nutrient_treatment, turbulence) %>%
+  wilcox_test(n_colonies ~ sp, exact = FALSE) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(nutrient_treatment, turbulence)
+
+# C) Nutrient effect within each Species × Turbulence (Kruskal + Dunn post-hoc)
+nut_kw <- d_counts %>%
+  group_by(sp, turbulence) %>%
+  kruskal_test(n_colonies ~ nutrient_treatment) %>%
+  adjust_pvalue(method = "BH") %>%
+  add_significance("p.adj") %>%
+  arrange(sp, turbulence)
+
+nut_dunn <- d_counts %>%
+  group_by(sp, turbulence) %>%
+  dunn_test(n_colonies ~ nutrient_treatment, p.adjust.method = "BH") %>%
+  arrange(sp, turbulence, group1, group2)
+
+# View results
+turb_tests
+species_tests
+nut_kw
+nut_dunn
+
+```
+

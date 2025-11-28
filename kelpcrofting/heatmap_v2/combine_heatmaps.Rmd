@@ -1,0 +1,202 @@
+
+=================================
+
+```{r}
+# Required libraries
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+
+# Shared magma color scale for -2 to +2 Z-scores
+viridis_magma <- viridis(100, option = "magma")
+col_fun <- colorRamp2(seq(-5, 5, length.out = 100), viridis_magma)
+
+# Function to Z-score scale each matrix and clip to [-2, 2]
+scale_and_clip <- function(mat) {
+  scaled <- t(scale(t(mat)))
+  scaled[scaled < -5] <- -5
+  scaled[scaled >  5] <- 5
+  return(scaled)
+}
+
+# Apply scaling
+obelia_scaled     <- scale_and_clip(obelia_mat_scaled)
+bryozoa_scaled    <- scale_and_clip(bryozoa_mat_scaled)
+bivalvia_scaled   <- scale_and_clip(bivalvia_mat_scaled)
+gastropoda_scaled <- scale_and_clip(gastropoda_mat_scaled)
+
+# Build individual heatmaps
+h_obelia <- Heatmap(obelia_scaled,
+                    name = "Z-score",
+                    col = col_fun,
+                    show_row_names = TRUE,
+                    show_column_names = FALSE,
+                    cluster_rows = FALSE,
+                    cluster_columns = FALSE,
+                    row_title = "Hydrozoa",
+                    top_annotation = top_anno,
+                    heatmap_legend_param = list(title = "Z-score",
+    title_position = "topcenter",
+    legend_direction = "horizontal",
+  title_gp = gpar(fontsize = 12, fontface = "bold"),
+  labels_gp = gpar(fontsize = 12),
+  legend_height = unit(20, "cm") ))
+
+h_bryozoa <- Heatmap(bryozoa_scaled,
+                     name = NULL,
+                     col = col_fun,
+                     show_row_names = TRUE,
+                     show_column_names = FALSE,
+                     cluster_rows = FALSE,
+                     cluster_columns = FALSE,
+                     row_title = "Bryozoa",
+                     show_heatmap_legend = FALSE)
+
+h_bivalvia <- Heatmap(bivalvia_scaled,
+                      name = NULL,
+                      col = col_fun,
+                      show_row_names = TRUE,
+                      show_column_names = FALSE,
+                      cluster_rows = FALSE,
+                      cluster_columns = FALSE,
+                      row_title = "Bivalvia",
+                      show_heatmap_legend = FALSE)
+
+h_gastropoda <- Heatmap(gastropoda_scaled,
+                        name = NULL,
+                        col = col_fun,
+                        show_row_names = TRUE,
+                        show_column_names = FALSE,
+                        cluster_rows = FALSE,
+                        bottom_annotation = bottom_anno,
+                        cluster_columns = FALSE,
+                        row_title = "Gastropoda",
+                        show_heatmap_legend = FALSE)
+
+# Combine vertically and draw with one shared legend
+draw(h_obelia %v% h_bryozoa %v% h_bivalvia %v% h_gastropoda, heatmap_legend_side = "top")
+
+round(obelia$alaria_percent_blade_hydrozoans,digits = 2)
+round(obelia$saccharina_percent_blade_hydrozoans,digits = 2)
+```
+
+```{r}
+# Required libraries
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+
+# Shared magma color scale for consistent Z-score interpretation
+
+
+viridis_magma <- viridis(100, option = "M")
+col_fun <- colorRamp2(seq(-5, 5, length.out = 100), viridis_magma)
+
+# Function to Z-score scale and clip values to [-5, 5]
+scale_and_clip <- function(mat) {
+  scaled <- t(scale(t(mat)))
+  scaled[scaled < -5] <- -5
+  scaled[scaled >  5] <- 5
+  return(scaled)
+}
+
+# Apply scaling
+obelia_scaled     <- scale_and_clip(obelia_mat_scaled)
+bryozoa_scaled    <- scale_and_clip(bryozoa_mat_scaled)
+bivalvia_scaled   <- scale_and_clip(bivalvia_mat_scaled)
+gastropoda_scaled <- scale_and_clip(gastropoda_mat_scaled)
+
+# Build individual heatmaps
+h_obelia <- Heatmap(
+  obelia_scaled,
+  name = "Z-score",
+  col = col_fun,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  row_title = "Hydrozoa",
+  top_annotation = top_anno,
+  heatmap_legend_param = list(
+    title = "Z-score",
+    title_position = "topcenter",
+    legend_direction = "horizontal",
+    title_gp = gpar(fontsize = 12, fontface = "bold"),
+    labels_gp = gpar(fontsize = 12),
+    legend_width = unit(8, "cm"),
+    border = NA,
+    legend_gap = unit(10, "mm") 
+  )
+)
+
+h_bryozoa <- Heatmap(
+  bryozoa_scaled,
+  name = NULL,
+  col = col_fun,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  row_title = "Bryozoa",
+  show_heatmap_legend = FALSE
+)
+
+h_bivalvia <- Heatmap(
+  bivalvia_scaled,
+  name = NULL,
+  col = col_fun,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  row_title = "Bivalvia",
+  show_heatmap_legend = FALSE
+)
+
+h_gastropoda <- Heatmap(
+  gastropoda_scaled,
+  name = NULL,
+  col = col_fun,
+  show_row_names = TRUE,
+  show_column_names = FALSE,
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  row_title = "Gastropoda",
+  bottom_annotation = bottom_anno,
+  show_heatmap_legend = FALSE
+)
+
+# Combine vertically and draw with one shared legend on top
+combined <- draw(
+  h_obelia %v% h_bryozoa %v% h_bivalvia %v% h_gastropoda,
+  heatmap_legend_side = "top",
+  annotation_legend_side = "top",
+   padding = unit(c(2, 2, 2, 2), "mm")  #
+)
+
+```
+
+```{r}
+svg("stacked_heatmap.svg", width = 15, height = 12)
+draw(
+  h_obelia %v% h_bryozoa %v% h_bivalvia %v% h_gastropoda,
+  heatmap_legend_side = "top",
+  annotation_legend_side = "top",
+ padding = unit(c(6, 5, 12, 50), "mm")
+)
+dev.off()
+
+```
+
+```{r}
+pdf("stacked_heatmap_fixed.pdf", width = 15, height = 12, useDingbats = FALSE)
+draw(
+  h_obelia %v% h_bryozoa %v% h_bivalvia %v% h_gastropoda,
+  heatmap_legend_side = "top",
+  annotation_legend_side = "top",
+  padding = unit(c(6, 5, 12, 20), "mm")  # top, right, bottom, left
+)
+dev.off()
+
+```
+

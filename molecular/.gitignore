@@ -1,0 +1,6 @@
+
+# Office temp/lock files
+~$*.docx
+~$*.pptx
+~$*.xlsx
+*.tmp

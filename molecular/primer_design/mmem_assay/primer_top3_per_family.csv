@@ -1,0 +1,2 @@
+family,forward,reverse,product_bp,tm_f_C,tm_r_C,tm_delta_C,gc_f_pct,gc_r_pct,self3p_f_bp,self3p_r_bp,hetero3p_bp,hairpin_f_bp,hairpin_r_bp,Ta_recommended_C,qc_flag,score
+rnd-1_family-1_2262_eurofin,AGAATACCACATAGCAGTTTCC,GCGATGCAAAACTCAAAGTAG,107.5,46,45.3,0.7,40.9,42.9,8,17,9,0,0,42,check_hetero3p,148.71

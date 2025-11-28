@@ -1,0 +1,135 @@
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(readxl)
+library(lme4)
+library(ggpubr)
+
+# Load data
+response <- read.csv("mill_mesocosm_full_data4.csv")
+meta <- read.csv("mesocosm_meta.csv")
+
+# Clean column names
+response <- response %>% 
+  clean_names()
+meta <- meta %>% clean_names()
+
+```
+
+
+```{r}
+# Join response and metadata
+meso_join <- response %>%
+  full_join(meta, by = "seaweed_id")
+
+# Save joined data
+#write.csv(meso_join, "meso_join2.csv")
+
+# Save seaweedweed IDs per tank and sampling date
+tanks <- meso_join %>%
+  group_by(main_experiment_tank, date_sampled) %>%
+  distinct(seaweed_id)
+
+
+```
+
+```{r}
+meso_join <- meso_join %>%
+  group_by(seaweed_id, date_sampled)
+
+```
+
+
+```{r}
+library(tidyverse)
+
+# Treat NAs in counts as zeros
+library(tidyverse)
+
+library(dplyr)
+
+# Fix and summarise hydroid counts properly
+meso_h_clean <- meso_join %>%
+  filter(!is.na(seaweed_id),
+         grepl("^A", seaweed_id)) %>%
+  mutate(
+    no_h = as.numeric(ifelse(no_h == "" | is.na(no_h), 0, no_h)),
+    no_m = as.numeric(ifelse(no_m == "" | is.na(no_m), 0, no_m)),
+    no_long_m = as.numeric(ifelse(no_long_m == "" | is.na(no_long_m), 0, no_long_m)),
+      
+  ) %>%
+  group_by(seaweed_id, blade_side) %>%
+  summarise(
+    no_h_side = max(no_h, na.rm = TRUE),
+    no_m_side = max(no_m, na.rm = TRUE),
+    no_long_m_side = max(no_long_m, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  group_by(seaweed_id) %>%
+  summarise(
+    total_no_h = sum(no_h_side, na.rm = TRUE),
+    total_no_m = sum(no_m_side, na.rm = TRUE),
+    total_no_long_m = sum(no_long_m_side, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(glmmTMB)
+
+# Treat blanks as zero, summarise per seaweed_id
+meso_h_summary <- meso_join %>%
+  mutate(
+    no_h = as.numeric(ifelse(no_h == "" | is.na(no_h), 0, no_h))
+  ) %>%
+  group_by(seaweed_id, turbulence, nutrient_treatment, date_sampled, main_experiment_tank) %>%
+  summarise(no_h_total = sum(no_h, na.rm = TRUE), .groups = "drop")
+
+
+```
+
+```{r}
+# Compute means and SE
+meso_h_plot <- meso_h_summary %>%
+  group_by(turbulence, nutrient_treatment, date_sampled) %>%
+  summarise(
+    mean_h = mean(no_h_total),
+    se_h = sd(no_h_total) / sqrt(n()),
+    .groups = "drop"
+  ) %>% 
+  filter(nutrient_treatment == c("C", "N", "P"),
+         date_sampled != "")
+
+# Plot
+ggplot(meso_h_plot, aes(x = nutrient_treatment, y = mean_h, fill = turbulence)) +
+  geom_col(position = position_dodge(width = 0.8)) +
+  geom_errorbar(aes(ymin = mean_h - se_h, ymax = mean_h + se_h),
+                width = 0.2, position = position_dodge(width = 0.8)) +
+  facet_wrap(~date_sampled) +
+  labs(title = "Hydroid Abundance per Treatment",
+       x = "Turbulence", y = "Mean Number of Hydroids") +
+  theme_minimal()
+
+```
+
+
+```{r}
+# Fit negative binomial GLMM (appropriate for overdispersed count data)
+model_h <- glmmTMB(
+  no_h_total ~ turbulence * nutrient_treatment + (1 | main_experiment_tank) + (1 | seaweed_id),
+  family = nbinom2(),
+  data = meso_h_summary
+)
+
+summary(model_h)
+
+
+```
+

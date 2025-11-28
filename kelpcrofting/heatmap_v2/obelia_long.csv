@@ -1,0 +1,685 @@
+"","sample_code","station_no","site","seaweed","date","day","month","year","species_id","measurement_value","measurement_type","measurement_origin","parsed_date"
+"1","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"2","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"3","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"4","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"5","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"6","Pabay_15_6_21_1",1,"Pabay","Alaria","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"7","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"8","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"9","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"10","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_sp",0.05349349,"otu","Plankton eDNA (RSV)",NA
+"11","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"12","Pabay_15_6_21_2",2,"Pabay","Alaria","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"13","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"14","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"15","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"16","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"17","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"18","Pabay_15_6_21_3",3,"Pabay","Alaria","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"19","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"20","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"21","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"22","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"23","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"24","Pabay_15_6_21_1",1,"Pabay","Saccharina","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"25","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"26","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"27","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"28","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_sp",0.05349349,"otu","Plankton eDNA (RSV)",NA
+"29","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"30","Pabay_15_6_21_2",2,"Pabay","Saccharina","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"31","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"32","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"33","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"34","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"35","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"36","Pabay_15_6_21_3",3,"Pabay","Saccharina","15/06/2021",15,6,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"37","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"38","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"39","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"40","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"41","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"42","Pabay_16_9_21_1",1,"Pabay","Alaria","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"43","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"44","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"45","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"46","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"47","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"48","Pabay_16_9_21_2",2,"Pabay","Alaria","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"49","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",NA
+"50","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"51","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"52","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"53","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"54","Pabay_16_9_21_3",3,"Pabay","Alaria","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"55","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"56","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"57","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"58","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"59","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"60","Pabay_16_9_21_1",1,"Pabay","Saccharina","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"61","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"62","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"63","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"64","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"65","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"66","Pabay_16_9_21_2",2,"Pabay","Saccharina","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"67","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",NA
+"68","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"69","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"70","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"71","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"72","Pabay_16_9_21_3",3,"Pabay","Saccharina","16/09/2021",16,9,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"73","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"74","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"75","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"76","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"77","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"78","Pabay_30_10_21_1",1,"Pabay","Alaria","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"79","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"80","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"81","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"82","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"83","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"84","Pabay_30_10_21_2",2,"Pabay","Alaria","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"85","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",NA
+"86","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"87","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"88","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"89","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"90","Pabay_30_10_21_3",3,"Pabay","Alaria","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"91","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"92","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"93","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"94","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"95","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"96","Pabay_30_10_21_1",1,"Pabay","Saccharina","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"97","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"98","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"99","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"100","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"101","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"102","Pabay_30_10_21_2",2,"Pabay","Saccharina","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"103","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",NA
+"104","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"105","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"106","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"107","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"108","Pabay_30_10_21_3",3,"Pabay","Saccharina","30/10/2021",30,10,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"109","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"110","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_bidentata",0.044065805,"otu","Plankton eDNA (RSV)",NA
+"111","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"112","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"113","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"114","Pabay_13_11_21_1",1,"Pabay","Alaria","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"115","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"116","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"117","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"118","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"119","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"120","Pabay_13_11_21_2",2,"Pabay ","Alaria","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"121","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"122","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"123","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"124","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"125","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"126","Pabay_13_11_21_3",3,"Pabay","Alaria","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"127","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"128","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_bidentata",0.044065805,"otu","Plankton eDNA (RSV)",NA
+"129","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"130","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"131","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"132","Pabay_13_11_21_1",1,"Pabay","Saccharina","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"133","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"134","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"135","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"136","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"137","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"138","Pabay_13_11_21_2",2,"Pabay ","Saccharina","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"139","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"140","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"141","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"142","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"143","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"144","Pabay_13_11_21_3",3,"Pabay","Saccharina","13/11/2021",13,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"145","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"146","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_bidentata",0.193861066,"otu","Plankton eDNA (RSV)",NA
+"147","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"148","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"149","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"150","Pabay_29_11_21_1",1,"Pabay","Alaria","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"151","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"152","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"153","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"154","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"155","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"156","Pabay_29_11_21_2",2,"Pabay","Alaria","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"157","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"158","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_bidentata",0.251005632,"otu","Plankton eDNA (RSV)",NA
+"159","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"160","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"161","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"162","Pabay_29_11_21_3",3,"Pabay","Alaria","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"163","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"164","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_bidentata",0.193861066,"otu","Plankton eDNA (RSV)",NA
+"165","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"166","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"167","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"168","Pabay_29_11_21_1",1,"Pabay","Saccharina","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"169","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"170","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"171","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"172","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"173","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"174","Pabay_29_11_21_2",2,"Pabay","Saccharina","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"175","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"176","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_bidentata",0.251005632,"otu","Plankton eDNA (RSV)",NA
+"177","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"178","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"179","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"180","Pabay_29_11_21_3",3,"Pabay","Saccharina","29/11/2021",29,11,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"181","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"182","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"183","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"184","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"185","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"186","Pabay_10_12_21_1",1,"Pabay","Alaria","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"187","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"188","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"189","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"190","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"191","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"192","Pabay_10_12_21_2",2,"Pabay","Alaria","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"193","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"194","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"195","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"196","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"197","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"198","Pabay_10_12_21_3",3,"Pabay","Alaria","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"199","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"200","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"201","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"202","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"203","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"204","Pabay_10_12_21_1",1,"Pabay","Saccharina","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"205","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"206","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"207","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"208","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"209","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"210","Pabay_10_12_21_2",2,"Pabay","Saccharina","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"211","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2021-10-12
+"212","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"213","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"214","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2021-10-12
+"215","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2021-10-12
+"216","Pabay_10_12_21_3",3,"Pabay","Saccharina","10/12/2021",10,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2021-10-12
+"217","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"218","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"219","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"220","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"221","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"222","Pabay_21_12_21_1",1,"Pabay","Alaria","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"223","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"224","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"225","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"226","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"227","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"228","Pabay_21_12_21_2",2,"Pabay","Alaria","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"229","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"230","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"231","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"232","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"233","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"234","Pabay_21_12_21_3",3,"Pabay","Alaria","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"235","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"236","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"237","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"238","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"239","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"240","Pabay_21_12_21_1",1,"Pabay","Saccharina","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"241","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"242","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"243","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"244","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"245","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"246","Pabay_21_12_21_2",2,"Pabay","Saccharina","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"247","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"248","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"249","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"250","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"251","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"252","Pabay_21_12_21_3",3,"Pabay","Saccharina","21/12/2021",21,12,2021,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"253","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"254","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"255","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"256","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"257","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"258","Pabay_14_1_22_1",1,"Pabay","Alaria","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"259","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"260","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"otu_obelia_bidentata",0.073187307,"otu","Plankton eDNA (RSV)",NA
+"261","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"262","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"263","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"264","Pabay_14_1_22_2",2,"Pabay ","Alaria","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"265","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"266","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_bidentata",0.036410923,"otu","Plankton eDNA (RSV)",NA
+"267","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"268","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"269","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"270","Pabay_14_1_22_3",3,"Pabay","Alaria","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"271","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"272","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"273","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"274","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"275","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"276","Pabay_14_1_22_1",1,"Pabay","Saccharina","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"277","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"278","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"otu_obelia_bidentata",0.073187307,"otu","Plankton eDNA (RSV)",NA
+"279","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"280","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"281","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"282","Pabay_14_1_22_2",2,"Pabay ","Saccharina","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"283","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"284","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_bidentata",0.036410923,"otu","Plankton eDNA (RSV)",NA
+"285","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"286","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"287","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"288","Pabay_14_1_22_3",3,"Pabay","Saccharina","14/01/2022",14,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"289","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"290","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"291","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"292","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"293","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"294","Pabay_30_1_22_1",1,"Pabay","Alaria","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"295","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"296","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"297","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"298","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"299","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"300","Pabay_30_1_22_2",2,"Pabay","Alaria","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"301","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"302","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"303","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"304","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"305","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"306","Pabay_30_1_22_3",3,"Pabay","Alaria","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"307","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"308","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"309","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"310","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"311","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"312","Pabay_30_1_22_1",1,"Pabay","Saccharina","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"313","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"314","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"315","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"316","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"317","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"318","Pabay_30_1_22_2",2,"Pabay","Saccharina","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"319","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"320","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_bidentata",NA,"otu","Plankton eDNA (RSV)",NA
+"321","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_dichotoma",NA,"otu","Plankton eDNA (RSV)",NA
+"322","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"otu_obelia_sp",NA,"otu","Plankton eDNA (RSV)",NA
+"323","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"324","Pabay_30_1_22_3",3,"Pabay","Saccharina","30/01/2022",30,1,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"325","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"326","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_bidentata",0.017745179,"otu","Plankton eDNA (RSV)",2022-08-02
+"327","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"328","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"329","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"330","Pabay_8_2_22_1",1,"Pabay","Alaria","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"331","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"332","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"333","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"334","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"335","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"336","Pabay_8_2_22_2",2,"Pabay","Alaria","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"337","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"338","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"339","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"340","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"341","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"342","Pabay_8_2_22_3",3,"Pabay","Alaria","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"343","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"344","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_bidentata",0.017745179,"otu","Plankton eDNA (RSV)",2022-08-02
+"345","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"346","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"347","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"348","Pabay_8_2_22_1",1,"Pabay","Saccharina","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"349","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"350","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"351","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"352","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"353","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"354","Pabay_8_2_22_2",2,"Pabay","Saccharina","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"355","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-02
+"356","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"357","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"358","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-02
+"359","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-02
+"360","Pabay_8_2_22_3",3,"Pabay","Saccharina","08/02/2022",8,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-02
+"361","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"362","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"363","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"364","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"365","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"366","Pabay_25_2_22_1",1,"Pabay","Alaria","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"367","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"368","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"369","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"370","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"371","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"372","Pabay_25_2_22_2",2,"Pabay","Alaria","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"373","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"374","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"375","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"376","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"377","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"378","Pabay_25_2_22_3",3,"Pabay","Alaria","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"379","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"380","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"381","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"382","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"383","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"384","Pabay_25_2_22_1",1,"Pabay","Saccharina","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"385","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"386","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"387","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"388","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"389","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"390","Pabay_25_2_22_2",2,"Pabay","Saccharina","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"391","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"392","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"393","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"394","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"395","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"396","Pabay_25_2_22_3",3,"Pabay","Saccharina","25/02/2022",25,2,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"397","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"398","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_bidentata",0.4523514,"otu","Plankton eDNA (RSV)",2022-08-03
+"399","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"400","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_sp",0.11308785,"otu","Plankton eDNA (RSV)",2022-08-03
+"401","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"402","Pabay_8_3_22_1",1,"Pabay","Alaria","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"403","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"404","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"405","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"406","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"407","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"408","Pabay_8_3_22_2",2,"Pabay","Alaria","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"409","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"410","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"411","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"412","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"413","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"414","Pabay_8_3_22_3",3,"Pabay","Alaria","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"415","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"416","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_bidentata",0.4523514,"otu","Plankton eDNA (RSV)",2022-08-03
+"417","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"418","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_sp",0.11308785,"otu","Plankton eDNA (RSV)",2022-08-03
+"419","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"420","Pabay_8_3_22_1",1,"Pabay","Saccharina","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"421","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"422","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"423","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"424","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"425","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"426","Pabay_8_3_22_2",2,"Pabay","Saccharina","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"427","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-08-03
+"428","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"429","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"430","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-08-03
+"431","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-08-03
+"432","Pabay_8_3_22_3",3,"Pabay","Saccharina","08/03/2022",8,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-08-03
+"433","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"434","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"435","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"436","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"437","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"438","Pabay_21_3_22_1",1,"Pabay","Alaria","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"439","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"440","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"441","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"442","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"443","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"444","Pabay_21_3_22_2",2,"Pabay","Alaria","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"445","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"446","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"447","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"448","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"449","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"450","Pabay_21_3_22_3",3,"Pabay","Alaria","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"451","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"452","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"453","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"454","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"455","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"456","Pabay_21_3_22_1",1,"Pabay","Saccharina","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"457","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"458","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"459","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"460","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"461","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"462","Pabay_21_3_22_2",2,"Pabay","Saccharina","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"463","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"464","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"465","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"466","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"467","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"468","Pabay_21_3_22_3",3,"Pabay","Saccharina","21/03/2022",21,3,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"469","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"470","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"471","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"472","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"473","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"474","Pabay_10_4_22_1",1,"Pabay","Alaria","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"475","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"476","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"477","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"478","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"479","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"480","Pabay_10_4_22_2",2,"Pabay","Alaria","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"481","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"482","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_bidentata",0.110595714,"otu","Plankton eDNA (RSV)",2022-10-04
+"483","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"484","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"485","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"486","Pabay_10_4_22_3",3,"Pabay","Alaria","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"487","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"488","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"489","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"490","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"491","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"492","Pabay_10_4_22_1",1,"Pabay","Saccharina","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"493","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"494","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"495","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"496","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"497","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"498","Pabay_10_4_22_2",2,"Pabay","Saccharina","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"499","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-10-04
+"500","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_bidentata",0.110595714,"otu","Plankton eDNA (RSV)",2022-10-04
+"501","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"502","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-10-04
+"503","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-10-04
+"504","Pabay_10_4_22_3",3,"Pabay","Saccharina","10/04/2022",10,4,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-10-04
+"505","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"plankton_obelia",51,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"506","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"507","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0.067920739,"otu","Plankton eDNA (RSV)",2022-07-05
+"508","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"509","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"510","Pabay_7_5_22_1",1,"Pabay","Alaria","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0.598227,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"511","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"512","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"513","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"514","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"515","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"516","Pabay_7_5_22_2",2,"Pabay","Alaria","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"517","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"518","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"519","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"520","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"521","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"522","Pabay_7_5_22_3",3,"Pabay","Alaria","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"523","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"plankton_obelia",51,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"524","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"525","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0.067920739,"otu","Plankton eDNA (RSV)",2022-07-05
+"526","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"527","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"528","Pabay_7_5_22_1",1,"Pabay","Saccharina","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"529","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"530","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"531","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"532","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"533","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",1.704857,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"534","Pabay_7_5_22_2",2,"Pabay","Saccharina","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"535","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"plankton_obelia",17,"abundance","Plankton Abundance (cell/L)",2022-07-05
+"536","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"537","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"538","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",2022-07-05
+"539","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"saccharina_percent_blade_hydrozoans",11.125402,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",2022-07-05
+"540","Pabay_7_5_22_3",3,"Pabay","Saccharina","07/05/2022",7,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",2022-07-05
+"541","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"542","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"543","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"544","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"545","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"546","Pabay_22_5_22_1",1,"Pabay","Alaria","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",1.296261,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"547","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"548","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"549","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0.165891422,"otu","Plankton eDNA (RSV)",NA
+"550","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"551","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"552","Pabay_22_5_22_2",2,"Pabay","Alaria","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",9.761905,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"553","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"554","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"555","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"556","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"557","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"558","Pabay_22_5_22_3",3,"Pabay","Alaria","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",0.871795,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"559","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"560","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"561","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"562","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"563","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",22.4125,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"564","Pabay_22_5_22_1",1,"Pabay","Saccharina","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"565","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"566","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"567","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0.165891422,"otu","Plankton eDNA (RSV)",NA
+"568","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"569","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"570","Pabay_22_5_22_2",2,"Pabay","Saccharina","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"571","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"572","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"573","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"574","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"575","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"576","Pabay_22_5_22_3",3,"Pabay","Saccharina","22/05/2022",22,5,2022,"alaria_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"577","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"plankton_obelia",306,"abundance","Plankton Abundance (cell/L)",NA
+"578","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"579","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0.013235939,"otu","Plankton eDNA (RSV)",NA
+"580","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"581","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"582","Pabay_30_6_22_1",1,"Pabay","Alaria","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"583","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"plankton_obelia",458,"abundance","Plankton Abundance (cell/L)",NA
+"584","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"585","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"586","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"587","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"588","Pabay_30_6_22_2",2,"Pabay","Alaria","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"589","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"plankton_obelia",322,"abundance","Plankton Abundance (cell/L)",NA
+"590","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"591","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"592","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"593","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"594","Pabay_30_6_22_3",3,"Pabay","Alaria","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"595","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"plankton_obelia",306,"abundance","Plankton Abundance (cell/L)",NA
+"596","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"597","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0.013235939,"otu","Plankton eDNA (RSV)",NA
+"598","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"599","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",37.884817,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"600","Pabay_30_6_22_1",1,"Pabay","Saccharina","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"601","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"plankton_obelia",458,"abundance","Plankton Abundance (cell/L)",NA
+"602","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"603","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"604","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"605","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",30,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"606","Pabay_30_6_22_2",2,"Pabay","Saccharina","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"607","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"plankton_obelia",322,"abundance","Plankton Abundance (cell/L)",NA
+"608","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"609","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"610","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"611","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"612","Pabay_30_6_22_3",3,"Pabay","Saccharina","30/06/2022",30,6,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"613","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"plankton_obelia",35,"abundance","Plankton Abundance (cell/L)",NA
+"614","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"615","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"616","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"617","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"618","Pabay_15_7_22_1",1,"Pabay","Alaria","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"619","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"plankton_obelia",35,"abundance","Plankton Abundance (cell/L)",NA
+"620","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"621","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"622","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"623","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"624","Pabay_15_7_22_2",2,"Pabay","Alaria","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"625","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"plankton_obelia",16,"abundance","Plankton Abundance (cell/L)",NA
+"626","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"627","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"628","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"629","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"630","Pabay_15_7_22_3",3,"Pabay","Alaria","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"631","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"plankton_obelia",35,"abundance","Plankton Abundance (cell/L)",NA
+"632","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"633","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"634","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"635","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",27.02507,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"636","Pabay_15_7_22_1",1,"Pabay","Saccharina","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"637","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"plankton_obelia",35,"abundance","Plankton Abundance (cell/L)",NA
+"638","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"639","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"640","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"641","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",36.018957,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"642","Pabay_15_7_22_2",2,"Pabay","Saccharina","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"643","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"plankton_obelia",16,"abundance","Plankton Abundance (cell/L)",NA
+"644","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"645","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"646","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"647","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"saccharina_percent_blade_hydrozoans",43.106599,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"648","Pabay_15_7_22_3",3,"Pabay","Saccharina","15/07/2022",15,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"649","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"650","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"651","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"652","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"653","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"654","Pabay_30_7_22_1",1,"Pabay","Alaria","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"655","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"plankton_obelia",16,"abundance","Plankton Abundance (cell/L)",NA
+"656","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"657","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"658","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"659","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"660","Pabay_30_7_22_2",2,"Pabay","Alaria","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"661","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"662","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"663","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"664","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"665","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",0,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"666","Pabay_30_7_22_3",3,"Pabay","Alaria","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"667","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"plankton_obelia",0,"abundance","Plankton Abundance (cell/L)",NA
+"668","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"669","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"670","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"671","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",4.319342,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"672","Pabay_30_7_22_1",1,"Pabay","Saccharina","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"673","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"plankton_obelia",16,"abundance","Plankton Abundance (cell/L)",NA
+"674","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"675","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"676","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"677","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",3.743316,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"678","Pabay_30_7_22_2",2,"Pabay","Saccharina","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA
+"679","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"plankton_obelia",2,"abundance","Plankton Abundance (cell/L)",NA
+"680","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_bidentata",0,"otu","Plankton eDNA (RSV)",NA
+"681","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_dichotoma",0,"otu","Plankton eDNA (RSV)",NA
+"682","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"otu_obelia_sp",0,"otu","Plankton eDNA (RSV)",NA
+"683","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"saccharina_percent_blade_hydrozoans",2.982365,"blade_coverage","Hydrozoan Blade Coverage - Saccharina (%)",NA
+"684","Pabay_30_7_22_3",3,"Pabay","Saccharina","30/07/2022",30,7,2022,"alaria_percent_blade_hydrozoans",NA,"blade_coverage","Hydrozoan Blade Coverage - Alaria (%)",NA

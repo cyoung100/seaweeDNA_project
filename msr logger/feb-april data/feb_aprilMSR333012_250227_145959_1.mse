@@ -1,0 +1,87 @@
+[General]
+Title=''
+ShowName=0
+Foot=''
+ShowTime=1
+OnlineRate=1000
+DispTime=0
+DispLimits=0
+ViewCalc=0
+ViewLimit=0
+[Font Title]
+Name='Arial'
+Size=8
+Style=0
+[Font Axes]
+Name='Arial'
+Size=8
+Style=0
+[Font Legend]
+Name='Arial'
+Size=8
+Style=0
+[Font Text]
+Name='Arial'
+Size=8
+Style=0
+[Axis Bottom]
+Name=''
+Min=' 0.00000000000000E+0000'
+Max=' 3.52227500000000E+0006'
+Inc=' 0.00000000000000E+0000'
+Format=''
+Grid=1
+Auto=1
+XType=2
+[Axis Left]
+Name=''
+Min='-1.42400002479553E+0000'
+Max=' 2.00000000000000E+0000'
+Inc=' 0.00000000000000E+0000'
+Format='0.00'
+Grid=1
+Auto=1
+[Axis Right]
+Name=''
+Min=' 0.00000000000000E+0000'
+Max=' 0.00000000000000E+0000'
+Inc=' 0.00000000000000E+0000'
+Format='0.00'
+Grid=0
+Auto=1
+[Cursor1]
+Axis=0
+Width=0
+XFormat='0.000'
+YFormat='0.000'
+[Cursor2]
+Axis=0
+Width=0
+XFormat='0.000'
+YFormat='0.000'
+[Print]
+Landscape=1
+MarginTop=0
+MarginLeft=0
+MarginRight=0
+MarginBottom=0
+Proportional=0
+CheckBoxes=1
+[Curve0]
+ModulName='MSR333012'
+ChannelName='Ay'
+Title='Ay'
+Axis=1
+Color=255
+Width=1
+Type=0
+Format=''
+[Curve1]
+ModulName='MSR333012'
+ChannelName='BAT'
+Title='BAT'
+Axis=0
+Color=12632256
+Width=1
+Type=0
+Format='0.00'

@@ -1,0 +1,216 @@
+```{r}
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+
+```
+
+
+```{r}
+getwd()
+response <- read.csv("mill_mesocosm_full_data (3).csv")
+meta <- read.csv("mesocosm_meta.csv")
+
+response <- response %>%
+  clean_names()
+
+meta <- meta %>% 
+  clean_names()
+
+```
+
+
+```{r}
+meso_join <- response %>% 
+              full_join(meta, by =  "sea_id")
+```
+
+```{r}
+write.csv(meso_join,"meso_join2.csv")
+
+tanks <- meso_join %>% 
+  group_by(main_experiment_tank, date_sampled) %>% 
+  distinct(sea_id)
+
+write.csv(tanks, "tanks_id.csv")
+```
+
+
+```{r}
+library(tidyverse)
+meso_join <- meso_join %>% 
+  group_by(sea_id, date_sampled, sp) %>%
+  mutate(total_colony_area = sum(colony_area, na.rm = TRUE)) %>%
+  ungroup()
+
+
+meso_join %>% 
+  filter(turbulence != c(NA,"")) %>% 
+  filter(sp == c("mm","ep")) %>% 
+  ggplot(aes( x = turbulence, y = total_colony_area, colour = sp)) +
+  geom_boxplot()+
+  facet_grid(date_sampled~nutrient_treatment)
+
+# Filter and clean data
+df_clean <- aovd %>%
+  mutate(
+    turbulence = as.factor(turbulence),
+    sp = as.factor(sp),
+    total_colony_area = as.numeric(colony_area)
+  )
+
+# Run a two-way ANOVA
+anova_result <- aov(total_colony_area ~ turbulence * sp * nutrient_treatment * date_sampled, data = df_clean)
+
+# Summary of the model
+summary(anova_result)
+```
+
+
+```{r}
+anova_data_split <- split(df_clean, anova_data$date_sampled)
+
+# First sampling date
+aov_date1 <- aov(total_colony_area ~ turbulence * nutrient_treatment, data = anova_data_split[[1]])
+summary(aov_date1)
+
+# Second sampling date
+aov_date2 <- aov(total_colony_area ~ turbulence * nutrient_treatment, data = anova_data_split[[2]])
+summary(aov_date2)
+
+
+```
+
+```{r}
+comparison_lst_nut <- list(c("C","N"), c("N","P"),c("C","P"))
+comp.sp <- list(c("ep","mm"))
+meso_join %>%
+  filter(!is.na(total_colony_area), sp != "") %>%
+  filter(!is.na(nutrient_treatment))  %>%
+  group_by(sea_id) %>% 
+  #filter(tag_color != "Orange_yellow", tag_colour != "Orange_yellow") %>%
+  ggplot(aes(x = nutrient_treatment, y = total_colony_area, fill = sp)) +
+  geom_boxplot(position = position_dodge(),trim=F) +
+  #geom_boxplot(width=0.2,fill="white",show.legend=F,position=position_dodge(),inherit.aes = F)+
+  labs(y = "Colony Area", fill = "Species") +
+  theme_minimal()
+```
+
+```{r}
+kilyoung <- readxl::read_xlsx("./mesocosm_response4_6_25.xlsx",sheet="kilchoan_young")
+kilyoung %>%
+  filter(!is.na(colony_length), sp != "") %>%
+  filter(!is.na(nutrient_treatment))  %>%
+  filter(grepl("Orange_yellow",tag_color)) %>%
+  ggplot(aes(x = nutrient_treatment, y = colony_length_max, fill = sp)) +
+  geom_violin(position = position_dodge(),trim=F) +
+  #geom_boxplot(width=0.2,fill="white",show.legend=F,position=position_dodge(),inherit.aes = F)+
+  labs(y = "Colony Length", fill = "Species") +
+  theme_minimal() +
+  stat_compare_means(method = "t.test",comparisons = comparison_lst_nut,label="p.adj",p.adjust.methods="fdr")
+```
+
+```{r}
+anova_data <- meso_join %>%
+  filter(!is.na(total_colony_area), sp %in% c("ep", "mm")) %>%
+  filter(!is.na(turbulence), !is.na(nutrient_treatment), !is.na(date_sampled)) %>%
+  filter(tag_color != "Orange_yellow") %>%
+  group_by(sea_id, sp, turbulence, nutrient_treatment, date_sampled,main_experiment_tank)
+
+install.packages("lme4")
+library(lme4)
+
+anova_model <- lmer(total_colony_area ~ turbulence + nutrient_treatment + date_sampled +(1|main_experiment_tank), data = anova_data)
+summary(anova_model)
+
+```
+
+```{r}
+anova_data_split <- split(anova_data, anova_data$date_sampled)
+
+# First sampling date
+aov_date1 <- aov(total_colony_area ~ turbulence * nutrient_treatment, data = anova_data_split[[1]])
+summary(aov_date1)
+
+# Second sampling date
+aov_date2 <- aov(total_colony_area ~ sp * turbulence * nutrient_treatment, data = anova_data_split[[2]])
+summary(aov_date2)
+
+```
+
+```{r}
+ggplot(anova_data, aes(x = turbulence, y = total_colony_area, fill = sp)) +
+  geom_boxplot(position = position_dodge()) +
+  facet_grid(date_sampled ~ nutrient_treatment) +
+  labs(x = "Turbulence", y = "Total Colony Area", fill = "Species") +
+  theme_minimal()
+
+```
+
+```{r}
+# Prepare dataset
+anova_data <- meso_join %>%
+  filter(!is.na(total_colony_area), sp %in% c("ep", "mm")) %>%
+  filter(!is.na(turbulence), !is.na(nutrient_treatment), !is.na(date_sampled)) %>%
+  filter(tag_color != "Orange_yellow") %>%
+  group_by(id, sp, turbulence, nutrient_treatment, date_sampled) %>%
+  summarise(total_colony_area = mean(total_colony_area, na.rm = TRUE), .groups = "drop")
+
+# Split data by date
+split_dates <- split(anova_data, anova_data$date_sampled)
+
+# Model for each date
+model_date1 <- aov(total_colony_area ~ sp * turbulence * nutrient_treatment, data = split_dates[[1]])
+summary(model_date1)
+
+model_date2 <- aov(total_colony_area ~ sp * turbulence * nutrient_treatment, data = split_dates[[2]])
+summary(model_date2)
+
+```
+Early date (04/06/2025):
+
+Species identity significantly influenced total colony area (ep vs mm differed).
+
+Significant interaction between turbulence and nutrient treatment.
+
+No significant main effect of turbulence or nutrients individually.
+
+Later date (12/06/2025):
+
+Species identity no longer significant — differences between ep and mm diminished.
+
+Nutrient treatment showed a marginal effect (p = 0.0717), suggesting increasing influence.
+
+Turbulence remained non-significant as a main effect.
+
+Overall conclusions:
+
+Early-stage biofouling is driven by species identity and interaction effects.
+
+Nutrient effects may become more influential as colonies develop.
+
+Turbulence alone did not consistently influence colony area.
+
+######################################
+
+
+On the early sampling date (04/06/2025), a significant interaction between turbulence and nutrient treatment was detected (p < 0.05).
+
+This indicates that colony size was not influenced by turbulence or nutrients alone, but rather by how the two factors combined.
+
+For example, under low turbulence, certain nutrient treatments (e.g. phosphorus) may have promoted larger colony growth, while under high turbulence, the same nutrient conditions may have suppressed or failed to support colony expansion.
+
+This pattern suggests that nutrient uptake and colony establishment are sensitive to hydrodynamic conditions — possibly because high turbulence disperses nutrients too rapidly or physically disrupts early-stage colony attachment and expansion.
+
+The interaction highlights that colony size responses are context-dependent, and cannot be predicted by looking at single variables in isolation.
+
+It also underscores that biofouling pressure in aquaculture settings may be intensified or mitigated depending on combined environmental conditions, rather than just nutrient enrichment or water movement independently.
+
+```{r}
+rows<- read.csv("mesorows.csv")
+
+drows<-rows %>% 
+  distinct()
+```
+

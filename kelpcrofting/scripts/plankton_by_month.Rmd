@@ -1,0 +1,1173 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+library(tidyverse)
+
+# Read data
+kelpcrofting_taxa <- read.csv("kelpcrofting_focal_sp_clean4.csv")
+
+```
+
+```{r}
+
+# Create month-year label
+kelpcrofting_taxa <- kelpcrofting_taxa %>%
+  mutate(month_year = format(dmy(date), "%B %y"))
+
+# Filter for April–July and calculate top 4 taxa
+top_taxa_data_plank <- kelpcrofting_taxa %>%
+  filter(
+    measurement_origin == "plankton",
+    !species_name %in% c("zooplank abundance holoplankton", "zooplank abundance meroplankton"),
+    month %in% 4:7,
+    !is.na(measurement_value),
+    measurement_value > 0
+  ) %>%
+  group_by(seaweed, month_year,site, species_name) %>%
+  summarise(total_value = sum(measurement_value), .groups = "drop") %>%
+  group_by(seaweed, month_year, site) %>%
+  mutate(
+    species_name_edit = str_extract(species_name, "\\b\\w+$"),
+    log_value = log10(total_value + 1)  # Add 1 to avoid log(0)
+  ) %>%
+ungroup() 
+
+top_taxa_data_plank <- top_taxa_data_plank %>%
+  mutate(
+    parsed_month = dmy(paste0("01 ", month_year)),  # create real date object from label
+    month_year = factor(month_year, levels = unique(month_year[order(parsed_month)]))
+  )
+
+
+ggplot(top_taxa_data_plank, aes(x = fct_reorder(species_name_edit, log_value), y = log_value, fill = species_name)) +
+  geom_col(show.legend = FALSE) +
+  facet_grid(~ month_year, scales = "free_y", switch = "x") +
+  coord_flip() +
+  labs(
+    title = "Dominant Plankton (Apr–Jul)",
+    x = "Taxon",
+    y = "Abundance (log)"
+  )
+
+
+```
+
+```{r}
+ggplot(top_taxa_data_plank, aes(x = species_name_edit, y = log_value, fill = species_name_edit)) +
+  geom_col(width = 0.7) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  coord_flip() +
+  facet_grid(~ month_year, scales = "free_y", switch = "x") +
+  labs(
+    title = "Dominant Plankton Taxa by Month - Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    x = "Taxon",
+    y = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    strip.text = element_text( size = 10),
+    axis.text.y = element_text(size = 10),
+    plot.title = element_text( size = 15),
+    plot.subtitle = element_text(size = 11),
+    legend.position = "none")
+
+
+
+```
+
+
+
+```{r}
+
+```
+
+
+```{r}
+library(ggplot2)
+library(viridis)
+
+# Ensure factor order for consistent display
+top_taxa_data_plank <- top_taxa_data_plank %>%
+  mutate(
+    species_name_edit = factor(species_name_edit, levels = sort(unique(species_name_edit))),
+    month_year = factor(month_year, levels = sort(unique(month_year)))
+  )
+
+dom_plank <- ggplot(top_taxa_data_plank,
+                    aes(x    = month_year,          # one bar per month
+                        y    = log_value,
+                        fill = species_name_edit)) +
+  geom_bar(stat     = "identity",     # just use geom_col() if you like
+           width    = 0.7,            
+           position = "stack") +       # default, so you could omit
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Taxa Abundance by Month – Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    y        = "Plankton Abundance (log10)",
+    x        = "Date (month-year)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank())
+
+dom_plank
+
+```
+
+
+```{r}
+# 0) Load packages
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+# 1) Summarise: mean → log, and build error‐bar limits
+summary_taxa <- top_taxa_data_plank %>%
+  group_by(month_year, species_name_edit) %>%
+  summarise(
+    n         = n(),
+    mean_abun = mean(total_value, na.rm = TRUE),
+    se_abun   = sd(total_value,   na.rm = TRUE) / sqrt(n),
+    .groups   = "drop"
+  ) %>%
+  mutate(
+    log_mean = log10(mean_abun),
+    lower    = log10(pmax(mean_abun - se_abun, .Machine$double.eps)),
+    upper    = log10(mean_abun + se_abun)
+  )
+
+# 2) Lock in factor orders
+summary_taxa <- summary_taxa %>%
+  mutate(
+    month_year        = factor(month_year, levels = c("June 21","April 22","May 22","June 22","July 22")),
+    species_name_edit = factor(species_name_edit, levels = sort(unique(species_name_edit)))
+  )
+
+# 3) Plot grouped bars with SE bars
+dom_plank_grouped <- ggplot(summary_taxa,
+                            aes(x    = month_year,
+                                y    = log_mean,
+                                fill = species_name_edit)) +
+  geom_col(
+    width    = 0.7,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_errorbar(
+    aes(ymin = lower, ymax = upper),
+    width    = 0.2,
+    position = position_dodge(width = 0.8),
+    color    = "black"
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Taxa Abundance by Month – Pabay",
+    subtitle = "Log₁₀ of mean abundance ± SE",
+    x        = "Month",
+    y        = "Log₁₀(mean abundance)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10)
+  )
+
+print(dom_plank_grouped)
+
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+# 1) Summarise on the raw scale: arithmetic mean & SE
+summary_taxa <- top_taxa_data_plank %>%
+  group_by(month_year, species_name_edit) %>%
+  summarise(
+    n         = n(),
+    mean_abun = mean(total_value, na.rm = TRUE),
+    se_abun   = sd(total_value,   na.rm = TRUE) / sqrt(n),
+    .groups   = "drop"
+  )
+
+# 2) Lock in factor orders for consistent plotting
+summary_taxa <- summary_taxa %>%
+  mutate(
+    month_year        = factor(
+      month_year,
+      levels = c("June 21","April 22","May 22","June 22","July 22")
+    ),
+    species_name_edit = factor(
+      species_name_edit,
+      levels = sort(unique(species_name_edit))
+    )
+  )
+
+# 3) Plot grouped bars (raw means) with SE error bars
+dom_plank_grouped_raw <- ggplot(summary_taxa,
+                                aes(x    = month_year,
+                                    y    = mean_abun,
+                                    fill = species_name_edit)) +
+  geom_col(
+    width    = 0.7,
+    position = position_dodge(width = 0.8)
+  ) +
+  geom_errorbar(
+    aes(ymin     = mean_abun - se_abun,
+        ymax     = mean_abun + se_abun),
+    width    = 0.2,
+    position = position_dodge(width = 0.8),
+    color    = "black"
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Taxa Abundance by Month – Pabay",
+    subtitle = "Mean abundance ± SE (raw counts)",
+    x        = "Month",
+    y        = "Mean abundance (counts)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10)
+  )
+
+print(dom_plank_grouped_raw)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+# 1) Summarise on the raw scale: arithmetic mean & SE
+summary_taxa <- top_taxa_data_plank %>%
+  group_by(month_year, species_name_edit) %>%
+  summarise(
+    n         = n(),
+    mean_abun = mean(total_value, na.rm = TRUE),
+    se_abun   = sd(total_value,   na.rm = TRUE) / sqrt(n),
+    .groups   = "drop"
+  )
+
+# 2) Lock in factor orders for consistent plotting
+summary_taxa <- summary_taxa %>%
+  mutate(
+    month_year        = factor(
+      month_year,
+      levels = c("June 21","April 22","May 22","June 22","July 22")
+    ),
+    species_name_edit = factor(
+      species_name_edit,
+      levels = sort(unique(species_name_edit))
+    )
+  )
+
+# 3) Plot **stacked** bars (raw means) with SE error bars per segment
+dom_plank_stacked_raw <- ggplot(summary_taxa,
+                                aes(x    = month_year,
+                                    y    = mean_abun,
+                                    fill = species_name_edit)) +
+  geom_col(
+    width = 0.7                    # default is position = "stack"
+  ) +
+  geom_errorbar(
+    aes(ymin = mean_abun - se_abun,
+        ymax = mean_abun + se_abun),
+    width    = 0.2,
+    # place each errorbar in the vertical centre of its segment
+    position = position_stack(vjust = 0.5),
+    color    = "black"
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Taxa Abundance by Month – Pabay",
+    subtitle = "Mean abundance ± SE (raw counts), stacked by taxon",
+    x        = "Month",
+    y        = "Mean abundance (counts)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10)
+  )
+
+print(dom_plank_stacked_raw)
+
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+# 1) compute mean & SE per taxon‐month
+summary_taxa <- top_taxa_data_plank %>%
+  group_by(month_year, species_name_edit) %>%
+  summarise(
+    mean_log = mean(log_value, na.rm = TRUE),
+    se_log   = sd(log_value, na.rm = TRUE) / sqrt(n()),
+    .groups  = "drop"
+  )
+
+# 2) compute total mean & pooled SE per month
+summary_total <- summary_taxa %>%
+  group_by(month_year) %>%
+  summarise(
+    total_mean = sum(mean_log),
+    total_se   = sqrt(sum(se_log^2)),
+    .groups    = "drop"
+  )
+
+# 3) plot
+dom_plank <- ggplot(summary_taxa, aes(x = month_year, y = mean_log, fill = species_name_edit)) +
+  # stacked bars
+  geom_col(width = 0.7) +
+  
+  # single error‐bar at top of each stack
+  geom_errorbar(
+    data = summary_total,
+    aes(
+      x    = month_year,
+      ymin = total_mean - total_se,
+      ymax = total_mean + total_se
+    ),
+    width = 0.2, colour = "black"
+  ) +
+  
+  # color, labels, theme
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Dominant Plankton Taxa by Month – Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title        = element_text(face = "bold", size = 16),
+    plot.subtitle     = element_text(size = 11),
+    axis.title        = element_text(face = "bold"),
+    legend.position   = "right",
+    legend.title      = element_text(face = "bold"),
+    panel.spacing.x   = unit(1, "lines"),
+    axis.text.y       = element_text(size = 10),
+    axis.text.x       = element_text(angle = 45, hjust = 1)
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+# assume you’ve already built:
+# summary_taxa  with columns month_year, species_name_edit, mean_log, se_log
+# summary_total with columns month_year, total_mean, total_se
+
+dom_plank <- ggplot(summary_taxa, aes(x = month_year, y = mean_log, fill = species_name_edit)) +
+  geom_col(width = 0.7) +
+
+  # override inheritance here:
+  geom_errorbar(
+    data        = summary_total,
+    inherit.aes = FALSE,
+    aes(
+      x    = month_year,
+      ymin = total_mean - total_se,
+      ymax = total_mean + total_se
+    ),
+    width = 0.2, colour = "black"
+  ) +
+
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Abundance Taxa by Month – Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title      = element_text(face = "bold", size = 16),
+    plot.subtitle   = element_text(size = 11),
+    axis.title      = element_text(face = "bold"),
+    legend.position = "right",
+    legend.title    = element_text(face = "bold"),
+    panel.spacing.x = unit(1, "lines"),
+    axis.text.y     = element_text(size = 10),
+    axis.text.x     = element_text(angle = 0, hjust = 0.5)
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+library(ggplot2)
+library(viridis)
+
+dom_plank <- ggplot(summary_taxa, 
+                    aes(x    = month_year, 
+                        y    = mean_log, 
+                        fill = species_name_edit)) +
+  # 1) stacked bars
+  geom_col(width = 0.7) +
+
+  # 2) taxon‐level SE bars, centered on each segment
+  geom_errorbar(
+    aes(ymin = mean_log - se_log,
+        ymax = mean_log + se_log),
+    width    = 0.2,
+    color    = "black",
+    position = position_stack(vjust = 0.5)
+  ) +
+
+  # 3) total‐level SE bar (if you still want it)
+  geom_errorbar(
+    data        = summary_total,
+    inherit.aes = FALSE,
+    aes(
+      x    = month_year,
+      ymin = total_mean - total_se,
+      ymax = total_mean + total_se
+    ),
+    width = 0.2, colour = "red"
+  ) +
+
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Abundance Taxa by Month – Pabay",
+    subtitle = "Mean log10 Abundance ± taxon‐level SE (black) and total SE (red)",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title      = element_text(face = "bold", size = 16),
+    plot.subtitle   = element_text(size = 11),
+    axis.title      = element_text(face = "bold"),
+    legend.position = "right",
+    legend.title    = element_text(face = "bold"),
+    panel.spacing.x = unit(1, "lines"),
+    axis.text.y     = element_text(size = 10),
+    axis.text.x     = element_text(angle = 0, hjust = 0.5)
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(scales)
+
+# 1) Compute per‐taxon summaries on the raw scale
+summary_taxa_raw <- top_taxa_data_plank %>%
+  group_by(month_year, species_name_edit) %>%
+  summarise(
+    mean_val = mean(total_value, na.rm = TRUE),
+    se_val   = sd(total_value,   na.rm = TRUE) / sqrt(n()),
+    .groups  = "drop"
+  )
+
+# 2) Compute the total (sum of means) + its SE (sqrt of variances)
+summary_total_raw <- summary_taxa_raw %>%
+  group_by(month_year) %>%
+  summarise(
+    total_mean = sum(mean_val),
+    total_se   = sqrt(sum(se_val^2)),
+    .groups    = "drop"
+  )
+
+# 3) Make sure month_year is a factor in chronological order
+ordered_months <- c("April 22","May 22","June 21","June 22","July 22")
+summary_taxa_raw  <- summary_taxa_raw  %>% mutate(month_year = factor(month_year, levels = ordered_months))
+summary_total_raw <- summary_total_raw %>% mutate(month_year = factor(month_year, levels = ordered_months))
+
+# 4) Plot
+ggplot() +
+  # stacked bars on raw mean
+  geom_col(
+    data = summary_taxa_raw,
+    aes(x = month_year, y = mean_val, fill = species_name_edit),
+    width = 0.7
+  ) +
+  # per‐taxon SE bars, centered in each segment
+  geom_errorbar(
+    data     = summary_taxa_raw,
+    aes(x      = month_year,
+        ymin   = mean_val - se_val,
+        ymax   = mean_val + se_val),
+    width    = 0.2,
+    color    = "black",
+    position = position_stack(vjust = 0.5)
+  ) +
+  # one total SE bar per month
+  geom_errorbar(
+    data        = summary_total_raw,
+    aes(x        = month_year,
+        ymin     = total_mean - total_se,
+        ymax     = total_mean + total_se),
+    width = 0.2,
+    color = "grey20",
+    size  = 1
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Plankton Abundance Taxa by Month – Pabay",
+    subtitle = "Mean abundance ± SE (raw counts)",
+    x        = "Month",
+    y        = "Abundance (counts)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    axis.title       = element_text(face = "bold"),
+    axis.text.x      = element_text(size = 10, angle = 0, vjust = 0.5),
+    axis.text.y      = element_text(size = 10),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10),
+    panel.spacing.x  = unit(1, "lines")
+  )
+
+```
+
+
+```{r}
+library(ggplot2)
+library(viridis)
+
+dom_plank <- ggplot(summary_taxa, 
+                    aes(x    = month_year, 
+                        y    = mean_log, 
+                        fill = species_name_edit)) +
+  # stacked bars
+  geom_col(width = 0.7) +
+  
+  # errorbars per taxon, centered on each segment
+  geom_errorbar(
+    aes(ymin = mean_log - se,
+        ymax = mean_log + se),
+    width    = 0.2,
+    color    = "black",
+    position = position_stack(vjust = 0.5)
+  ) +
+  
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Dominant Plankton Taxa by Month – Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    axis.title       = element_text(face = "bold"),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    panel.spacing.x  = unit(1, "lines"),
+    axis.text.y      = element_text(size = 10),
+    axis.text.x      = element_text(angle = 0, hjust = 0.5)
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+geom_errorbar(
+  aes(
+    ymin = mean_log - se_log,
+    ymax = mean_log + se_log
+  ),
+  width    = 0.2,
+  position = position_stack(vjust = 0.5)
+)
+
+```
+
+```{r}
+dom_plank <- ggplot(summary_taxa,
+                    aes(x    = month_year,
+                        y    = mean_log,
+                        fill = species_name_edit)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(
+    aes(ymin     = mean_log - se,
+        ymax     = mean_log + se),
+    width    = 0.2,
+    position = position_stack(vjust = 0.5)
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Dominant Plankton Taxa by Month – Pabay",
+    subtitle = "Top taxa per month (April–July)",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    axis.title       = element_text(face = "bold"),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    panel.spacing.x  = unit(1, "lines"),
+    axis.text.y      = element_text(size = 10),
+    axis.text.x      = element_text(angle = 0, hjust = 0.5)
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+
+# 0) Make sure month_year is a factor in the order you want:
+summary_taxa <- summary_taxa %>%
+  # change the levels vector to your actual chronological order:
+  mutate(month_year = factor(month_year, levels = c("June 21","April 22","May 22","June 22","July 22")))
+
+# 1) Plot
+dom_plank <- ggplot(summary_taxa, 
+                    aes(x    = month_year, 
+                        y    = mean_log, 
+                        fill = species_name_edit)) +
+  # stacked bars
+  geom_col(width = 0.7) +
+  # error bars centered on each segment
+  geom_errorbar(aes(ymin = mean_log - se_log,
+                    ymax = mean_log + se_log),
+                width    = 0.2,
+                color    = "black",
+                position = position_stack(vjust = 0.5)) +
+  # color scale
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  # labels
+  labs(
+    title    = "Dominant Plankton Taxa by Month \u2013 Pabay",
+    subtitle = "Mean log10 Abundance ± SE",
+    x        = "Month",
+    y        = "Abundance (log10)"
+  ) +
+  # minimal theme + no grid lines
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    axis.title       = element_text(face = "bold"),
+    axis.text.x      = element_text(size = 10, angle = 0, vjust = 0.5),
+    axis.text.y      = element_text(size = 10),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10),
+    panel.spacing.x  = unit(1, "lines")
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(scales)
+library(lubridate)
+
+# 1) Summarise: mean, SD and SE of log_value per seaweed × month × taxon
+plank_summary <- top_taxa_data_plank %>%
+  group_by(seaweed, month_year, parsed_month, species_name_edit) %>%
+  summarise(
+    n        = n(),
+    mean_log = mean(log_value, na.rm = TRUE),
+    sd_log   = sd(log_value,   na.rm = TRUE),
+    se_log   = sd_log / sqrt(n),
+    .groups  = "drop"
+  )
+
+# 2) Make month_year a factor in chronological order
+plank_summary <- plank_summary %>%
+  mutate(
+    month_year = factor(month_year,
+      levels = c("April 22", "May 22", "June 21", "June 22", "July 22")
+    )
+  )
+
+# 3) Plot
+ggplot(plank_summary,
+       aes(x    = month_year,
+           y    = mean_log,
+           fill = species_name_edit)) +
+  geom_col(width   = 0.7) +
+  
+  # error bars centered on each stacked segment
+  geom_errorbar(aes(ymin     = mean_log - se_log,
+                    ymax     = mean_log + se_log),
+                width    = 0.2,
+                color    = "black",
+                position = position_stack(vjust = 0.5)) +
+  
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  facet_wrap(~ seaweed, nrow = 1, scales = "free_x") +
+  labs(
+    title    = "Plankton Abundance by Month – Pabay",
+    subtitle = "Mean log10 Abundance ± SE",
+    x        = "Month",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10),
+    strip.text       = element_text(face = "bold", size = 11)
+  )
+
+```
+
+
+```{r}
+library(dplyr)
+
+summary_total <- summary_taxa %>%
+  group_by(month_year) %>%
+  summarise(
+    total_mean = sum(mean_log),
+    total_se   = sqrt(sum(se_log^2)),  # sqrt of summed variances
+    .groups     = "drop"
+  )
+
+```
+
+```{r}
+library(ggplot2); library(viridis)
+
+dom_plank <- ggplot() +
+  # 1) stacked bars
+  geom_col(
+    data    = summary_taxa,
+    aes(x = month_year, y = mean_log, fill = species_name_edit),
+    width   = 0.7
+  ) +
+  # 2) one error bar per month
+  geom_errorbar(
+    data        = summary_total,
+    aes(
+      x    = month_year,
+      ymin = total_mean - total_se,
+      ymax = total_mean + total_se
+    ),
+    width = 0.2,
+    colour = "black"
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Dominant Plankton Taxa by Month – Pabay",
+    subtitle = "Mean log10 Abundance ± SE",
+    x        = "Date (month-year)",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title       = element_text(face = "bold", size = 16),
+    plot.subtitle    = element_text(size = 11),
+    axis.title       = element_text(face = "bold"),
+    axis.text.x      = element_text(size = 10, angle = 0, vjust = 0.5),
+    axis.text.y      = element_text(size = 10),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    legend.text      = element_text(size = 10),
+    panel.spacing.x  = unit(1, "lines")
+  )
+
+print(dom_plank)
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+# 1) Figure out which 5 taxa have the highest total mean_log across all months
+top5 <- summary_taxa %>%
+  group_by(species_name_edit) %>%
+  summarise(total_mean = sum(mean_log), .groups="drop") %>%
+  slice_max(total_mean, n = 5) %>%
+  pull(species_name_edit)
+
+# 2) Filter your summary to only those 5
+summary_top5 <- summary_taxa %>%
+  filter(species_name_edit %in% top5)
+
+# 3) Rebuild the plot
+dom_plank_top5 <- ggplot() +
+  geom_col(
+    data = summary_top5,
+    aes(x = month_year, y = mean_log, fill = species_name_edit),
+    width = 0.7
+  ) +
+  geom_errorbar(
+    data = summary_total,
+    aes(
+      x    = month_year,
+      ymin = total_mean - total_se,
+      ymax = total_mean + total_se
+    ),
+    width  = 0.2, colour="black"
+  ) +
+  scale_fill_viridis_d(option="D", name="Taxon") +
+  labs(
+    title    = "Top 5 Plankton Taxa by Month - Pabay",
+    subtitle = "Mean log10 Abundance ± SE",
+    x        = "Month",
+    y        = "Abundance (log10)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x      = element_text(size=10),
+    legend.position  = "right"
+  )
+
+print(dom_plank_top5)
+
+```
+
+
+```{r}
+
+library(svglite)
+ggsave(
+  filename = "dominant_plankton.svg",
+  plot = dom_plank,       
+  width = 10,
+  height = 6,
+  units = "in",
+  dpi = 300,
+  device = "svg"
+)
+
+```
+
+
+```{r}
+library(dplyr)
+
+blade_summary_se <- kelpcrofting_taxa %>%
+  filter(
+    measurement_origin == "blade_coverage",
+    month %in% 4:7,
+    !is.na(measurement_value),
+    !species_name %in% c("percent hydrozoans", "percent bryozoans", "percent brown blotches", "percent epiphytes")
+  ) %>%
+  mutate(
+    species_name = str_remove(species_name, "^percent[_ ]blade[_ ]"),
+    species_name = str_to_title(species_name),
+    parsed_date = dmy(date),
+    month_year = format(parsed_date, "%B %y"),
+    parsed_month = floor_date(parsed_date, unit = "month")
+  ) %>%
+  group_by(seaweed, parsed_month, species_name) %>%
+  summarise(
+    mean_cover = mean(measurement_value, na.rm = TRUE),
+    se_cover = sd(measurement_value, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+library(dplyr)
+library(lubridate)
+
+# 1) Filter out June & July for Alaria
+plot_df <- blade_summary_se %>%
+  filter(
+    !(seaweed == "Alaria" & month(parsed_month) %in% c(6, 7))
+  )
+
+# 2) Then plot from plot_df
+blade_mean_cover <- ggplot(plot_df, 
+                           aes(x = parsed_month, 
+                               y = mean_cover, 
+                               fill = species_name)) +
+  geom_col(position = position_dodge(width = 20), width = 15) +
+  geom_errorbar(
+    aes(ymin = mean_cover - se_cover,
+        ymax = mean_cover + se_cover),
+    width    = 8,
+    position = position_dodge(width = 20),
+    alpha    = 0.7
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  scale_y_continuous(
+    labels = scales::label_number(scale_cut = scales::cut_short_scale())
+  ) +
+  scale_x_date(
+    date_labels = "%b %y",
+    breaks      = unique(plot_df$parsed_month),
+    expand      = expansion(mult = c(0.01, 0.05))
+  ) +
+  facet_wrap(~ seaweed, nrow = 1, scales = "free_x") +
+  labs(
+    title    = "Blade Coverage by Taxon with Standard Error",
+    subtitle = "Mean ± SE % cover (April–May only for Alaria)",
+    x        = "Month",
+    y        = "Blade Coverage (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid       = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 15),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "right",
+    legend.title     = element_text(face = "bold"),
+    strip.text       = element_text(face = "bold", size = 11)
+  )
+
+blade_mean_cover
+
+
+blade_mean_cover
+
+
+
+```
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(viridis)
+
+blade_summary_max <- kelpcrofting_taxa %>%
+  filter(
+    measurement_origin == "blade_coverage",
+    month %in% 4:7,
+    !is.na(measurement_value),
+    !species_name %in% c("percent hydrozoans", "percent bryozoans", 
+                         "percent brown blotches", "percent epiphytes")
+  ) %>% 
+  mutate(
+    species_name = str_to_title(str_remove(species_name, "^percent[_ ]blade[_ ]")),
+    parsed_month = floor_date(dmy(date), "month")
+  ) %>%
+  group_by(seaweed, parsed_month, species_name) %>%
+  summarise(
+    n         = n(),
+    max_cover = max(measurement_value, na.rm = TRUE),
+    se_cover  = sd(measurement_value, na.rm = TRUE) / sqrt(n),
+    .groups   = "drop"
+  )
+
+ggplot(blade_summary_max,
+       aes(x = parsed_month, 
+           y = max_cover, 
+           fill = species_name)) +
+  geom_col(position = position_dodge(width = 20), width = 15) +
+  geom_errorbar(
+    aes(ymin = max_cover - se_cover,
+        ymax = max_cover + se_cover),
+    width    = 8,
+    position = position_dodge(width = 20),
+    color    = "black"
+  ) +
+  scale_x_date(
+    date_labels = "%b %y", 
+    breaks      = unique(blade_summary_max$parsed_month)
+  ) +
+  facet_wrap(~ seaweed, nrow = 1, scales = "free_x") +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  labs(
+    title    = "Maximum Blade Coverage by Taxon ± SE",
+    subtitle = "Max % cover (April–July) with standard error",
+    x        = "Month",
+    y        = "Blade Coverage (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid       = element_blank(),
+    axis.text.x      = element_text(angle = 45, hjust = 1),
+    axis.title       = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold", size = 15),
+    plot.subtitle    = element_text(size = 11),
+    legend.position  = "bottom",
+    legend.title     = element_text(face = "bold"),
+    strip.text       = element_text(face = "bold", size = 11)
+  )
+
+
+```
+
+
+```{r}
+library(svglite)
+ggsave(
+  filename = "blade_mean_cover.svg",
+  plot = blade_mean_cover,       
+  width = 10,
+  height = 6,
+  units = "in",
+  dpi = 300,
+  device = "svg"
+)
+```
+
+
+
+```{r}
+
+abundance_summary_se <- kelpcrofting_taxa %>%
+  filter(
+    measurement_origin == "blade_abundance",
+    month %in% 4:7,
+    !is.na(measurement_value),
+    measurement_value > 0
+  ) %>%
+  mutate(
+    species_name = str_to_title(species_name),
+    parsed_date = dmy(date),
+    month_year = format(parsed_date, "%B %y"),
+    parsed_month = floor_date(parsed_date, unit = "month")
+  ) %>%
+  group_by(seaweed, parsed_month, species_name) %>%
+  summarise(
+    mean_abundance = mean(measurement_value, na.rm = TRUE),
+    se_abundance = sd(measurement_value, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  )
+
+```
+
+
+```{r}
+library(ggplot2)
+library(viridis)
+
+blade_abd <- ggplot(abundance_summary_se, aes(x = parsed_month, y = mean_abundance, fill = species_name)) +
+  geom_col(position = position_dodge(width = 20), width = 15) +
+  geom_errorbar(
+    aes(ymin = mean_abundance - se_abundance, ymax = mean_abundance + se_abundance),
+    width = 8,
+    position = position_dodge(width = 20),
+    alpha = 0.7
+  ) +
+  scale_fill_viridis_d(option = "D", name = "Taxon") +
+  scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  scale_x_date(
+    date_labels = "%b %y",
+    breaks = unique(abundance_summary_se$parsed_month),  # only real months shown
+    expand = expansion(mult = c(0.01, 0.05))
+  ) +
+  facet_wrap(~ seaweed, nrow = 1, scales = "free_x") +
+  labs(
+    title = "Blade Abundance by Taxon with Standard Error",
+    subtitle = "Mean ± SE (ind/cm², April–July)",
+    x = "Month",
+    y = "Blade Abundance (ind/cm²)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+      panel.grid       = element_blank(),  
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(face = "bold"),
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 11),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", size = 11)
+  )
+
+blade_abd
+```
+
+
+```{r}
+library(svglite)
+ggsave(
+  filename = "blade_abd.svg",
+  plot = blade_abd,       
+  width = 10,
+  height = 6,
+  units = "in",
+  dpi = 300,
+  device = "svg"
+)
+```
+
+
+

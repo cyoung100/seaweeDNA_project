@@ -1,0 +1,26 @@
+origin,tag_color,rock_number,seaweed_id,date,blade_length_pre_experiment,origin_kelp,biofouling_removed_14_5_25,no_blades,initial tank,Nutrient_treatment_tank,main_experiment_tank,Turbulence,nutrient_treatment,Swab_prior_enrichment,Swab_after_enrichment_16_5
+Kilchoan_young,Orange_yellow,14,YO14,12_5_2025,60,marivate_kilchoan,,3,7,2,5,Low,P,30,168
+Kilchoan_young,Orange_yellow,20,YO20,12_5_2025,51,marivate_kilchoan,,6,5,1,5,Low,N,45,167
+Kilchoan_young,Orange_yellow,15,YO15,12_5_2025,44,marivate_kilchoan,,2,7,3,3,Low,C,31,166
+Kilchoan_young,Orange_yellow,1,YO01,12_5_2025,43,marivate_kilchoan,,1,5,1,7,Low,N,39,163
+Kilchoan_young,Orange_yellow,16,YO16,12_5_2025,65,marivate_kilchoan,,7,7,3,5,Low,C,29,177
+Kilchoan_young,Orange_yellow,4,YO04,12_5_2025,47,marivate_kilchoan,,3,5,1,3,Low,N,36,165
+Kilchoan_young,Orange_yellow,22,YO22,12_5_2025,39,marivate_kilchoan,,15,6,3,4,High,C,48,182
+Kilchoan_young,Orange_yellow,11,YO11,12_5_2025,62,marivate_kilchoan,,4,7,1,4,High,N,26,160
+Kilchoan_young,Orange_yellow,23,YO23,12_5_2025,39,marivate_kilchoan,,3,5,3,2,High,C,76,176
+Kilchoan_young,Orange_yellow,21,YO21,12_5_2025,36,marivate_kilchoan,1 juvenile mussel,7,6,2,3,Low,P,48,174
+Kilchoan_young,Orange_yellow,5,YO05,12_5_2025,62,marivate_kilchoan,,7,5,2,4,High,P,38,172
+Kilchoan_young,Orange_yellow,8,YO05,12_5_2025,40,marivate_kilchoan,,4,5,1,6,High,N,33,162
+Kilchoan_young,Orange_yellow,18,YO18,12_5_2025,49,marivate_kilchoan,,2,6,3,3,Low,C,43,181
+Kilchoan_young,Orange_yellow,13,YO13,12_5_2025,55,marivate_kilchoan,,7,7,3,7,Low,C,28,179
+Kilchoan_young,Orange_yellow,19,YO19,12_5_2025,38,marivate_kilchoan,,4,6,2,2,High,P,42,173
+Kilchoan_young,Orange_yellow,2,YO02,12_5_2025,30,marivate_kilchoan,,1,5,2,3,Low,P,32,171
+Kilchoan_young,Orange_yellow,25,YO25,12_5_2025,60,marivate_kilchoan,,8,6,1,2,High,N,44,161
+Kilchoan_young,Orange_yellow,12,YO12,12_5_2025,39,marivate_kilchoan,,7,7,2,6,High,P,25,169
+Kilchoan_young,Orange_yellow,17,YO17,12_5_2025,30,marivate_kilchoan,,4,7,1,2,High,N,27,164
+Kilchoan_young,Orange_yellow,3,YO03,12_5_2025,38,marivate_kilchoan,1 juvenile mussel,2,5,2,2,High,P,40,170
+Kilchoan_young,Orange_yellow,10,YO10,12_5_2025,30,marivate_kilchoan,,4,7,2,7,Low,P,29,fell
+Kilchoan_young,Orange_yellow,7,YO07,12_5_2025,24,marivate_kilchoan,,3,5,3,3,Low,C,35,175
+Kilchoan_young,Orange_yellow,9,YO09,12_5_2025,23,marivate_kilchoan,,3,5,3,2,High,C,37,180
+Kilchoan_young,Orange_yellow,6,YO06,12_5_2025,30,marivate_kilchoan,,3,5,3,6,High,C,41,178
+Kilchoan_young,Orange_yellow,1,YO01,27_4_2025,60,marivate_kilchoan,,1,5,,,,,39,

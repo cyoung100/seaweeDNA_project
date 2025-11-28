@@ -1,0 +1,195 @@
+
+```{r}
+# Install and load necessary libraries
+if (!require(ggplot2)) install.packages("ggplot2", dependencies=TRUE)
+if (!require(dplyr)) install.packages("dplyr", dependencies=TRUE)
+if (!require(zoo)) install.packages("zoo", dependencies=TRUE)
+if (!require(lubridate)) install.packages("lubridate", dependencies=TRUE)
+
+library(ggplot2)
+library(dplyr)
+library(zoo)
+library(lubridate)
+
+# Step 1: Load the data (assuming the file name is "acceleration_data.csv")
+# The data should have columns: 'datetime', 'acc_x', 'acc_y', 'acc_z' (in g)
+# The 'datetime' column is in format "MM/DD/YY HH:MM:SS AM/PM"
+
+data <- read.csv("kilchoan_log_nov_dec.csv")
+
+# Step 2: Clean and convert datetime to proper Date-Time format using lubridate
+# The format "MM/DD/YY HH:MM:SS AM/PM" is common, and lubridate's mdy_hms handles it well
+data$datetime <- mdy_hms(data$date_time)
+
+data <- data %>% 
+            select(-date_time) %>% 
+            na.omit()
+
+# Step 3: Convert 'datetime' column to POSIXct for proper time handling
+# Ensure the datetime format is correctly interpreted
+data$datetime <- ymd_hms(data$datetime)
+
+# Step 4: Check for missing or malformed datetime values
+if(any(is.na(data$datetime))) {
+  print("Warning: There are missing or malformed datetime values!")
+  data <- na.omit(data)  # Remove rows with missing datetime
+}
+
+# Step 5: Convert acceleration from g to m/s² (multiply by 9.81)
+data$acc_x <- data$acc_x * 9.81
+data$acc_y <- data$acc_y * 9.81
+data$acc_z <- data$acc_z * 9.81
+
+# Step 6: Initialize velocity components (x, y, z) at 0 when x = 0
+data$v_x <- 0
+data$v_y <- 0
+data$v_z <- 0
+
+# Define a small threshold to consider as "no movement" (acceleration close to zero)
+threshold <- 0.1  # in m/s², this is a small threshold for "no movement"
+
+# Step 7: Loop through the data and integrate the acceleration differences (y and z) to estimate velocity
+for (i in 2:nrow(data)) {
+  # Time difference (in seconds) between consecutive points
+  dt <- as.numeric(difftime(data$datetime[i], data$datetime[i - 1], units = "secs"))
+  
+  # Skip rows where any acceleration value is NA
+  if (any(is.na(c(data$acc_x[i], data$acc_y[i], data$acc_z[i])))) {
+    next  # Skip this iteration if there are missing values in any of the accelerations
+  }
+
+  # Only integrate if the acceleration is above a certain threshold (indicating movement)
+  if (abs(data$acc_x[i]) > threshold || abs(data$acc_y[i]) > threshold || abs(data$acc_z[i]) > threshold) {
+    # Using trapezoidal rule to calculate velocity change over the time interval
+    data$v_y[i] <- data$v_y[i - 1] + (data$acc_y[i] + data$acc_y[i - 1]) * dt / 2
+    data$v_z[i] <- data$v_z[i - 1] + (data$acc_z[i] + data$acc_z[i - 1]) * dt / 2
+  } else {
+    # If the acceleration is below the threshold, assume no movement, velocity stays at 0
+    data$v_y[i] <- 0
+    data$v_z[i] <- 0
+  }
+}
+
+# Step 8: Calculate the total velocity (magnitude) for each timepoint
+data$v_total <- sqrt(data$v_x^2 + data$v_y^2 + data$v_z^2)
+
+# Step 9: Calculate the average velocity per day
+data$day <- as.Date(data$datetime)  # Extract the date part (ignores the time)
+avg_velocity_per_day <- data %>%
+  group_by(day) %>%
+  summarise(avg_velocity = mean(v_total, na.rm = TRUE))
+
+# Step 10: Plot the average velocity for each day as a scatterplot
+ggplot(avg_velocity_per_day, aes(x = day, y = log(avg_velocity))) +
+  geom_point(color = "blue", size = 2) +  # Scatterplot
+  labs(title = "Average Water Current Velocity per Day",
+       x = "Date",
+       y = "Average Velocity (m/s)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_date(labels = scales::date_format("%b %d, %Y"), breaks = "1 day")
+
+```
+```{r}
+# Install and load necessary libraries
+if (!require(ggplot2)) install.packages("ggplot2", dependencies=TRUE)
+if (!require(dplyr)) install.packages("dplyr", dependencies=TRUE)
+if (!require(lubridate)) install.packages("lubridate", dependencies=TRUE)
+
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Step 1: Load the data (assuming the file name is "acceleration_data.csv")
+# The data should have columns: 'datetime', 'acc_x', 'acc_y', 'acc_z' (in g)
+# The 'datetime' column is in format "MM/DD/YY HH:MM:SS AM/PM"
+
+data <- read.csv("kilchoan_log_nov_dec.csv")
+
+# Step 2: Check the structure of the data to ensure proper loading
+str(data)
+head(data)
+
+# Step 3: Convert 'datetime' column to POSIXct for proper time handling
+# Ensure the datetime format is correctly interpreted
+data$datetime <- ymd_hms(data$date_time)
+
+# Step 4: Check for missing or malformed datetime values
+if(any(is.na(data$datetime))) {
+  print("Warning: There are missing or malformed datetime values!")
+  data <- na.omit(data)  # Remove rows with missing datetime
+}
+
+# Step 5: Convert acceleration from g to m/s² (multiply by 9.81)
+data$acc_x <- data$acc_x * 9.81
+data$acc_y <- data$acc_y * 9.81
+data$acc_z <- data$acc_z * 9.81
+
+# Step 6: Check the range of acceleration values to ensure they are reasonable
+summary(data$acc_x)
+summary(data$acc_y)
+summary(data$acc_z)
+
+# Step 7: Initialize velocity components (x, y, z) at 0 when x = 0
+data$v_x <- 0
+data$v_y <- 0
+data$v_z <- 0
+
+# Define a small threshold to consider as "no movement" (acceleration close to zero)
+threshold <- 0.1  # in m/s², this is a small threshold for "no movement"
+
+# Step 8: Loop through the data and integrate the acceleration differences (y and z) to estimate velocity
+for (i in 2:nrow(data)) {
+  # Time difference (in seconds) between consecutive points
+  dt <- as.numeric(difftime(data$datetime[i], data$datetime[i - 1], units = "secs"))
+  
+  # Check for reasonable time intervals (should be around 900 seconds for 15 min intervals)
+  if (dt != 900) {
+    print(paste("Warning: Unexpected time difference at row", i, ":", dt, "seconds"))
+  }
+  
+  # Skip rows where any acceleration value is NA
+  if (any(is.na(c(data$acc_x[i], data$acc_y[i], data$acc_z[i])))) {
+    next  # Skip this iteration if there are missing values in any of the accelerations
+  }
+
+  # Only integrate if the acceleration is above a certain threshold (indicating movement)
+  if (abs(data$acc_x[i]) > threshold || abs(data$acc_y[i]) > threshold || abs(data$acc_z[i]) > threshold) {
+    # Using trapezoidal rule to calculate velocity change over the time interval
+    data$v_y[i] <- data$v_y[i - 1] + (data$acc_y[i] + data$acc_y[i - 1]) * dt / 2
+    data$v_z[i] <- data$v_z[i - 1] + (data$acc_z[i] + data$acc_z[i - 1]) * dt / 2
+  } else {
+    # If the acceleration is below the threshold, assume no movement, velocity stays at 0
+    data$v_y[i] <- 0
+    data$v_z[i] <- 0
+  }
+}
+
+# Step 9: Calculate the total velocity (magnitude) for each timepoint
+data$v_total <- sqrt(data$v_x^2 + data$v_y^2 + data$v_z^2)
+
+# Step 10: Check velocity data range after calculation to ensure it's reasonable
+summary(data$v_total)
+
+# Step 11: Scale the velocity values (if needed, e.g., by a factor of 1000 to bring them down to reasonable levels)
+# Uncomment the next line if you need to scale down the velocity values
+# data$v_total <- data$v_total / 1000  # Adjust velocity magnitude if needed
+
+# Step 12: Calculate the average velocity per day
+data$day <- as.Date(data$datetime)  # Extract the date part (ignores the time)
+avg_velocity_per_day <- data %>%
+  group_by(day) %>%
+  summarise(avg_velocity = mean(v_total, na.rm = TRUE))
+
+# Step 13: Plot the average velocity for each day as a scatterplot
+ggplot(avg_velocity_per_day, aes(x = day, y = avg_velocity)) +
+  geom_point(color = "blue", size = 2) +  # Scatterplot
+  labs(title = "Average Water Current Velocity per Day",
+       x = "Date",
+       y = "Average Velocity (m/s)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_date(labels = scales::date_format("%b %d, %Y"), breaks = "1 day")
+
+```
+

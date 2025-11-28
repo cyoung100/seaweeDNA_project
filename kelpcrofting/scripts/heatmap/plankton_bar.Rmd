@@ -1,0 +1,31 @@
+
+```{r}
+# Load necessary packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+library(ComplexHeatmap)
+library(circlize)
+library(viridis)
+
+# Read data
+kelpcrofting_taxa <- read.csv("scripts/clean_data/kelpcrofting_focal_sp_clean.csv")
+
+```
+
+
+```{r}
+plankton <- kelpcrofting_taxa %>% 
+  filter(measurement_origin == "plankton")
+
+
+ggplot(plankton, aes(x = measurement_value, y = species_id)) +
+  geom_bar(stat = "identity", fill = "steelblue")
+
+```
+

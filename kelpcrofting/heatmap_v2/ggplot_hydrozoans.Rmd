@@ -1,0 +1,517 @@
+---
+output: html_notebook
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+library(stringr)
+library(lubridate)
+library(viridis)
+library(scales)
+library(patchwork)
+library(forcats)
+# Base theme
+theme_set(
+  theme_minimal(base_size = 12) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 12),
+      axis.text        = element_text(size = 12),
+      legend.title     = element_text(size = 12),
+      legend.text      = element_text(size = 12),
+      strip.text       = element_text(size = 12)
+    )
+)
+```
+
+```{r read-clean}
+# 1) Read & clean
+obelia <- read.csv("obelia_heatmap_allOTU.csv", fileEncoding = "latin1") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>%
+  mutate(parsed_date = make_date(year, month, day),
+         otu_obelia_combined = as.numeric(otu_obelia_combined))
+```
+
+```{r pivot-classify}
+# 2) Pivot longer & classify
+obelia_long <- obelia %>%
+  pivot_longer(
+    cols      = c(starts_with("otu_"), contains("plankton"), contains("percent_blade")),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+
+  # (1) classify + log10‐transform + y_axis
+  mutate(
+    measurement_origin = case_when(
+      str_detect(species_id, "^otu_")    ~ "Plankton eDNA (RSV)",
+      str_detect(species_id, "plankton") ~ "Plankton Abundance (cells/L)",
+      species_id == "percent_blade_hydrozoans" ~ "Blade Coverage (%)",
+      TRUE                               ~ NA_character_
+    ),
+    measurement_value = if_else(
+      measurement_origin == "Plankton eDNA (RSV)",
+      log10(measurement_value+1),
+      measurement_value
+    ),
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE                                        ~ measurement_origin
+    )
+  ) %>%
+
+  # (2) recode_factor onto species_id
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      otu_aglaophenia_pluma           = "Aglaophenia pluma",
+      otu_aglaophenia_tubulifera      = "Aglaophenia tubulifera",
+      otu_apolemia_sp                 = "Apolemia sp. (RSV)",
+      otu_bougainvillia_muscus        = "Bougainvillia muscus",
+      otu_clytia_spp                  = "Clytia spp.",
+      otu_coryne_pintneri             = "Coryne pintneri",
+      otu_dynamena_pumila             = "Dynamena pumila",
+      otu_ectopleura_larynx           = "Ectopleura larynx",
+      otu_eutima_mira                 = "Eutima mira",
+      otu_forskalia_tholoides         = "Forskalia tholoides",
+      otu_garveia_annulata            = "Garveia annulata",
+      otu_halecium_sp_bmoo_08734      = "Halecium sp.",
+      otu_laodicea_sp_haw02           = "Laodicea sp.",
+      otu_mitrocomella_brownei        = "Mitrocomella brownei",
+      otu_obelia_bidentata            = "Obelia bidentata",
+      otu_obelia_dichotoma            = "Obelia dichotoma",
+      otu_obelia_spp                  = "Obelia sp.",
+      otu_obelia_combined             = "Obelia spp.",
+      otu_orthopyxis_crenata          = "Orthopyxis crenata",
+      otu_pennaria_disticha           = "Pennaria disticha",
+      otu_rhizorhagium_arenosum       = "Rhizorhagium arenosum",
+      otu_sarsia_tubulosa             = "Sarsia tubulosa",
+      otu_siphonophorae_sp_nhm_339    = "Siphonophorae sp",
+      otu_tiaropsis_multicirrata      = "Tiaropsis multicirrata",
+      plankton_obelia                 = "Obelia spp.",
+      plankton_clytia                 = "Clytia spp.",
+      
+    #  percent_blade_hydrozoans        = "Hydrozoan Coverage",
+      .default                        = species_id
+    )
+  ) %>%
+
+  # (3) optional: alphabetize your factor levels
+  mutate(
+    species_id = fct_relevel(species_id, sort(unique(as.character(species_id))))
+  ) %>%
+
+  # (4) drop any missing origins & build station/sample_order
+  filter(!is.na(measurement_origin)) %>%
+  mutate(
+    station      = paste0("S", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  )
+
+
+  
+```
+
+```{r}
+obelia_long <- obelia_long %>%
+  filter(parsed_date != as.Date("2021-06-15"))
+
+```
+
+
+
+```{r}
+
+order_ids <- obelia_long %>%
+  filter(species_id != c("Aglaophenia pluma",
+                         "Aglaophenia tubulifera",
+                         "Sarsia tubulosa")) %>%   # filter out that species
+  distinct(parsed_date, station, sample_order) %>%
+  arrange(parsed_date, as.integer(station)) %>%
+  pull(sample_order)
+
+
+obelia_long <- obelia_long %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+parts          <- strsplit(levels(obelia_long$sample_order), "_")
+dates          <- as.Date(sapply(parts, `[`, 1))
+raw_stations <- sapply(parts, `[`, 2)
+date_labels    <- ifelse(!duplicated(dates),
+                         format(dates, "%d %b"),
+                         "")
+
+station_labels <- paste0("S", raw_stations)
+```
+
+
+```{r}
+# ─────────────────────────────────────────────────────────────────────────────
+# 4) Factor for plotting order
+# ─────────────────────────────────────────────────────────────────────────────
+
+order_ids <- obelia_long %>% 
+  distinct(parsed_date, station_no) %>% 
+  arrange(parsed_date, station_no) %>% 
+  mutate(sample_order = paste(parsed_date, station_no, sep = "_")) %>% 
+  pull(sample_order)
+
+obelia_long <- obelia_long %>%
+  mutate(
+    station      = as.character(station_no),
+    sample_order = factor(paste(parsed_date, station, sep = "_"),
+                          levels = order_ids)
+  )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6) Split data for the four panels (blade now by seaweed)
+# ─────────────────────────────────────────────────────────────────────────────
+
+d_e      <- filter(obelia_long, measurement_origin == "Plankton eDNA (RSV)")
+d_p      <- filter(obelia_long, measurement_origin == "Plankton Abundance (cells/L)")
+
+d_b_sacc <- obelia_long %>%
+  filter(species_id == "percent_blade_hydrozoans",
+         seaweed    == "Saccharina") %>%
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      "percent_blade_hydrozoans" = "Hydrozoan\nCoverage Saccharina (%)"
+    )
+  )
+
+d_b_ala  <- obelia_long %>%
+  filter(species_id == "percent_blade_hydrozoans",
+         seaweed    == "Alaria") %>%
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      "percent_blade_hydrozoans" = "Hydrozoan Coverage\nAlaria (%)"
+    )
+  )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 7) Shared fill‐scales
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Colorblind-safe scales using viridis colors
+scale_e <- scale_fill_gradientn(
+  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),  # viridis palette
+  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),  # adjust these to your data range
+  name = "eDNA RSV log(%)",
+  na.value = "grey90"
+)
+
+scale_p <- scale_fill_gradientn(
+  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
+  values = scales::rescale(c(0, 10, 50, 200, 300)),  # adjust to your data range
+  name = "Plankton Abundance\n(cells/L)",
+  na.value = "grey90"
+)
+
+scale_b_a <- scale_fill_gradientn(
+  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
+  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  name = "Blade Coverage\nAlaria (%)",
+  na.value = "grey90"
+)
+
+scale_b_s <- scale_fill_gradientn(
+  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
+  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  name = "Blade Coverage\nSaccharina (%)",
+  na.value = "grey90"
+)
+# ─────────────────────────────────────────────────────────────────────────────
+# 8) Build each panel
+# ─────────────────────────────────────────────────────────────────────────────
+
+d_e <- d_e %>% 
+  filter(species_id == c("Bougainvillia muscus", "Clytia sp. 1"))
+
+
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), 
+                     y = fct_rev(species_id), 
+                      fill = measurement_value)) +
+  geom_tile(color = NA) + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0),
+    sec.axis = dup_axis(name = NULL, labels = station_labels)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size = 10),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) + ylab("Meroplankton\neDNA\nRSV rel. abundance (%)") +
+  theme(axis.title.y = element_text(size = 10))
+
+
+
+p2 <- ggplot(d_p, aes(x = sample_order, y = species_id, fill = measurement_value)) +
+  geom_tile(color = NA) + scale_p +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank()
+  ) +
+  ylab(NULL)
+
+p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
+                           y = species_id,
+                           fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_s +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = NULL,
+    expand = c(0,0)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab(NULL)
+
+p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
+                          y = species_id,
+                          fill = measurement_value)) +
+  geom_tile(color = NA) + scale_b_a +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids)+0.5),
+    breaks = seq_along(order_ids),
+    labels = date_labels,
+    expand = c(0,0),
+    name   = "Date"
+  )  + theme(
+    axis.text.x.bottom  = element_text(size = 10, vjust = 3, hjust = 0),
+    axis.title.x.bottom = element_text(margin = margin(t = 5)),
+    axis.ticks.x        = element_blank(),
+    panel.background    = element_blank(),
+    panel.grid          = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank(),
+          legend.title     = element_text(size = 10),  # <- uniform legend title
+      legend.text      = element_text(size = 10),
+  ) +
+  ylab(NULL)+
+  theme(axis.title.y = element_text(size = 10))
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 9) Stack panels with shared legends
+# ─────────────────────────────────────────────────────────────────────────────
+
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(ncol = 1, heights = c(8,1,2,1), guides = "collect") &
+  theme(
+    legend.position   = "right",
+    legend.title.size = 10,
+    legend.text.size  = 10,
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(0.8, "lines")
+  )
+
+print(final_plot)
+```
+
+```{r}
+svglite::svglite(
+  "hydro_KC.svg",
+  width  = 15,
+  height = 8.27
+)
+print(final_plot)
+dev.off()
+```
+
+
+###################################
+```{r}
+# 3) AVERAGE across the 3 stations per date/species
+obelia_date <- obelia_long %>%
+  group_by(parsed_date, species_id, measurement_origin, seaweed) %>%
+  summarise(
+    measurement_value = mean(measurement_value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# 4) Build date index & labels
+date_levels <- sort(unique(obelia_date$parsed_date))
+date_labels <- format(date_levels, "%d %b")
+
+obelia_date <- obelia_date %>%
+  mutate(
+    date_idx = as.numeric(factor(parsed_date, levels = date_levels))
+  )
+
+```
+
+```{r}
+# 5) Split into panels
+d_e <- obelia_date %>%
+  filter(
+    measurement_origin == "Plankton eDNA (RSV)",
+    species_id %in% c(
+      "Bougainvillia muscus", "Clytia spp.",
+      "Ectopleura larynx","Obelia spp."
+    )
+  )
+
+d_p      <- filter(obelia_date, measurement_origin == "Plankton Abundance (cells/L)")
+d_b_sacc <- obelia_date %>%
+  filter(species_id == "percent_blade_hydrozoans",
+         seaweed    == "Saccharina") %>%
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      "percent_blade_hydrozoans" = "Saccharina"
+    )
+  )
+
+d_b_ala  <- obelia_date %>%
+  filter(species_id == "percent_blade_hydrozoans",
+         seaweed    == "Alaria") %>%
+  mutate(
+    species_id = recode_factor(
+      species_id,
+      "percent_blade_hydrozoans" = "Alaria"
+    )
+  )
+
+```
+
+```{r}
+scale_e <- scale_fill_gradientn(
+  colors = viridis::magma(5, direction = -1),
+  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),  # adjust to your data range
+  name = "Meroplankton\neDNA\nlog10(ASV)", 
+  na.value = "grey90"
+)
+
+scale_p <- scale_fill_gradientn(
+  colors = viridis::magma(5, direction = -1),
+  values = scales::rescale(c(0, 10, 50, 200, 300)),  # adjust to your data range
+  name = "Meroplankton\nAbundance\n(cells/L)", 
+  na.value = "grey90"
+)
+
+scale_b_ala <- scale_fill_gradientn(
+  colors = viridis::magma(5, direction = -1),
+  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  name = "Alaria Frond\nCoverage\n(%)", 
+  na.value = "grey90"
+)
+
+scale_b_sac <- scale_fill_gradientn(
+  colors = viridis::magma(5, direction = -1),
+  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  name = "Saccharina\nFrond\nCoverage\n(%)", 
+  na.value = "grey90"
+)
+```
+
+
+```{r}
+
+p1 <- ggplot(d_e, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_e +
+  scale_x_continuous(
+    limits = c(0.5, length(date_levels) + 0.5),
+    breaks = seq_along(date_levels),
+    labels = NULL, expand = c(0, 0)
+  ) +
+  theme(
+    axis.text.x      = element_blank(),
+    axis.ticks.x     = element_blank(),
+        axis.title.x        = element_blank(),
+    axis.text.y      = element_text(size = 9)
+  ) +
+  ylab("Meroplankton\neDNA log10(ASV)")
+
+p2 <- ggplot(d_p, aes(date_idx, species_id, fill = measurement_value)) +
+  geom_tile() + scale_p +
+  scale_x_continuous(
+    limits = c(0.5, length(date_levels) + 0.5),
+    expand = c(0, 0)
+  ) +
+  theme(
+    axis.text.x      = element_blank(),
+    axis.ticks.x     = element_blank(),
+        axis.title.x        = element_blank(),
+    axis.text.y     = element_text(size = 9)
+  ) +
+  ylab("Meroplankton\nAbundance\n(cells/L)")
+
+p3 <- ggplot(d_b_sacc, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_b_sac +
+  scale_x_continuous(
+    limits = c(0.5, length(date_levels) + 0.5),
+    expand = c(0, 0)
+  ) +
+  theme(
+    axis.text.x      = element_blank(),
+    axis.ticks.x     = element_blank(),
+    axis.title.x     = element_blank(),
+    axis.text.y      = element_text(size = 9),
+    axis.title.y     = element_text(
+          margin = margin(t = 0.5), vjust = 1, hjust = 1.3)
+  ) +
+  ylab("Hydrozoa frond\nCoverage (%)")
+  
+  p3
+
+p4 <- ggplot(d_b_ala, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
+  geom_tile() + scale_b_ala +
+  scale_x_continuous(
+    limits = c(0.5, length(date_levels) + 0.5),
+    breaks = seq_along(date_levels),
+    labels = date_labels,
+    expand = c(0, 0),
+    name   = "Date"
+  ) +
+  theme(
+    axis.text.x  = element_text(size = 9, angle = 45, hjust = 1, vjust = 1.2),
+    axis.ticks.x = element_blank(),
+    axis.text.y  = element_text(size = 10)
+  ) +
+  ylab(NULL)
+
+```
+
+```{r}
+# 8) Stack & print
+
+
+
+final_plot <- p1 / p2 / p3 / p4 +
+  plot_layout(ncol = 1, heights = c(8, 3, 2, 2), guides = "collect") &
+  theme(
+    legend.position   = "right",
+    legend.direction = "vertical",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(1, "lines"),
+    plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
+  )
+
+print(final_plot)
+
+```
+

@@ -1,0 +1,19 @@
+*.fna
+*.fa
+*.fasta
+# --- Google Drive (Drive for desktop) ---
+.shortcut-targets-by-id/
+.Trash*/
+*.gdoc
+*.gsheet
+*.gslides
+*.tmp.drivedownload
+.goutputstream-*
+
+# --- Windows junk that commonly appears in synced folders ---
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+.tmp.driveupload/
+*.tmp.driveupload*

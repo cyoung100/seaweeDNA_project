@@ -1,0 +1,533 @@
+
+# Load packages
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(xfun)
+library(viridis)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+```
+
+```{r}
+
+getwd()
+
+kelpcrofting_taxa <- read.csv("C:/Users/calum/OneDrive/Desktop/seaweeDNA/clean_data/kelpcrofting_focal_sp_clean.csv")
+
+
+```
+
+
+```{r}
+df_bivalvia <- kelpcrofting_taxa %>%
+  filter(if_any(everything(), ~ str_detect(., regex("bivalvia", ignore_case = TRUE))))
+```
+
+```{r}
+# Subset all rows where any column contains "bivalvia" (case-insensitive)
+bivalvia_data <- kelpcrofting_taxa %>%
+  filter(if_any(everything(), ~ str_detect(., regex("bivalvia", ignore_case = TRUE)))) %>%
+  mutate(
+    species_origin = paste(measurement_origin, genus, sep = " | "),
+    station_label = paste0(day, "_", month, "_", year, "_st", station_no),
+    measurement_value = replace_na(as.numeric(measurement_value), 0),
+    species_origin = factor(species_origin, levels = unique(species_origin)),
+    station_label = factor(station_label, levels = unique(station_label))
+  )
+
+# Plot stacked rows per origin
+ggplot(bivalvia_data, aes(x = station_label, y = species_origin, fill = measurement_value)) +
+  geom_tile(color = "white", linewidth = 0.2) +
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 8),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Bivalvia Measurements by Origin and Station",
+    x = "Station",
+    y = "Origin | Genus",
+    fill = "Value"
+  )
+
+```
+
+```{r}
+# Prepare and normalize bivalvia data
+bivalvia_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(str_detect(species_name, regex("bivalvia", ignore_case = TRUE))) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("bivalvia", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+# Preserve order
+bivalvia_heatmap$y_axis <- factor(
+  bivalvia_heatmap$y_axis,
+  levels = c("bivalvia | plankton", "bivalvia | edna", "bivalvia | blade")
+)
+
+library(lubridate)
+
+bivalvia_heatmap <- bivalvia_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+
+```
+
+```{r}
+ggplot(bivalvia_heatmap, aes(x = sample_order, y = y_axis, fill = measurement_scaled)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 10),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Normalized Bivalvia Measurements",
+    x = "Sample (Date + Station)",
+    y = "Origin",
+    fill = "Scaled Value"
+  )
+
+```
+
+```{r}
+# Prepare and normalize bryozoa data
+bryozoa_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(
+    str_detect(species_name, regex("bryozoa", ignore_case = TRUE)) |
+    str_detect(phylum, regex("bryozoa", ignore_case = TRUE))
+  ) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("bryozoa", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+```
+
+```{r}
+# Ensure origin stacking order
+bryozoa_heatmap$y_axis <- factor(
+  bryozoa_heatmap$y_axis,
+  levels = c("bryozoa | plankton", "bryozoa | edna", "bryozoa | blade")
+)
+
+# Plot
+ggplot(bryozoa_heatmap, aes(x = sample_order, y = y_axis, fill = measurement_scaled)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "magma", na.value = "grey90") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 6),
+    axis.text.y = element_text(size = 10),
+    panel.grid = element_blank()
+  ) +
+  labs(
+    title = "Normalized Bryozoa Measurements by Origin and Station",
+    x = "Date & Station",
+    y = "Origin",
+    fill = "Value"
+  )
+```
+
+```{r}
+library(ComplexHeatmap)
+
+library(circlize)
+
+data <- bryozoa_heatmap %>% dplyr::select(c(measurement_value, measurement_origin,date_station,station_no,date ))
+
+View(head(data))
+
+base_mean = rowMeans(dfsum)
+
+mat_scaled = t(scale(t(data)))
+
+type = gsub("s\\d+_", "", colnames(data))
+
+ha = HeatmapAnnotation(df = data.frame(type = type))
+
+Heatmap(mat_scaled , name="Z-score", km=5, col=colorRamp2(c(-2, 0, 2), c("blue", "white", "red")),bottom_annotation = ha, bottom_annotation_height = unit(4, "mm"), show_row_names = FALSE, show_column_names = FALSE)
+
+```
+
+```{r}
+summary(bryozoa_heatmap$measurement_scaled)
+```
+
+
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(viridis)
+
+# 1. Add parsed date and sample_order
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order)),
+    y_axis = factor(y_axis, levels = c("bryozoa | plankton", "bryozoa | edna", "bryozoa | blade"))
+  ) 
+
+# Deduplicate by summarizing duplicates across y_axis × sample_order
+bryozoa_cleaned <- bryozoa_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+
+# 2. Pivot to matrix (no grouping before this!)
+pivoted <- bryozoa_cleaned %>%
+  select(y_axis, sample_order, measurement_value) %>%
+  tidyr::pivot_wider(
+    names_from = sample_order,
+    values_from = measurement_value,
+    values_fill = list(measurement_value = 0)  # ✅ This must be a named list
+  )
+
+str(bryozoa_heatmap)
+
+# 3. Convert to matrix
+heatmap_mat <- pivoted %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# 4. Create color function
+viridis_magma <- viridis_pal(option = "magma")(100)
+value_range <- range(heatmap_mat, na.rm = TRUE)
+col_fun <- colorRamp2(seq(value_range[1], value_range[2], length.out = 100), viridis_magma)
+
+# 5. Plot heatmap
+Heatmap(
+  heatmap_mat,
+  name = "value",
+  col = col_fun,
+  na_col = "grey90",
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  column_names_gp = gpar(fontsize = 6, rot = 90, just = "right"),
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(title = "Value")
+)
+
+```
+
+
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+
+# 1. Add parsed date and sample_order
+bryozoa_heatmap <- bryozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order)),
+    y_axis = factor(y_axis, levels = c("bryozoa | edna","bryozoa | plankton",  "bryozoa | blade"))
+  )
+
+# 2. Deduplicate by averaging duplicates across y_axis × sample_order
+bryozoa_cleaned <- bryozoa_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# 3. Pivot to wide matrix
+pivoted <- bryozoa_cleaned %>%
+  pivot_wider(
+    names_from = sample_order,
+    values_from = measurement_value,
+    values_fill = list(measurement_value = 0)
+  )
+
+# 4. Convert to matrix
+heatmap_mat <- pivoted %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# 5. Z-score scaling by row
+mat_scaled <- t(scale(t(heatmap_mat)))
+
+# 6. Plot heatmap without annotation
+Heatmap(
+  mat_scaled,
+  name = "Z-score",
+  col = colorRamp2(c(-2, 0, 2), c("blue", "white", "red")),
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  column_names_gp = gpar(fontsize = 6, rot = 90, just = "right"),
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+```
+
+```{r}
+library(viridis)
+
+# 1. Generate magma color palette
+viridis_magma <- viridis_pal(option = "magma")(100)  # 100 colors from "magma"
+
+# 2. Map your Z-score range to this palette
+value_range <- range(mat_scaled, na.rm = TRUE)
+col_fun <- colorRamp2(
+  seq(value_range[1], value_range[2], length.out = 100),
+  viridis_magma
+)
+
+# 3. Heatmap with magma colors
+Heatmap(
+  mat_scaled,
+  name = "Z-score",
+  col = col_fun,
+  na_col = "grey90",
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  column_names_gp = gpar(fontsize = 6, rot = 90, just = "right"),
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Summarize data
+bar_data <- bryozoa_heatmap %>%
+  group_by(measurement_origin, parsed_date) %>%
+  summarise(mean_value = mean(measurement_value, na.rm = TRUE))
+
+# Plot with ggplot2
+ggplot(bar_data, aes(x = parsed_date, y = mean_value, fill = measurement_origin)) +
+  geom_bar(stat = "identity", color = "black", position = "dodge") +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  labs(
+    title = "Mean Bryozoa Measurement by Origin",
+    x = "Measurement Origin",
+    y = "Mean Value"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+```
+
+```{r}
+# Prepare and normalize bryozoa data
+hydrozoa_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(
+    str_detect(species_name, regex("hydroz", ignore_case = TRUE)) |
+    str_detect(class, regex("hydrozoa", ignore_case = TRUE)) |
+    str_detect(species_id, regex("zooplank_abundance_total_hydrozoa", ignore_case = TRUE))|
+      str_detect(species_id, regex("zooplank_abundance_hydroids", ignore_case = TRUE))) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("hydrozoa", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+hydrozoa_heatmap <- hydrozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order))
+  )
+```
+
+```{r}
+# Ensure origin stacking order
+hydrozoa_heatmap$y_axis <- factor(
+  hydrozoa_heatmap$y_axis,
+  levels = c("hydrozoa | plankton", "hydrozoa | edna", "hydrozoa | blade")
+)
+
+
+
+```
+
+
+
+```{r}
+dates <- bar_data %>%
+  distinct(parsed_date)%>%
+  arrange(parsed_date) %>%
+  filter(measurement_origin == "edna")
+```
+
+```{r}
+hydrozoa_heatmap <- kelpcrofting_taxa %>%
+  mutate(parsed_date = dmy(date)) %>%
+  filter(
+    str_detect(species_name, regex("hydroz", ignore_case = TRUE)) |
+    str_detect(class, regex("hydrozoa", ignore_case = TRUE)) |
+    species_id == "zooplank_abundance_total_hydrozoa"
+  ) %>%
+  filter(!(str_detect(species_id, regex("total", ignore_case = TRUE)) & measurement_origin != "edna")) %>%
+  filter(!is.na(measurement_value), !is.na(measurement_origin)) %>%
+  mutate(
+    station = paste0("st", station_no),
+    date_str = paste(day, month, year, sep = "_"),
+    date_station = paste(date_str, station, sep = "_"),
+    origin_label = factor(measurement_origin, levels = c("plankton", "edna", "blade")),
+    y_axis = paste("hydrozoa", origin_label, sep = " | ")
+  ) %>%
+  group_by(measurement_origin) %>%
+  mutate(
+    measurement_scaled = rescale(as.numeric(measurement_value), to = c(0, 1))
+  ) %>%
+  ungroup() %>%
+  arrange(parsed_date, station_no)
+
+```
+
+```{r}
+hydrozoa_heatmap <- hydrozoa_heatmap %>%
+  mutate(
+    parsed_date = make_date(year, month, day),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  arrange(parsed_date, station_no) %>%
+  mutate(
+    sample_order = factor(sample_order, levels = unique(sample_order)),
+    y_axis = factor(y_axis, levels = c("hydrozoa | edna","hydrozoa | plankton",  "hydrozoa | blade"))
+  )
+
+# 2. Deduplicate by averaging duplicates across y_axis × sample_order
+hydrozoa_cleaned <- hydrozoa_heatmap %>%
+  group_by(y_axis, sample_order) %>%
+  summarise(measurement_value = mean(measurement_value, na.rm = TRUE), .groups = "drop")
+
+# 3. Pivot to wide matrix
+pivoted_hydrozoa <- hydrozoa_cleaned %>%
+  pivot_wider(
+    names_from = sample_order,
+    values_from = measurement_value,
+    values_fill = list(measurement_value = 0)
+  )
+
+library(viridis)
+viridis_magma <- viridis(100, option = "M")  # or option = "magma"
+
+
+# 4. Convert to matrix
+heatmap_mat_hydrozoa <- pivoted_hydrozoa %>%
+  column_to_rownames("y_axis") %>%
+  as.matrix()
+
+# 5. Z-score scaling by row
+mat_scaled_hydrozoa <- t(scale(t(heatmap_mat_hydrozoa)))
+
+
+value_range <- range(mat_scaled_hydrozoa, na.rm = TRUE)
+col_fun <- colorRamp2(
+  seq(value_range[1], value_range[2], length.out = 100),
+  viridis_magma
+)
+
+# 6. Plot heatmap without annotation
+Heatmap(
+  mat_scaled_hydrozoa,
+  name = "Z-score",
+  col = col_fun,
+  na_col = "grey90",
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  column_names_gp = gpar(fontsize = 6, rot = 90, just = "right"),
+  row_names_gp = gpar(fontsize = 10),
+  heatmap_legend_param = list(title = "Z-score")
+)
+
+
+
+
+
+```
+

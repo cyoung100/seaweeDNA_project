@@ -1,0 +1,738 @@
+```{r}
+## Optimized Primer Design Checker ##
+
+# =============================================================================
+# 1. SETUP & INITIALIZATION (RUN ONCE)
+# =============================================================================
+
+# Install & load required packages
+install_if_missing <- function(pkg, bioc = FALSE) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    if (bioc) {
+      if (!requireNamespace("BiocManager", quietly = TRUE)) {
+        install.packages("BiocManager")
+      }
+      BiocManager::install(pkg, ask = FALSE)
+    } else {
+      install.packages(pkg)
+    }
+  }
+}
+
+install_if_missing("Biostrings", bioc = TRUE)
+install_if_missing("tidyverse")
+install_if_missing("ggplot2")
+
+library(Biostrings)
+library(tidyverse)
+library(ggplot2)
+
+# Configuration
+CONFIG <- list(
+  genome_file = "mmem_genome.fna",
+  out_dir = "primer_assess_results",
+  max_mismatch = 2,
+  size_min = 100,
+  size_max = 300,
+  short_min = 100,
+  short_max = 200,
+  Na_mM = 50,
+  primer_nM = 300
+)
+
+# Create output directory
+if (!dir.exists(CONFIG$out_dir)) {
+  dir.create(CONFIG$out_dir, recursive = TRUE)
+}
+
+# Load genome once
+load_genome <- function(file) {
+  genome <- readDNAStringSet(file)
+  names(genome) <- sub(" .*", "", names(genome))
+  genome
+}
+
+GENOME <- load_genome(CONFIG$genome_file)
+
+# =============================================================================
+# 2. HELPER FUNCTIONS
+# =============================================================================
+
+# Primer cleaning and validation
+clean_primer <- function(x) {
+  s <- toupper(gsub("[^ACGTNRYWSMKBDHV]", "", x))
+  if (nchar(s) == 0) stop("Primer cleaned to empty string. Check input: ", x)
+  DNAString(s)  # validates format
+  s
+}
+
+# Basic primer QC metrics
+primer_qc <- function(seq) {
+  L <- nchar(seq)
+  gc <- 100 * str_count(seq, "[GC]") / L
+  tm <- 2 * str_count(seq, "[AT]") + 4 * str_count(seq, "[GC]")
+  
+  tibble(
+    length_bp = L,
+    GC_percent = round(gc, 1),
+    Tm_Wallace_C = tm
+  )
+}
+
+# Reverse complement
+revcomp <- function(x) {
+  xc <- chartr("ACGTUacgtu", "TGCAAtgcaa", x)
+  paste0(rev(strsplit(xc, "", TRUE)[[1]]), collapse = "")
+}
+
+# GC content
+gc_pct <- function(x) {
+  b <- strsplit(toupper(x), "", TRUE)[[1]]
+  100 * sum(b %in% c("G", "C")) / length(b)
+}
+
+# Wallace Tm calculation
+tm_wallace <- function(x) {
+  b <- strsplit(toupper(x), "", TRUE)[[1]]
+  2 * sum(b %in% c("A", "T")) + 4 * sum(b %in% c("G", "C"))
+}
+
+# Simple nearest-neighbor Tm
+tm_simple_nn <- function(x, Na_mM = 50, primer_nM = 300) {
+  L <- nchar(x)
+  GC <- gc_pct(x) / 100
+  81.5 + 16.6 * log10(Na_mM / 1000) + 0.41 * (100 * GC) - 675 / L - 
+    0.00075 * (primer_nM - 250)
+}
+
+# 3' complementarity check
+longest_3p_match <- function(a, b_rc) {
+  a <- toupper(a)
+  b_rc <- toupper(b_rc)
+  maxmatch <- 0
+  
+  for (k in seq_len(min(nchar(a), nchar(b_rc)))) {
+    sub_a <- substr(a, nchar(a) - k + 1, nchar(a))
+    sub_b <- substr(b_rc, 1, k)
+    eq <- strsplit(sub_a, "")[[1]] == strsplit(sub_b, "")[[1]]
+    m_consec <- rle(rev(eq))$lengths[1]
+    maxmatch <- max(maxmatch, m_consec)
+  }
+  maxmatch
+}
+
+# Hairpin stem check
+hairpin_3p_stem <- function(x, min_loop = 3) {
+  s <- toupper(x)
+  rc <- revcomp(s)
+  best <- 0
+  L <- nchar(s)
+  
+  for (loop in min_loop:min(10, L - 8)) {
+    for (stem in 4:min(12, L - loop - 1)) {
+      seg1 <- substr(s, L - stem + 1, L)
+      seg2 <- substr(rc, 1 + loop, loop + stem)
+      if (nchar(seg1) == nchar(seg2) && seg1 == seg2) {
+        best <- max(best, stem)
+      }
+    }
+  }
+  best
+}
+
+# Convert hits to data frame
+get_hits_df <- function(hits, strand) {
+  if (length(hits) == 0) {
+    return(tibble(
+      contig = character(),
+      start = integer(),
+      end = integer(),
+      width = integer(),
+      strand = character()
+    ))
+  }
+  
+  map_dfr(names(hits), function(contig_name) {
+    h <- hits[[contig_name]]
+    if (length(h) > 0) {
+      as.data.frame(h) %>%
+        mutate(contig = contig_name, strand = strand) %>%
+        select(contig, start, end, width, strand)
+    }
+  })
+}
+
+# =============================================================================
+# 3. COMPREHENSIVE PRIMER ASSESSMENT
+# =============================================================================
+
+assess_primer_pair <- function(forward, reverse, Na_mM = 50, primer_nM = 300) {
+  f <- toupper(gsub("\\s", "", forward))
+  r <- toupper(gsub("\\s", "", reverse))
+  f_rc <- revcomp(f)
+  r_rc <- revcomp(r)
+  
+  tibble(
+    primer = c("Forward", "Reverse", "Pair"),
+    seq = c(f, r, paste0(f, " / ", r)),
+    len_nt = c(nchar(f), nchar(r), NA_integer_),
+    gc_pct = c(gc_pct(f), gc_pct(r), NA_real_),
+    tm_w = c(tm_wallace(f), tm_wallace(r), NA_real_),
+    tm_C = c(
+      tm_simple_nn(f, Na_mM, primer_nM),
+      tm_simple_nn(r, Na_mM, primer_nM),
+      NA_real_
+    ),
+    hairpin3p_bp = c(hairpin_3p_stem(f), hairpin_3p_stem(r), NA_integer_),
+    self3p_bp = c(
+      longest_3p_match(f, f_rc),
+      longest_3p_match(r, r_rc),
+      NA_integer_
+    ),
+    hetero3p_bp = c(
+      NA_integer_,
+      NA_integer_,
+      max(longest_3p_match(f, r_rc), longest_3p_match(r, f_rc))
+    )
+  )
+}
+
+# =============================================================================
+# 4. CORE ASSESSMENT FUNCTION
+# =============================================================================
+
+assess_primers <- function(family, fwdP, revP, genome = GENOME,
+                          out_dir = CONFIG$out_dir,
+                          max_mismatch = CONFIG$max_mismatch,
+                          size_min = CONFIG$size_min,
+                          size_max = CONFIG$size_max,
+                          short_min = CONFIG$short_min,
+                          short_max = CONFIG$short_max,
+                          export_short_fasta = TRUE) {
+  
+  # Clean primers
+  fwd <- clean_primer(fwdP)
+  rev <- clean_primer(revP)
+  
+  # QC metrics
+  qcF <- primer_qc(fwd)
+  qcR <- primer_qc(rev)
+  dTm <- abs(qcF$Tm_Wallace_C - qcR$Tm_Wallace_C)
+  
+  # Find matches
+  fwd_hits <- vmatchPattern(fwd, genome, max.mismatch = max_mismatch)
+  rev_hits <- vmatchPattern(
+    reverseComplement(DNAString(rev)),
+    genome,
+    max.mismatch = max_mismatch
+  )
+  
+  # Convert to data frames
+  fdf <- get_hits_df(fwd_hits, "+")
+  rdf <- get_hits_df(rev_hits, "-")
+  
+  # Pair primers on same contig
+  pairs <- inner_join(fdf, rdf, by = "contig", 
+                     suffix = c("_fwd", "_rev"),
+                     relationship = "many-to-many") %>%
+    mutate(product_size = start_rev - end_fwd + 1L) %>%
+    filter(product_size >= size_min, product_size <= size_max) %>%
+    arrange(contig, product_size)
+  
+  # Save detailed hits
+  run_csv <- file.path(out_dir, paste0(family, "_hits.csv"))
+  write_csv(pairs, run_csv)
+  
+  # Update master detailed file
+  master_detail <- file.path(out_dir, "primer_hits_master.csv")
+  pairs_out <- pairs %>% mutate(family = family)
+  
+  if (file.exists(master_detail)) {
+    old_detail <- read_csv(master_detail, show_col_types = FALSE)
+    bind_rows(old_detail, pairs_out) %>%
+      write_csv(master_detail)
+  } else {
+    write_csv(pairs_out, master_detail)
+  }
+  
+  # Build summary statistics
+  size_tab <- pairs %>%
+    count(product_size, name = "n_loci") %>%
+    arrange(product_size)
+  
+  total_amplicons <- nrow(pairs)
+  n_short <- sum(pairs$product_size >= short_min & 
+                pairs$product_size <= short_max)
+  min_ps <- if (total_amplicons > 0) min(pairs$product_size) else NA_integer_
+  max_ps <- if (total_amplicons > 0) max(pairs$product_size) else NA_integer_
+  
+  summary_row <- tibble(
+    timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+    family = family,
+    fwd_primer = fwd,
+    rev_primer = rev,
+    fwd_len = qcF$length_bp,
+    rev_len = qcR$length_bp,
+    fwd_GC = qcF$GC_percent,
+    rev_GC = qcR$GC_percent,
+    Tm_fwd_WC = qcF$Tm_Wallace_C,
+    Tm_rev_WC = qcR$Tm_Wallace_C,
+    delta_Tm = dTm,
+    max_mismatch = max_mismatch,
+    size_min = size_min,
+    size_max = size_max,
+    total_amplicons = total_amplicons,
+    n_short_amplicons = n_short,
+    min_product_size = min_ps,
+    max_product_size = max_ps,
+    product_sizes = paste(size_tab$product_size, collapse = ";"),
+    product_counts = paste(size_tab$n_loci, collapse = ";"),
+    detailed_csv = run_csv
+  )
+  
+  # Update master summary
+  master_summary <- file.path(out_dir, "primer_summary_master.csv")
+  if (file.exists(master_summary)) {
+    old_summary <- read_csv(master_summary, show_col_types = FALSE) %>%
+      mutate(timestamp = as.character(timestamp))
+    bind_rows(old_summary, summary_row) %>%
+      write_csv(master_summary)
+  } else {
+    write_csv(summary_row, master_summary)
+  }
+  
+  # Export short amplicons to FASTA
+  fasta_path <- NA_character_
+  if (export_short_fasta && total_amplicons > 0) {
+    sh <- pairs %>%
+      filter(product_size >= short_min, product_size <= short_max)
+    
+    if (nrow(sh) > 0) {
+      fasta_lines <- map2_chr(seq_len(nrow(sh)), sh$contig, function(i, ctg) {
+        if (!ctg %in% names(genome)) return(NULL)
+        
+        seq <- as.character(subseq(
+          genome[[ctg]],
+          start = sh$start_fwd[i],
+          end = sh$end_rev[i]
+        ))
+        header <- paste0(">", family, "_", ctg, "_", sh$product_size[i], "bp")
+        paste(header, seq, sep = "\n")
+      }) %>% discard(is.null)
+      
+      if (length(fasta_lines) > 0) {
+        fasta_path <- file.path(
+          out_dir,
+          paste0(family, "_short_", short_min, "-", short_max, "bp.fasta")
+        )
+        writeLines(fasta_lines, fasta_path)
+      }
+    }
+  }
+  
+  # Console output
+  cat("\n---", family, "---\n")
+  print(select(
+    summary_row,
+    family, total_amplicons, n_short_amplicons,
+    min_product_size, max_product_size, delta_Tm, fwd_GC, rev_GC
+  ))
+  
+  # Generate plots if pairs exist
+  if (nrow(pairs) > 0) {
+    p_map <- plot_amplicon_map(pairs, paste("Amplicon map —", family))
+    p_size <- plot_size_distribution(pairs, family)
+    
+    ggsave(
+      file.path(out_dir, paste0(family, "_map.png")),
+      p_map,
+      width = 9, height = 6, dpi = 300
+    )
+    ggsave(
+      file.path(out_dir, paste0(family, "_sizes.png")),
+      p_size,
+      width = 7, height = 5, dpi = 300
+    )
+  }
+  
+  invisible(list(
+    summary = summary_row,
+    pairs = pairs,
+    short_fasta = fasta_path
+  ))
+}
+
+# =============================================================================
+# 5. VISUALIZATION FUNCTIONS
+# =============================================================================
+
+plot_amplicon_map <- function(pairs, title = "Predicted amplicons (map)") {
+  if (nrow(pairs) == 0) {
+    return(ggplot() +
+      theme_minimal() +
+      labs(
+        title = paste(title, "— no amplicons in range"),
+        x = "Position (bp)", y = "Contig"
+      ))
+  }
+  
+  ggplot(pairs, aes(y = contig)) +
+    geom_segment(aes(x = start_fwd, xend = end_rev), linewidth = 2) +
+    geom_point(aes(x = start_fwd), size = 2) +
+    geom_point(aes(x = end_rev), size = 2) +
+    theme_minimal() +
+    labs(
+      title = title,
+      subtitle = "Segment = amplicon; points = primer ends",
+      x = "Genomic position (bp)", y = "Contig"
+    )
+}
+
+plot_size_distribution <- function(pairs, family, binwidth = 10) {
+  if (nrow(pairs) == 0) {
+    return(ggplot() +
+      theme_minimal() +
+      labs(
+        title = paste("Product sizes —", family),
+        subtitle = "No amplicons in selected window"
+      ))
+  }
+  
+  ggplot(pairs, aes(x = product_size)) +
+    geom_histogram(binwidth = binwidth, boundary = 0) +
+    geom_vline(xintercept = c(100, 200), linetype = 2) +
+    theme_minimal() +
+    labs(
+      title = paste("Product sizes —", family),
+      subtitle = "Dashed lines at 100 & 200 bp (typical eDNA-qPCR window)",
+      x = "Product size (bp)", y = "Count"
+    )
+}
+
+plot_master_overview <- function(summary_master_df) {
+  if (nrow(summary_master_df) == 0) {
+    return(ggplot() +
+      theme_minimal() +
+      labs(title = "Master overview", subtitle = "No entries yet"))
+  }
+  
+  df <- summary_master_df %>%
+    mutate(family = fct_reorder(family, total_amplicons, .desc = TRUE))
+  
+  p1 <- ggplot(df, aes(x = family, y = total_amplicons)) +
+    geom_col() +
+    coord_flip() +
+    theme_minimal() +
+    labs(
+      title = "Total amplicons per family (windowed)",
+      x = NULL, y = "Amplicons (in size window)"
+    )
+  
+  p2 <- ggplot(df, aes(x = family, y = n_short_amplicons)) +
+    geom_col() +
+    coord_flip() +
+    theme_minimal() +
+    labs(
+      title = "Short amplicons (100–200 bp)",
+      x = NULL, y = "Count"
+    )
+  
+  list(total = p1, short = p2)
+}
+
+plot_master_hist <- function(hits_master_df, binwidth = 10) {
+  if (nrow(hits_master_df) == 0) {
+    return(ggplot() +
+      theme_minimal() +
+      labs(
+        title = "Product sizes across families",
+        subtitle = "No entries yet"
+      ))
+  }
+  
+  ggplot(hits_master_df, aes(x = product_size, fill = family)) +
+    geom_histogram(binwidth = binwidth, position = "identity", alpha = 0.5) +
+    theme_minimal() +
+    labs(
+      title = "Product-size distribution across families",
+      x = "Product size (bp)", y = "Count"
+    )
+}
+
+# =============================================================================
+# 6. COMPREHENSIVE PRIMER SUMMARY WITH QC
+# =============================================================================
+
+summarise_primers <- function(family, forward, reverse,
+                              Na_mM = CONFIG$Na_mM,
+                              primer_nM = CONFIG$primer_nM,
+                              master_csv = file.path(CONFIG$out_dir, 
+                                                    "primer_master_summary.csv"),
+                              product_bp = NA_integer_) {
+  
+  qc <- assess_primer_pair(forward, reverse, Na_mM, primer_nM)
+  
+  out <- tibble(
+    timestamp_utc = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+    family = family,
+    forward = toupper(gsub("\\s", "", forward)),
+    reverse = toupper(gsub("\\s", "", reverse)),
+    len_f = qc$len_nt[qc$primer == "Forward"],
+    len_r = qc$len_nt[qc$primer == "Reverse"],
+    tm_f_C = qc$tm_C[qc$primer == "Forward"],
+    tm_r_C = qc$tm_C[qc$primer == "Reverse"],
+    tm_delta_C = abs(diff(qc$tm_C[qc$primer != "Pair"])),
+    gc_f_pct = qc$gc_pct[qc$primer == "Forward"],
+    gc_r_pct = qc$gc_pct[qc$primer == "Reverse"],
+    hairpin_f_bp = qc$hairpin3p_bp[qc$primer == "Forward"],
+    hairpin_r_bp = qc$hairpin3p_bp[qc$primer == "Reverse"],
+    self3p_f_bp = qc$self3p_bp[qc$primer == "Forward"],
+    self3p_r_bp = qc$self3p_bp[qc$primer == "Reverse"],
+    hetero3p_bp = qc$hetero3p_bp[qc$primer == "Pair"],
+    Ta_recommended_C = round(min(qc$tm_C[qc$primer != "Pair"]) - 3),
+    product_bp = product_bp,
+    qc_flag = case_when(
+      tm_delta_C > 3 ~ "check_tmdiff",
+      hetero3p_bp >= 4 ~ "check_hetero3p",
+      self3p_f_bp >= 5 | self3p_r_bp >= 5 ~ "check_self3p",
+      hairpin_f_bp >= 6 | hairpin_r_bp >= 6 ~ "check_hairpin",
+      TRUE ~ "ok"
+    )
+  )
+  
+  # Read existing, append, deduplicate
+  if (file.exists(master_csv)) {
+    old <- read_csv(master_csv, show_col_types = FALSE) %>%
+      mutate(timestamp_utc = as.character(timestamp_utc))
+    combined <- bind_rows(old, out) %>%
+      distinct(family, forward, reverse, .keep_all = TRUE)
+  } else {
+    combined <- out
+  }
+  
+  write_csv(combined, master_csv)
+  out
+}
+
+# =============================================================================
+# 7. RANKING AND TOP PRIMER SELECTION
+# =============================================================================
+
+generate_top_primers <- function(master_csv = file.path(CONFIG$out_dir,
+                                                        "primer_master_summary.csv")) {
+  
+  if (!file.exists(master_csv)) {
+    message("No primer summary file found.")
+    return(invisible(NULL))
+  }
+  
+  df <- read_csv(master_csv, show_col_types = FALSE)
+  
+  # Convert numeric columns
+  cols_to_num <- c(
+    "len_f", "len_r", "product_bp",
+    "tm_f_C", "tm_r_C", "tm_delta_C",
+    "gc_f_pct", "gc_r_pct",
+    "self3p_f_bp", "self3p_r_bp", "hetero3p_bp",
+    "hairpin_f_bp", "hairpin_r_bp",
+    "Ta_recommended_C"
+  )
+  
+  df <- df %>%
+    mutate(across(any_of(cols_to_num), ~ as.numeric(.)))
+  
+  # Calculate scores
+  ranked <- df %>%
+    mutate(
+      gc_dev = pmax(abs(gc_f_pct - 50), abs(gc_r_pct - 50), na.rm = TRUE),
+      self3p_max = pmax(self3p_f_bp, self3p_r_bp, na.rm = TRUE),
+      hairpin_max = pmax(hairpin_f_bp, hairpin_r_bp, na.rm = TRUE),
+      score = tm_delta_C * 1.0 +
+        coalesce(hetero3p_bp, 0) * 2.0 +
+        self3p_max * 1.5 +
+        hairpin_max * 1.0 +
+        gc_dev * 0.5 +
+        if_else(qc_flag == "ok", 0, 100)
+    )
+  
+  # Get top 3 per family
+  top3_by_family <- ranked %>%
+    group_by(family) %>%
+    arrange(score, desc(product_bp)) %>%
+    slice_head(n = 3) %>%
+    ungroup()
+  
+  # Save results
+  top3_tbl <- top3_by_family %>%
+    transmute(
+      family, forward, reverse, product_bp,
+      tm_f_C = round(tm_f_C, 1),
+      tm_r_C = round(tm_r_C, 1),
+      tm_delta_C = round(tm_delta_C, 1),
+      gc_f_pct = round(gc_f_pct, 1),
+      gc_r_pct = round(gc_r_pct, 1),
+      self3p_f_bp, self3p_r_bp, hetero3p_bp,
+      hairpin_f_bp, hairpin_r_bp,
+      Ta_recommended_C, qc_flag,
+      score = round(score, 2)
+    )
+  
+  write_csv(top3_tbl, file.path(CONFIG$out_dir, "primer_top3_per_family.csv"))
+  
+  # Print summary
+  cat("\n=== TOP 3 PRIMERS PER FAMILY ===\n\n")
+  print(top3_tbl, n = Inf)
+  
+  message("\nSaved: primer_top3_per_family.csv")
+  invisible(top3_tbl)
+}
+
+# =============================================================================
+# 8. EXAMPLE USAGE
+# =============================================================================
+
+# Run assessment for a primer pair
+run_primer_assessment <- function(family_name, fwdP, revP) {
+  
+  # Assess amplification
+  res <- assess_primers(
+    family = family_name,
+    fwdP = fwdP,
+    revP = revP,
+    genome = GENOME
+  )
+  
+  # Add to comprehensive summary
+  summarise_primers(
+    family = family_name,
+    forward = fwdP,
+    reverse = revP,
+    product_bp = if (nrow(res$pairs) > 0) {
+      median(res$pairs$product_size)
+    } else {
+      NA_integer_
+    }
+  )
+  
+  # Show plots
+  if (nrow(res$pairs) > 0) {
+    print(plot_amplicon_map(res$pairs, paste("Amplicon map —", family_name)))
+    print(plot_size_distribution(res$pairs, family_name))
+  }
+  
+  invisible(res)
+}
+
+# Example call:
+# run_primer_assessment(
+#   family_name = "ltr-1_family-42_1848_copies_e",
+#   fwdP = "TGTTACCCGGGTGCAAATTG",
+#   revP = "ATGGGGAACGTGGAGCATAA"
+# )
+
+# Generate top primers report
+# generate_top_primers()
+
+cat("\n✅ Primer Design Checker loaded successfully!\n")
+cat("Use run_primer_assessment() to evaluate primer pairs.\n")
+cat("Use generate_top_primers() to rank all assessed primers.\n\n")
+```
+
+rnd-1_family-103_1895_copies_1
+```{r}
+rnd<- run_primer_assessment(
+   family_name = "rnd-1_family-103_1895_copies_1",
+   fwdP = "TGCGGACAATTTGGCAGAAT",
+   revP = "TGCACCATTGAAAACCCTGT"
+)
+
+
+```
+
+rnd-1_family-103_1895_copies_2
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-103_1895_copies_2",
+   fwdP = "GCGGACAATTTGGCAGAATTTT",
+   revP = "CCATTGAAAACCCTGTGAGACA"
+)
+
+
+```
+
+
+rnd-1_family-103_1895_copies_3
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-103_1895_copies_3",
+   fwdP = "TGCCTGTTTTGCGGACAA",
+   revP = "CACCATTGAAAACCCTGTGAG"
+)
+
+
+```
+
+
+rnd-1_family-1_2262_copies_1
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-1_2262_copies_1",
+   fwdP = "CACCTTCTGCATGGGGAAAA",
+   revP = "CGCGATGCAAAACTCAAAGT"
+)
+
+
+```
+
+
+
+rnd-1_family-1_2262_copies_2
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-1_2262_copies_2",
+   fwdP = "ACAACTTCTCATTGATGGCCA",
+   revP = "ACACTTCAGTTTAGGGGAGGT"
+)
+
+
+```
+
+
+
+rnd-1_family-1_2262_copies_3
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-1_2262_copies_3",
+   fwdP = "AGAATACCACATAGCAGTTTCCT",
+   revP = "ACCAAGGTTTCGCAGCAATG"
+)
+```
+
+
+rnd-1_family-103__1895_copies
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-103_1895_copies",
+   fwdP = "CTGCCTGTTTTGCGGACAAT",
+   revP = "CCTGTGAGACAGGGTTTCCA"
+)
+```
+
+
+rnd-1_family-1_2262_copies_5
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-1_2262_copies_5",
+   fwdP = "CAACTTCTCATTGATGGCCATTG",
+   revP = "GGAAACTGCTATGTGGTATTCTC"
+)
+```
+
+```{r}
+run_primer_assessment(
+   family_name = "rnd-1_family-1_2262_eurofin",
+   fwdP = "AGAATACCACATAGCAGTTTCC",
+   revP = "GCGATGCAAAACTCAAAGTAG"
+)
+```
+

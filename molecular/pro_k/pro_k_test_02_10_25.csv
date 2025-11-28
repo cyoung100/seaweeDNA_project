@@ -1,0 +1,22 @@
+type ,conc,replicate,yield
+powder,0,a,0.494
+powder,0,b,0.444
+powder,0,c,0.51
+powder,5,a,30
+powder,5,b,30
+powder,5,c,31.4
+powder,10,a,20.6
+powder,10,b,26
+powder,10,c,29.4
+powder,15,a,19
+powder,15,b,35.2
+powder,15,c,35
+powder,20,a,29.2
+powder,20,b,29
+powder,20,c,22.6
+powder,40,a,16.9
+powder,40,b,21.6
+powder,40,c,22
+solution,20,a,25.4
+solution,20,b,21.8
+solution,20,c,13.8

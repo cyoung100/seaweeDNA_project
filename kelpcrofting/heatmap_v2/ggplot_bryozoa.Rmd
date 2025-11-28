@@ -1,0 +1,328 @@
+
+
+```{r}
+
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+library(viridis)
+
+theme_set(
+  theme_minimal(base_size = 10) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 10),
+      axis.text        = element_text(size = 10),
+      legend.title     = element_text(size = 10),
+      legend.text      = element_text(size = 10),
+      strip.text       = element_text(size = 10)
+    )
+)
+
+```
+
+```{r}
+# 1) Read & initial clean
+bryozoa <- read.csv("bryozoa_heatmap.csv", fileEncoding = "latin1") %>%
+  clean_names() %>%
+  filter(site != "Scalpay", seaweed != "Alaria") %>%
+  mutate(parsed_date = make_date(year, month, day))
+
+```
+
+```{r}
+# 2) Pivot longer & classify
+bryozoa_long <- bryozoa %>%
+  pivot_longer(
+    cols      = c(starts_with("otu_"), contains("plankton"), contains("percent_blade")),
+    names_to  = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_origin = case_when(
+      str_detect(species_id, "^otu_")                    ~ "Plankton eDNA (RSV)",
+      str_detect(species_id, "plankton")                 ~ "Plankton Abundance (cell/L)",
+      species_id == "saccharina_percent_blade_bryozoans" ~ "Bryozoan Blade Coverage – Saccharina (%)",
+      TRUE                                                ~ NA_character_
+    ),
+    measurement_value = if_else(
+      measurement_origin == "Plankton eDNA (RSV)",
+      sqrt(measurement_value),
+      measurement_value
+    ),
+    y_axis = case_when(
+      measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
+      TRUE                                        ~ measurement_origin
+    ) %>%
+      fct_recode(
+        "Membranipora\nmembranacea"        = "RSV otu_membranipora_membranacea",
+        "Electra pilosa"                    = "RSV otu_electra_pilosa",
+        "Celleporella\nhyalina"             = "RSV otu_celleporella_hyalina",
+        "Cyphonautes"   = "Plankton Abundance (cell/L)",
+        "Saccharina" = "Bryozoan Blade Coverage – Saccharina (%)"
+      )
+  ) %>%
+  mutate(
+    station      = paste0("S", station_no),
+    sample_order = paste(parsed_date, station_no, sep = "_")
+  ) %>%
+  filter(!is.na(measurement_origin))
+
+bryozoa_long <- bryozoa_long %>%
+  filter(parsed_date != as.Date("2021-06-15"))
+
+```
+
+```{r}
+# 3) Lock in date→station ordering
+order_ids <- bryozoa_long %>%
+  distinct(parsed_date, station_no, sample_order) %>%
+  arrange(parsed_date, station_no) %>%
+  pull(sample_order)
+
+parts        <- strsplit(order_ids, "_")
+dates        <- as.Date(sapply(parts, `[`, 1))
+stations     <- sapply(parts, `[`, 2)
+date_labels  <- ifelse(!duplicated(dates), format(dates, "%d %b"), "")
+station_labels <- paste0("S", stations)
+
+bryozoa_long <- bryozoa_long %>%
+  mutate(sample_order = factor(sample_order, levels = order_ids))
+
+```
+
+```{r}
+# 4) Shared fill‐scales
+edna_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "eDNA RSV (%)",
+  na.value   = "grey90"
+)
+ab_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "Plankton Abundance\n(cells/L)",
+  na.value   = "grey90"
+)
+cov_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "Blade Coverage (%)",
+  na.value   = "grey90",
+  limits     = c(0, 100),
+  breaks     = seq(0, 100, by = 20)
+)
+
+```
+
+```{r}
+# 5) Split into panels
+data_rsv <- filter(bryozoa_long, measurement_origin == "Plankton eDNA (RSV)")
+data_ab  <- filter(bryozoa_long, measurement_origin == "Plankton Abundance (cell/L)")
+data_cov <- filter(bryozoa_long, measurement_origin == "Bryozoan Blade Coverage – Saccharina (%)")
+
+```
+
+```{r}
+# 6) Build the three plots
+
+p1 <- ggplot(data_rsv, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + edna_scale +
+  scale_x_continuous(
+    limits   = c(0.5, length(order_ids) + 0.5),
+    breaks   = seq_along(order_ids),
+    labels   = NULL,
+    expand   = c(0, 0),
+    sec.axis = dup_axis(name = NULL, labels = station_labels)
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size = 10),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Planktonic eDNA\nRSV rel. abundance (%)")
+
+p2 <- ggplot(data_ab, aes(x = sample_order, y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + ab_scale +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank()
+  ) +
+  ylab(NULL)
+
+p3 <- ggplot(data_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + cov_scale +
+  scale_x_continuous(
+    limits = c(0.5, length(order_ids) + 0.5),
+    breaks = seq_along(order_ids),
+    labels = date_labels,
+    expand = c(0, 0),
+    name   = "Date"
+  ) +
+  theme(
+    axis.text.x.bottom  = element_text(size = 10, angle = 45, hjust = 0),
+    axis.title.x.bottom = element_text(margin = margin(t = 5)),
+    axis.ticks.x        = element_blank(),
+    axis.text.y         = element_text(size = 10)
+  ) +
+  ylab("Saccharina")
+
+```
+
+```{r}
+# 7) Stack panels with a single legend on the right
+final_plot <- (p1 / p2 / p3) +
+  plot_layout(
+    ncol    = 1,
+    heights = c(3, 1, 1),
+    guides  = "collect"
+  ) &
+  theme(
+    legend.position   = "right",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(0.8, "lines")
+  )
+
+print(final_plot)
+
+```
+
+```{r}
+# 3) Average across the three stations for each date/species
+bryozoa_avg <- bryozoa_long %>%
+  group_by(parsed_date, measurement_origin, y_axis, species_id) %>%
+  summarise(
+    measurement_value = mean(measurement_value, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    sample_order = factor(parsed_date,
+                          levels = sort(unique(parsed_date)))
+  )
+
+# 4) Set plotting order & axis labels for the averaged data
+order_dates <- sort(unique(bryozoa_avg$parsed_date))
+date_labels <- format(order_dates, "%d %b")
+
+bryozoa_avg <- bryozoa_avg %>%
+  mutate(sample_order = factor(parsed_date, levels = order_dates))
+
+# 5) Shared fill‐scales
+edna_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "Meroplankton\neDNA\nsqrt(ASV)",
+  na.value   = "grey90"
+)
+ab_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "Meroplankton\nAbundance\n(cells/L)",
+  na.value   = "grey90"
+)
+cov_scale <- scale_fill_viridis_c(
+  option     = "magma",
+  direction  = -1,
+  name       = "Saccharina Frond\nCoverage (%)",
+  na.value   = "grey90",
+  limits     = c(0, 100),
+  breaks     = seq(0, 100, by = 20)
+)
+
+# 6) Split into panels
+d_e      <- filter(bryozoa_avg, measurement_origin == "Plankton eDNA (RSV)")
+d_p      <- filter(bryozoa_avg, measurement_origin == "Plankton Abundance (cell/L)")
+d_cov   <- filter(bryozoa_avg, measurement_origin == "Bryozoan Blade Coverage – Saccharina (%)")
+
+# 7) Build the three plots
+
+p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + edna_scale +
+  scale_x_continuous(
+    limits   = c(0.5, length(order_dates) + 0.5),
+    breaks   = seq_along(order_dates),
+    labels   = NULL,
+    expand   = c(0, 0),
+  #  sec.axis = dup_axis(name = NULL, labels = paste0("S", seq_along(order_dates)))
+  ) +
+  theme(
+    axis.text.x.bottom  = element_blank(),
+    axis.ticks.x.bottom = element_blank(),
+    axis.text.x.top     = element_text(size = 10),
+    axis.ticks.x.top    = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.x        = element_blank()
+  ) +
+  ylab("Meroplankton\neDNA sqrt(ASV)")
+
+p2 <- ggplot(d_p, aes(x = sample_order, y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + ab_scale +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.ticks.x  = element_blank(),
+    axis.text.y   = element_text(size = 10),
+    axis.title.x  = element_blank()
+  ) +
+  ylab("Meroplankton\nAbundance (cells/L)")
+
+p3 <- ggplot(d_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
+  geom_tile(color = NA) + cov_scale +
+  scale_x_continuous(
+    limits = c(0.5, length(order_dates) + 0.5),
+    breaks = seq_along(order_dates),
+    labels = date_labels,
+    expand = c(0, 0),
+    name   = "Date"
+  ) +
+  ylab("Bryozoa frond\nCoverage (%)") +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x.bottom  = element_text(size = 9, vjust = 1.4, hjust = 1, angle = 45),
+    axis.title.x.bottom = element_text(margin = margin(t = 5)),
+    axis.ticks.x        = element_blank(),
+    axis.text.y         = element_text(size = 10),
+    axis.title.y        = element_text(size = 10),   # y-axis label size
+    axis.title          = element_text(size = 10),
+    legend.title        = element_text(size = 10),
+    legend.text         = element_text(size = 10),
+    strip.text          = element_text(size = 10),
+    panel.grid.major    = element_blank(),
+    panel.grid.minor    = element_blank()
+  )
+
+
+
+# 8) Stack panels with a single legend on the right
+final_plot <- (p1 / p2 / p3) +
+  plot_layout(
+    ncol    = 1,
+    heights = c(1,0.5,0.5), guides = "collect") &
+  theme(
+    legend.position   = "top",
+    legend.direction = "horizontal",
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    legend.key.height = unit(0.8, "lines"),
+    legend.key.width  = unit(1, "lines"),
+    plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
+
+  )
+
+print(final_plot)
+```
+

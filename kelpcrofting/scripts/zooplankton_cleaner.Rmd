@@ -1,0 +1,47 @@
+ 
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+```
+```{r}
+zooplankton <- read.csv("kelpcroft_zooplankton.csv")
+zooplankton <- clean_names(zooplankton)
+```
+
+```{r}
+library(dplyr)
+
+# Separate x_ind_ and others
+sample_abundance <- zooplankton_long %>%
+  filter(grepl("^x_ind_", species_id)) %>%
+  rename(
+    species = species_id,
+    sample_abundance = measurement_value
+  )
+
+abundance_per_liter <- zooplankton_long %>%
+  filter(!grepl("^x_ind_", species_id)) %>%
+  rename(
+    species = species_id,
+    abundance_per_liter = measurement_value
+  )
+
+# Merge on all metadata + species
+zooplankton_long_abd <- full_join(
+  sample_abundance,
+  abundance_per_liter,
+  by = setdiff(names(sample_abundance), "sample_abundance")
+)
+
+# View result
+print(zooplankton_long_abd)
+
+
+```
+
+
+```{r}
+write.csv(zooplankton_long_abd, "kelpcroft_zooplankton_clean.csv")
+```

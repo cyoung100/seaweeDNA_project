@@ -1,0 +1,151 @@
+The following is data cleaning script which pivots the original kelpcrofting data, adds measurement origin columns and adds dditional taxa information.
+
+
+# Load packages
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(xfun)
+library(viridis)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(viridis)
+library(scales)
+library(lubridate)
+```
+
+```{r}
+kelpcroft_full <- read.csv("raw_data/focal_species.csv")
+klpcrft_otu <- read.csv("raw_data/kelpcroft_otu.csv")
+
+kelpcrofting_samples <- clean_names(kelpcroft_full)
+kelpcrofting_otu_raw <- clean_names(klpcrft_otu)
+
+```
+
+```{r}
+kelpcrofting_samples <- kelpcrofting_samples %>%
+  rename_with(
+    ~ paste0("zooplank_abundance_", str_remove_all(.x, "^zooplank_abundance_")),
+    .cols = 14:26
+  ) %>% 
+  filter(site != "Scalpay") %>% 
+  mutate(blade_amphipod_p_cm = total_amphipoda / blade_area) %>% 
+  mutate(blade_bivalvia_p_cm = total_bivalvia / blade_area) %>% 
+  mutate(blade_bivalvia_p_cm = total_bivalvia / blade_area) %>% 
+  mutate(blade_copepoda_p_cm = total_copepoda_2 / blade_area) %>% 
+  mutate(blade_polychaete_p_cm = polychaeta_tot / blade_area) 
+  
+```
+
+```{r}
+kelpcrofting_long <- kelpcrofting_samples %>%
+  pivot_longer(
+    cols = -c(sample_code, date, location, station_no, seaweed, site, year, month, day, notes_on_blades, sample_no),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "percent") ~ "blade_coverage",
+      str_detect(species_id, "_p_cm$") ~ "blade_abundance",
+      str_detect(species_id, "zooplank_abundance") ~ "abundance"
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade_coverage",
+      measurement_type == "blade_abundance" ~ "blade_abundance",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+kelpcrofting_long <- kelpcrofting_long %>%
+  mutate(
+    parsed_date = make_date(year, month, day)
+  )
+
+```
+
+```{r}
+kelpcrofting_long <- kelpcrofting_long %>%
+  mutate(
+    species_name = str_replace_all(species_id, "_", " "),
+    species_name = gsub("otu ", "", species_name)
+  )
+
+
+species_list <- kelpcrofting_long  %>%
+  distinct(species_name)
+
+species_list <- unique(kelpcrofting_long$species_name)
+
+
+```
+
+```{r}
+species_list_edit <- species_list[!species_list %in% c("total reads", 
+                                                       "species richness", 
+                                                       "total zooplankton", 
+                                                       "total phytoplankton", 
+                                                       "blade area", 
+                                                       "tufts cm2", 
+                                                       "x", 
+                                                       "x 1", 
+                                                       "for standardizing")]
+species_list_edit
+```
+
+```{r}
+library(worrms)
+# Function to safely fetch taxonomy info
+
+
+fetch_taxonomy_safe <- function(name) {
+  tryCatch(
+    {
+      Sys.sleep(0.5)  # polite, avoid hammering server
+      worm <- wm_records_name(name)
+      if (length(worm) > 0) worm[1, ] else NULL
+    },
+    error = function(e) NULL
+  )
+}
+
+#Map across all species
+#taxonomy_lookup <- purrr::map_df(species_list_edit, fetch_taxonomy_safe)
+
+#write.csv(taxonomy_lookup, "taxonomy_lookup.csv")
+getwd()
+taxonomy_lookup <- read.csv("taxonomy_lookup_2.csv")
+# Now taxonomy_lookup contains WoRMS info for  species
+
+```
+
+```{r}
+taxonomy_lookup <- taxonomy_lookup %>% 
+  mutate(species_name = str_to_lower(scientificname))
+
+
+```
+
+```{r}
+kelpcrofting_taxa <- kelpcrofting_long %>% 
+  left_join(
+    taxonomy_lookup,
+    by = c("species_name" = "species_name")
+  )
+
+write.csv(kelpcrofting_taxa, "kelpcrofting_focal_sp_clean2.csv")
+
+getwd()
+```
+
+
+

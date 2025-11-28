@@ -1,0 +1,41 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+```{r}
+# 0) Libraries & global theme (no grid lines)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(scales)
+library(patchwork)
+library(janitor)
+library(forcats)
+
+theme_set(
+  theme_minimal(base_size = 14) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = 14),
+      axis.text        = element_text(size = 14),
+      legend.title     = element_text(size = 14),
+      legend.text      = element_text(size = 14),
+      strip.text       = element_text(size = 14)
+    )
+)
+
+# 1) Read & compute per‐cm² abundances
+
+amphi <- read.csv("amphi_heatmap.csv") %>%
+  clean_names() %>%
+  filter(site != "Scalpay") %>% 
+  mutate(amphipod_p_cm = amphipod / for_standardizing,
+         caprellidae_p_cm = caprellidae / for_standardizing,
+         gammaridae_p_cm = gammaridae / for_standardizing,
+         jassa_p_cm = jassa / for_standardizing,
+         corophium_p_cm = corophium / for_standardizing)
+
+```

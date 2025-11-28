@@ -1,0 +1,175 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Import data and tidy names
+```{r}
+kelpcroft_full <- read.csv("raw_data/all_kelpcroftdata.csv")
+klpcrft_otu <- read.csv("raw_data/kelpcroft_otu.csv")
+
+kelpcrofting_samples  <- clean_names(kelpcroft_full)
+kelpcrofting_otu_taxonomy  <- clean_names(klpcrft_otu)
+
+```
+
+Packages load
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+
+```
+Convert from text abundance to ranking 0 - 4: 
+absent/blank	0
+rare	1
+present	2
+numerous	3
+dominant 4 
+
+```{r}
+#Define text abundance columns manually
+kelpcrofting_text_abundance_cols <- c(
+  "sponge",
+  "ascidiacea",
+  "trichodesmium",
+  "diatoms",
+  "licmophora",
+  "striatella",
+  "filamentous_green_algae",
+  "fillamentous_algae",
+  "fucus",
+  "hydroid",
+  "campanulariidae",
+  "obelia",
+  "bryozoans",
+  "membraniporidae",
+  "electra_pilosa",
+  "kelp",
+  "licmophora_1",
+  "laminaria_digitata",
+  "macroalga_sporangio",
+  "macroalgae",
+  "red_algae",
+  "ceramidae",
+  "codium",
+  "sacharina",
+  "sacharina_latissima"
+)
+
+# Set up abundance mapping
+abundance_mapping <- c(
+  "rare" = 1,
+  "present" = 2,
+  "numerous" = 3,
+  "dominant" = 4,
+  "dominante" = 4,   # fix typo
+  "dominate" = 4,    # fix typo
+  " " = 0)
+  
+  
+#Covert character columns to numeric  
+kelpcrofting_samples_converted <- kelpcrofting_samples %>%
+  mutate(across(
+    all_of(kelpcrofting_text_abundance_cols),
+    ~ as.character(.x) %>%
+      recode(!!!abundance_mapping) %>%
+      as.numeric() %>%
+      replace_na(0)
+  ))
+
+```
+
+
+Capture measurement columns
+```{r}
+measurement_cols <- names(kelpcrofting_samples_converted)[!(names(kelpcrofting_samples_converted) %in% c("sample_code", "date", "location"))]
+```
+
+
+Build measurement type lookup table (adjust indices to your case)
+```{r}
+abundance_species <- measurement_cols[13:132] #includes phytoplankton and zoo
+otu_species <- measurement_cols[134:668]       
+blade_species <- measurement_cols[672:674] # does this include all wanted blade values??
+
+
+measurement_lookup <- tibble(
+  species_id = c(otu_species, abundance_species, blade_species),
+  measurement_type = c(
+    rep("otu", length(otu_species)),
+    rep("abundance", length(abundance_species)),
+    rep("blade_coverage", length(blade_species))
+  )
+)
+
+kelpcrofting_long <- kelpcrofting_samples_converted %>%
+  pivot_longer(
+    cols = -c(sample_code, date, location, station_no, seaweed, site, year, month, day, notes_on_blades, sample_no),
+    names_to = "species_id",
+    values_to = "measurement_value"
+  ) %>%
+  mutate(
+    measurement_type = case_when(
+      str_detect(species_id, "^otu_") ~ "otu",
+      str_detect(species_id, "blade") ~ "blade_coverage",
+      TRUE ~ "abundance"
+    ),
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade",
+      TRUE ~ NA_character_
+    )
+  )
+
+```
+
+Add column stating method type
+```{r}
+kelpcrofting_long <- kelpcrofting_long %>%
+  left_join(measurement_lookup, by = "species_id") %>%
+  mutate(
+    measurement_origin = case_when(
+      measurement_type == "otu" ~ "edna",
+      measurement_type == "abundance" ~ "plankton",
+      measurement_type == "blade_coverage" ~ "blade",
+      TRUE ~ NA_character_
+    )
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+Reshape kelpcrofting_samples to longer format
+```{r}
+kelpcrofting_long <- kelpcrofting_samples %>%
+  pivot_longer(
+    cols = starts_with('total_phytoplankton') : last_col(688),  # Adjust if your first measurement col differs
+    names_to = "species_id",
+    values_to = "measurement_value"
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+names(kelpcrofting_samples)
+```
+
