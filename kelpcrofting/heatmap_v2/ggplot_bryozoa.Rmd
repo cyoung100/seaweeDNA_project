@@ -1,5 +1,3 @@
-
-
 ```{r}
 
 # 0) Libraries & global theme (no grid lines)
@@ -14,15 +12,19 @@ library(janitor)
 library(forcats)
 library(viridis)
 
+# ==== FONT SIZE CONTROL ====
+FONT_SIZE <- 11  # Change this value to adjust all font sizes
+# ===========================
+
 theme_set(
-  theme_minimal(base_size = 10) +
+  theme_minimal(base_size = FONT_SIZE) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 10),
-      axis.text        = element_text(size = 10),
-      legend.title     = element_text(size = 10),
-      legend.text      = element_text(size = 10),
-      strip.text       = element_text(size = 10)
+      axis.title       = element_text(size = FONT_SIZE),
+      axis.text        = element_text(size = FONT_SIZE),
+      legend.title     = element_text(size = FONT_SIZE),
+      legend.text      = element_text(size = FONT_SIZE),
+      strip.text       = element_text(size = FONT_SIZE)
     )
 )
 
@@ -50,30 +52,32 @@ bryozoa_long <- bryozoa %>%
       str_detect(species_id, "^otu_")                    ~ "Plankton eDNA (RSV)",
       str_detect(species_id, "plankton")                 ~ "Plankton Abundance (cell/L)",
       species_id == "saccharina_percent_blade_bryozoans" ~ "Bryozoan Blade Coverage – Saccharina (%)",
-      TRUE                                                ~ NA_character_
+      TRUE                                               ~ NA_character_
     ),
     measurement_value = if_else(
       measurement_origin == "Plankton eDNA (RSV)",
-      sqrt(measurement_value),
+      log10(measurement_value + 1),
       measurement_value
     ),
     y_axis = case_when(
       measurement_origin == "Plankton eDNA (RSV)" ~ paste("RSV", species_id),
       TRUE                                        ~ measurement_origin
-    ) %>%
-      fct_recode(
-        "Membranipora\nmembranacea"        = "RSV otu_membranipora_membranacea",
-        "Electra pilosa"                    = "RSV otu_electra_pilosa",
-        "Celleporella\nhyalina"             = "RSV otu_celleporella_hyalina",
-        "Cyphonautes"   = "Plankton Abundance (cell/L)",
-        "Saccharina" = "Bryozoan Blade Coverage – Saccharina (%)"
-      )
-  ) %>%
-  mutate(
+    ),
     station      = paste0("S", station_no),
     sample_order = paste(parsed_date, station_no, sep = "_")
   ) %>%
-  filter(!is.na(measurement_origin))
+  filter(!is.na(measurement_origin)) %>%
+  mutate(
+    y_axis = fct_recode(
+      as.factor(y_axis),
+      "Celleporella\nhyalina"      = "RSV otu_celleporella_hyalina",
+      "Electra pilosa"            = "RSV otu_electra_pilosa",
+      "Membranipora\nmembranacea" = "RSV otu_membranipora_membranacea",
+      "Cyphonautes"               = "Plankton Abundance (cell/L)",
+      "Saccharina"                = "Bryozoan Blade Coverage – Saccharina (%)"
+    )
+  )
+
 
 bryozoa_long <- bryozoa_long %>%
   filter(parsed_date != as.Date("2021-06-15"))
@@ -135,7 +139,9 @@ data_cov <- filter(bryozoa_long, measurement_origin == "Bryozoan Blade Coverage 
 # 6) Build the three plots
 
 p1 <- ggplot(data_rsv, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
-  geom_tile(color = NA) + edna_scale +
+  geom_tile(color = NA) +
+  scale_y_discrete(limits = sort(unique(as.character(data_rsv$y_axis)))) +
+  edna_scale +
   scale_x_continuous(
     limits   = c(0.5, length(order_ids) + 0.5),
     breaks   = seq_along(order_ids),
@@ -146,9 +152,9 @@ p1 <- ggplot(data_rsv, aes(x = as.numeric(sample_order), y = y_axis, fill = meas
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.x.top     = element_text(size = 10),
+    axis.text.x.top     = element_text(size = FONT_SIZE),
     axis.ticks.x.top    = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = FONT_SIZE),
     axis.title.x        = element_blank()
   ) +
   ylab("Planktonic eDNA\nRSV rel. abundance (%)")
@@ -158,7 +164,7 @@ p2 <- ggplot(data_ab, aes(x = sample_order, y = y_axis, fill = measurement_value
   theme(
     axis.text.x   = element_blank(),
     axis.ticks.x  = element_blank(),
-    axis.text.y   = element_text(size = 10),
+    axis.text.y   = element_text(size = FONT_SIZE),
     axis.title.x  = element_blank()
   ) +
   ylab(NULL)
@@ -173,10 +179,10 @@ p3 <- ggplot(data_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = meas
     name   = "Date"
   ) +
   theme(
-    axis.text.x.bottom  = element_text(size = 10, angle = 45, hjust = 0),
+    axis.text.x.bottom  = element_text(size = FONT_SIZE, angle = 45, hjust = 0),
     axis.title.x.bottom = element_text(margin = margin(t = 5)),
     axis.ticks.x        = element_blank(),
-    axis.text.y         = element_text(size = 10)
+    axis.text.y         = element_text(size = FONT_SIZE)
   ) +
   ylab("Saccharina")
 
@@ -192,8 +198,8 @@ final_plot <- (p1 / p2 / p3) +
   ) &
   theme(
     legend.position   = "right",
-    legend.title      = element_text(size = 10),
-    legend.text       = element_text(size = 10),
+    legend.title      = element_text(size = FONT_SIZE),
+    legend.text       = element_text(size = FONT_SIZE),
     legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(0.8, "lines")
   )
@@ -226,7 +232,7 @@ bryozoa_avg <- bryozoa_avg %>%
 edna_scale <- scale_fill_viridis_c(
   option     = "magma",
   direction  = -1,
-  name       = "Meroplankton\neDNA\nsqrt(ASV)",
+  name       = "Meroplankton\neDNA\nlog10(ASV)",
   na.value   = "grey90"
 )
 ab_scale <- scale_fill_viridis_c(
@@ -252,7 +258,9 @@ d_cov   <- filter(bryozoa_avg, measurement_origin == "Bryozoan Blade Coverage �
 # 7) Build the three plots
 
 p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
-  geom_tile(color = NA) + edna_scale +
+  geom_tile(color = NA) +
+  scale_y_discrete(limits = rev(sort(unique(as.character(d_e$y_axis))))) +
+  edna_scale +
   scale_x_continuous(
     limits   = c(0.5, length(order_dates) + 0.5),
     breaks   = seq_along(order_dates),
@@ -263,9 +271,9 @@ p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), y = y_axis, fill = measureme
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.x.top     = element_text(size = 10),
+    axis.text.x.top     = element_text(size = FONT_SIZE),
     axis.ticks.x.top    = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = FONT_SIZE),
     axis.title.x        = element_blank()
   ) +
   ylab("Meroplankton\neDNA sqrt(ASV)")
@@ -275,7 +283,7 @@ p2 <- ggplot(d_p, aes(x = sample_order, y = y_axis, fill = measurement_value)) +
   theme(
     axis.text.x   = element_blank(),
     axis.ticks.x  = element_blank(),
-    axis.text.y   = element_text(size = 10),
+    axis.text.y   = element_text(size = FONT_SIZE),
     axis.title.x  = element_blank()
   ) +
   ylab("Meroplankton\nAbundance (cells/L)")
@@ -290,17 +298,17 @@ p3 <- ggplot(d_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measure
     name   = "Date"
   ) +
   ylab("Bryozoa frond\nCoverage (%)") +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = FONT_SIZE) +
   theme(
-    axis.text.x.bottom  = element_text(size = 9, vjust = 1.4, hjust = 1, angle = 45),
+    axis.text.x.bottom  = element_text(size = FONT_SIZE - 2, vjust = 1.4, hjust = 1, angle = 45),
     axis.title.x.bottom = element_text(margin = margin(t = 5)),
     axis.ticks.x        = element_blank(),
-    axis.text.y         = element_text(size = 10),
-    axis.title.y        = element_text(size = 10),   # y-axis label size
-    axis.title          = element_text(size = 10),
-    legend.title        = element_text(size = 10),
-    legend.text         = element_text(size = 10),
-    strip.text          = element_text(size = 10),
+    axis.text.y         = element_text(size = FONT_SIZE),
+    axis.title.y        = element_text(size = FONT_SIZE),
+    axis.title          = element_text(size = FONT_SIZE),
+    legend.title        = element_text(size = FONT_SIZE),
+    legend.text         = element_text(size = FONT_SIZE),
+    strip.text          = element_text(size = FONT_SIZE),
     panel.grid.major    = element_blank(),
     panel.grid.minor    = element_blank()
   )
@@ -311,12 +319,12 @@ p3 <- ggplot(d_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measure
 final_plot <- (p1 / p2 / p3) +
   plot_layout(
     ncol    = 1,
-    heights = c(1,0.5,0.5), guides = "collect") &
+    heights = c(0.5,0.25,0.25), guides = "collect") &
   theme(
-    legend.position   = "top",
-    legend.direction = "horizontal",
-    legend.title      = element_text(size = 10),
-    legend.text       = element_text(size = 10),
+    legend.position   = "right",
+    legend.direction = "vertical",
+    legend.title      = element_text(size = FONT_SIZE),
+    legend.text       = element_text(size = FONT_SIZE),
     legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(1, "lines"),
     plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
@@ -325,4 +333,3 @@ final_plot <- (p1 / p2 / p3) +
 
 print(final_plot)
 ```
-

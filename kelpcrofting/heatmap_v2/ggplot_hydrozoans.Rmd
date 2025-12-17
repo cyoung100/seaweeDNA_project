@@ -5,6 +5,17 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
+# ============================================================================
+# FONT SIZE CONTROL - Change these values to adjust all fonts at once
+# ============================================================================
+FONT_BASE <- 11        # Base font size for most elements
+FONT_AXIS_TITLE <- 12  # Axis titles
+FONT_AXIS_TEXT <- 11  # Axis labels/tick marks
+FONT_LEGEND_TITLE <- 11 # Legend titles
+FONT_LEGEND_TEXT <- 11  # Legend labels
+FONT_STRIP <- 11        # Facet strip text
+# ============================================================================
+
 # 0) Libraries & global theme (no grid lines)
 library(dplyr)
 library(tidyr)
@@ -16,16 +27,17 @@ library(viridis)
 library(scales)
 library(patchwork)
 library(forcats)
-# Base theme
+
+# Base theme with centralized font sizes
 theme_set(
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = FONT_BASE) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 12),
-      axis.text        = element_text(size = 12),
-      legend.title     = element_text(size = 12),
-      legend.text      = element_text(size = 12),
-      strip.text       = element_text(size = 12)
+      axis.title       = element_text(size = FONT_AXIS_TITLE),
+      axis.text        = element_text(size = FONT_AXIS_TEXT),
+      legend.title     = element_text(size = FONT_LEGEND_TITLE),
+      legend.text      = element_text(size = FONT_LEGEND_TEXT),
+      strip.text       = element_text(size = FONT_STRIP)
     )
 )
 ```
@@ -36,7 +48,8 @@ obelia <- read.csv("obelia_heatmap_allOTU.csv", fileEncoding = "latin1") %>%
   clean_names() %>%
   filter(site != "Scalpay") %>%
   mutate(parsed_date = make_date(year, month, day),
-         otu_obelia_combined = as.numeric(otu_obelia_combined))
+         otu_obelia_combined = as.numeric(otu_obelia_combined)) %>% 
+  select(-plankton_obelia_uncorrected,-plankton_clytia_uncorrected)
 ```
 
 ```{r pivot-classify}
@@ -52,7 +65,7 @@ obelia_long <- obelia %>%
   mutate(
     measurement_origin = case_when(
       str_detect(species_id, "^otu_")    ~ "Plankton eDNA (RSV)",
-      str_detect(species_id, "plankton") ~ "Plankton Abundance (cells/L)",
+      str_detect(species_id, "plankton") ~ "Plankton Abundance (individs/L)",
       species_id == "percent_blade_hydrozoans" ~ "Blade Coverage (%)",
       TRUE                               ~ NA_character_
     ),
@@ -97,8 +110,6 @@ obelia_long <- obelia %>%
       otu_tiaropsis_multicirrata      = "Tiaropsis multicirrata",
       plankton_obelia                 = "Obelia spp.",
       plankton_clytia                 = "Clytia spp.",
-      
-    #  percent_blade_hydrozoans        = "Hydrozoan Coverage",
       .default                        = species_id
     )
   ) %>%
@@ -114,29 +125,21 @@ obelia_long <- obelia %>%
     station      = paste0("S", station_no),
     sample_order = paste(parsed_date, station_no, sep = "_")
   )
-
-
-  
 ```
 
 ```{r}
 obelia_long <- obelia_long %>%
   filter(parsed_date != as.Date("2021-06-15"))
-
 ```
 
-
-
 ```{r}
-
 order_ids <- obelia_long %>%
   filter(species_id != c("Aglaophenia pluma",
                          "Aglaophenia tubulifera",
-                         "Sarsia tubulosa")) %>%   # filter out that species
+                         "Sarsia tubulosa")) %>%
   distinct(parsed_date, station, sample_order) %>%
   arrange(parsed_date, as.integer(station)) %>%
   pull(sample_order)
-
 
 obelia_long <- obelia_long %>%
   mutate(sample_order = factor(sample_order, levels = order_ids))
@@ -151,12 +154,8 @@ date_labels    <- ifelse(!duplicated(dates),
 station_labels <- paste0("S", raw_stations)
 ```
 
-
 ```{r}
-# ─────────────────────────────────────────────────────────────────────────────
-# 4) Factor for plotting order
-# ─────────────────────────────────────────────────────────────────────────────
-
+# Factor for plotting order
 order_ids <- obelia_long %>% 
   distinct(parsed_date, station_no) %>% 
   arrange(parsed_date, station_no) %>% 
@@ -170,11 +169,7 @@ obelia_long <- obelia_long %>%
                           levels = order_ids)
   )
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 6) Split data for the four panels (blade now by seaweed)
-# ─────────────────────────────────────────────────────────────────────────────
-
+# Split data for the four panels
 d_e      <- filter(obelia_long, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(obelia_long, measurement_origin == "Plankton Abundance (cells/L)")
 
@@ -198,45 +193,38 @@ d_b_ala  <- obelia_long %>%
     )
   )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 7) Shared fill‐scales
-# ─────────────────────────────────────────────────────────────────────────────
-
-# Colorblind-safe scales using viridis colors
+# Shared fill‐scales
 scale_e <- scale_fill_gradientn(
-  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),  # viridis palette
-  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),  # adjust these to your data range
+  colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
+  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),
   name = "eDNA RSV log(%)",
   na.value = "grey90"
 )
 
 scale_p <- scale_fill_gradientn(
   colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
-  values = scales::rescale(c(0, 10, 50, 200, 300)),  # adjust to your data range
-  name = "Plankton Abundance\n(cells/L)",
+  values = scales::rescale(c(0, 10, 50, 200, 300)),
+  name = "Plankton Abundance\n(individs/L)",
   na.value = "grey90"
 )
 
 scale_b_a <- scale_fill_gradientn(
   colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
-  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  values = scales::rescale(c(0, 1, 5, 20, 30)),
   name = "Blade Coverage\nAlaria (%)",
   na.value = "grey90"
 )
 
 scale_b_s <- scale_fill_gradientn(
   colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
-  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
+  values = scales::rescale(c(0, 1, 5, 20, 30)),
   name = "Blade Coverage\nSaccharina (%)",
   na.value = "grey90"
 )
-# ─────────────────────────────────────────────────────────────────────────────
-# 8) Build each panel
-# ─────────────────────────────────────────────────────────────────────────────
 
+# Build each panel
 d_e <- d_e %>% 
   filter(species_id == c("Bougainvillia muscus", "Clytia sp. 1"))
-
 
 p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), 
                      y = fct_rev(species_id), 
@@ -252,21 +240,20 @@ p1 <- ggplot(d_e, aes(x = as.numeric(sample_order),
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.x.top     = element_text(size = 10),
+    axis.text.x.top     = element_text(size = FONT_AXIS_TEXT),
     axis.ticks.x.top    = element_blank(),
-    axis.text.y         = element_text(size = 10),
-    axis.title.x        = element_blank()
-  ) + ylab("Meroplankton\neDNA\nRSV rel. abundance (%)") +
-  theme(axis.title.y = element_text(size = 10))
-
-
+    axis.text.y         = element_text(size = FONT_AXIS_TEXT),
+    axis.title.x        = element_blank(),
+    axis.title.y        = element_text(size = FONT_AXIS_TITLE)
+  ) + 
+  ylab("Meroplankton\neDNA\nRSV rel. abundance (%)")
 
 p2 <- ggplot(d_p, aes(x = sample_order, y = species_id, fill = measurement_value)) +
   geom_tile(color = NA) + scale_p +
   theme(
     axis.text.x   = element_blank(),
     axis.ticks.x  = element_blank(),
-    axis.text.y   = element_text(size = 10),
+    axis.text.y   = element_text(size = FONT_AXIS_TEXT),
     axis.title.x  = element_blank()
   ) +
   ylab(NULL)
@@ -284,7 +271,7 @@ p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = FONT_AXIS_TEXT),
     axis.title.x        = element_blank()
   ) +
   ylab(NULL)
@@ -299,30 +286,28 @@ p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
     labels = date_labels,
     expand = c(0,0),
     name   = "Date"
-  )  + theme(
-    axis.text.x.bottom  = element_text(size = 10, vjust = 3, hjust = 0),
+  ) + 
+  theme(
+    axis.text.x.bottom  = element_text(size = FONT_AXIS_TEXT, vjust = 3, hjust = 0),
     axis.title.x.bottom = element_text(margin = margin(t = 5)),
     axis.ticks.x        = element_blank(),
     panel.background    = element_blank(),
     panel.grid          = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = FONT_AXIS_TEXT),
     axis.title.x        = element_blank(),
-          legend.title     = element_text(size = 10),  # <- uniform legend title
-      legend.text      = element_text(size = 10),
+    axis.title.y        = element_text(size = FONT_AXIS_TITLE),
+    legend.title        = element_text(size = FONT_LEGEND_TITLE),
+    legend.text         = element_text(size = FONT_LEGEND_TEXT)
   ) +
-  ylab(NULL)+
-  theme(axis.title.y = element_text(size = 10))
+  ylab(NULL)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 9) Stack panels with shared legends
-# ─────────────────────────────────────────────────────────────────────────────
-
+# Stack panels with shared legends
 final_plot <- p1 / p2 / p3 / p4 +
   plot_layout(ncol = 1, heights = c(8,1,2,1), guides = "collect") &
   theme(
     legend.position   = "right",
-    legend.title.size = 10,
-    legend.text.size  = 10,
+    legend.title      = element_text(size = FONT_LEGEND_TITLE),
+    legend.text       = element_text(size = FONT_LEGEND_TEXT),
     legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(0.8, "lines")
   )
@@ -339,7 +324,6 @@ svglite::svglite(
 print(final_plot)
 dev.off()
 ```
-
 
 ###################################
 ```{r}
@@ -359,7 +343,6 @@ obelia_date <- obelia_date %>%
   mutate(
     date_idx = as.numeric(factor(parsed_date, levels = date_levels))
   )
-
 ```
 
 ```{r}
@@ -373,7 +356,7 @@ d_e <- obelia_date %>%
     )
   )
 
-d_p      <- filter(obelia_date, measurement_origin == "Plankton Abundance (cells/L)")
+d_p      <- filter(obelia_date, measurement_origin == "Plankton Abundance (individs/L)")
 d_b_sacc <- obelia_date %>%
   filter(species_id == "percent_blade_hydrozoans",
          seaweed    == "Saccharina") %>%
@@ -393,42 +376,39 @@ d_b_ala  <- obelia_date %>%
       "percent_blade_hydrozoans" = "Alaria"
     )
   )
-
 ```
 
 ```{r}
 scale_e <- scale_fill_gradientn(
   colors = viridis::magma(5, direction = -1),
-  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),  # adjust to your data range
+  values = scales::rescale(c(0, 0.1, 0.5, 2, 3)),
   name = "Meroplankton\neDNA\nlog10(ASV)", 
   na.value = "grey90"
 )
 
 scale_p <- scale_fill_gradientn(
   colors = viridis::magma(5, direction = -1),
-  values = scales::rescale(c(0, 10, 50, 200, 300)),  # adjust to your data range
-  name = "Meroplankton\nAbundance\n(cells/L)", 
+  values = scales::rescale(c(0, 10, 50, 200, 300)),
+  name = "Meroplankton\nAbundance\n(individs/L)", 
   na.value = "grey90"
 )
 
 scale_b_ala <- scale_fill_gradientn(
   colors = viridis::magma(5, direction = -1),
-  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
-  name = "Alaria Frond\nCoverage\n(%)", 
+  values = scales::rescale(c(0, 1, 5, 20, 30)),
+  name = "Alaria Frond\nCoverage (%)", 
   na.value = "grey90"
 )
 
 scale_b_sac <- scale_fill_gradientn(
   colors = viridis::magma(5, direction = -1),
-  values = scales::rescale(c(0, 1, 5, 20, 30)),  # adjust to your data range
-  name = "Saccharina\nFrond\nCoverage\n(%)", 
+  values = scales::rescale(c(0, 1, 5, 20, 30)),
+  name = "Saccharina\nFrond\nCoverage (%)", 
   na.value = "grey90"
 )
 ```
 
-
 ```{r}
-
 p1 <- ggplot(d_e, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_e +
   scale_x_continuous(
@@ -439,8 +419,8 @@ p1 <- ggplot(d_e, aes(date_idx, fct_rev(species_id), fill = measurement_value)) 
   theme(
     axis.text.x      = element_blank(),
     axis.ticks.x     = element_blank(),
-        axis.title.x        = element_blank(),
-    axis.text.y      = element_text(size = 9)
+    axis.title.x     = element_blank(),
+    axis.text.y      = element_text(size = FONT_AXIS_TEXT)
   ) +
   ylab("Meroplankton\neDNA log10(ASV)")
 
@@ -453,10 +433,10 @@ p2 <- ggplot(d_p, aes(date_idx, species_id, fill = measurement_value)) +
   theme(
     axis.text.x      = element_blank(),
     axis.ticks.x     = element_blank(),
-        axis.title.x        = element_blank(),
-    axis.text.y     = element_text(size = 9)
+    axis.title.x     = element_blank(),
+    axis.text.y      = element_text(size = FONT_AXIS_TEXT)
   ) +
-  ylab("Meroplankton\nAbundance\n(cells/L)")
+  ylab("Meroplankton\nAbundance\n(individs/L)")
 
 p3 <- ggplot(d_b_sacc, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_sac +
@@ -468,13 +448,11 @@ p3 <- ggplot(d_b_sacc, aes(date_idx, fct_rev(species_id), fill = measurement_val
     axis.text.x      = element_blank(),
     axis.ticks.x     = element_blank(),
     axis.title.x     = element_blank(),
-    axis.text.y      = element_text(size = 9),
-    axis.title.y     = element_text(
+    axis.text.y      = element_text(size = FONT_AXIS_TEXT),
+    axis.title.y     = element_text(size = FONT_AXIS_TITLE,
           margin = margin(t = 0.5), vjust = 1, hjust = 1.3)
   ) +
   ylab("Hydrozoa frond\nCoverage (%)")
-  
-  p3
 
 p4 <- ggplot(d_b_ala, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_ala +
@@ -486,32 +464,38 @@ p4 <- ggplot(d_b_ala, aes(date_idx, fct_rev(species_id), fill = measurement_valu
     name   = "Date"
   ) +
   theme(
-    axis.text.x  = element_text(size = 9, angle = 45, hjust = 1, vjust = 1.2),
+    axis.text.x  = element_text(size = FONT_AXIS_TEXT, angle = 45, hjust = 1, vjust = 1.2),
     axis.ticks.x = element_blank(),
-    axis.text.y  = element_text(size = 10)
+    axis.text.y  = element_text(size = FONT_AXIS_TEXT)
   ) +
   ylab(NULL)
-
 ```
 
 ```{r}
 # 8) Stack & print
-
-
+theme_set(
+  theme_minimal(base_size = FONT_BASE) +
+    theme(
+      panel.grid       = element_blank(),
+      axis.title       = element_text(size = FONT_AXIS_TITLE),
+      axis.text        = element_text(size = FONT_AXIS_TEXT),
+      legend.title     = element_text(size = FONT_LEGEND_TITLE),
+      legend.text      = element_text(size = FONT_LEGEND_TEXT),
+      strip.text       = element_text(size = FONT_STRIP)
+    )
+)
 
 final_plot <- p1 / p2 / p3 / p4 +
   plot_layout(ncol = 1, heights = c(8, 3, 2, 2), guides = "collect") &
   theme(
     legend.position   = "right",
-    legend.direction = "vertical",
-    legend.title      = element_text(size = 10),
-    legend.text       = element_text(size = 10),
+    legend.direction  = "vertical",
+    legend.title      = element_text(size = FONT_LEGEND_TITLE),
+    legend.text       = element_text(size = FONT_LEGEND_TEXT),
     legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(1, "lines"),
     plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
   )
 
 print(final_plot)
-
 ```
-

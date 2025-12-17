@@ -76,7 +76,7 @@ biv_long <- bivalvia %>%
     ),
     measurement_value = if_else(
       measurement_type == "eDNA",
-      sqrt(measurement_value),
+       log10(measurement_value+1),
       measurement_value
     ),
     y_axis = case_when(
@@ -125,7 +125,7 @@ biv_long <- bivalvia %>%
     station      = as.character(station_no),
     sample_order = paste(parsed_date, station, sep = "_"),
     measurement_value = case_when(
-      measurement_type == "eDNA" ~ sqrt(measurement_value),
+      measurement_type == "eDNA" ~  log10(measurement_value+1),
       TRUE                       ~ measurement_value
     ))
 
@@ -172,7 +172,7 @@ d_b_ala  <- filter(biv_long,
 ```{r scales}
 # 5) Define shared fill scales
 scale_e <- scale_fill_viridis_c(option = "magma", direction = -1,
-                               name = "Meroplankton\neDNA sqrt(ASV)  ", na.value = "grey90")
+                               name = "Meroplankton\neDNA log10(ASV)  ", na.value = "grey90")
 scale_p <- scale_fill_viridis_c(option = "magma", direction = -1,
                                name = "Meroplankton\nAbundance\n(cells/L)", na.value = "grey90")
 scale_b_a <- scale_fill_viridis_c(

@@ -69,7 +69,7 @@ gastro_longer <- gastro %>%
       TRUE                                                     ~ NA_character_
     ),
     measurement_value = case_when(
-      measurement_type == "eDNA" ~ sqrt(measurement_value),
+      measurement_type == "eDNA" ~  log10(measurement_value+1),
       TRUE                       ~ measurement_value
     )
   ) 
@@ -170,7 +170,7 @@ library(viridis)
 
 scale_e <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Meroplankton\neDNA sqrt(ASV)",
+  name      = "Meroplankton\neDNA log10(ASV)",
   na.value  = "grey90"
 )
 
@@ -349,7 +349,7 @@ p1 <- ggplot(d_e, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_
     axis.text.y         = element_text(size = 10),
     axis.title.x        = element_blank()
   ) +
-  ylab("Meroplankton\neDNA sqrt(ASV)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Meroplankton\neDNA log10(ASV)")+ theme(axis.title.y = element_text(size = 11))
 
 p2 <- ggplot(d_p, aes(x = date_idx, y = species_id, fill = measurement_value)) +
   geom_tile() + scale_p +
