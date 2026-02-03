@@ -13,7 +13,7 @@ library(forcats)
 library(viridis)
 
 # ==== FONT SIZE CONTROL ====
-FONT_SIZE <- 11  # Change this value to adjust all font sizes
+FONT_SIZE <- 12  # Change this value to adjust all font sizes
 # ===========================
 
 theme_set(
@@ -35,7 +35,8 @@ theme_set(
 bryozoa <- read.csv("bryozoa_heatmap.csv", fileEncoding = "latin1") %>%
   clean_names() %>%
   filter(site != "Scalpay", seaweed != "Alaria") %>%
-  mutate(parsed_date = make_date(year, month, day))
+  mutate(parsed_date = make_date(year, month, day)) %>% 
+  select(-plankton_bryozoa_larvae_uncorrected)
 
 ```
 
@@ -113,7 +114,7 @@ edna_scale <- scale_fill_viridis_c(
 ab_scale <- scale_fill_viridis_c(
   option     = "magma",
   direction  = -1,
-  name       = "Plankton Abundance\n(cells/L)",
+  name       = "Plankton Abundance\n(ind./L)",
   na.value   = "grey90"
 )
 cov_scale <- scale_fill_viridis_c(
@@ -238,7 +239,7 @@ edna_scale <- scale_fill_viridis_c(
 ab_scale <- scale_fill_viridis_c(
   option     = "magma",
   direction  = -1,
-  name       = "Meroplankton\nAbundance\n(cells/L)",
+  name       = "Meroplankton\nAbundance\n(ind./L)",
   na.value   = "grey90"
 )
 cov_scale <- scale_fill_viridis_c(
@@ -276,7 +277,7 @@ p1 <- ggplot(d_e, aes(x = as.numeric(sample_order), y = y_axis, fill = measureme
     axis.text.y         = element_text(size = FONT_SIZE),
     axis.title.x        = element_blank()
   ) +
-  ylab("Meroplankton\neDNA sqrt(ASV)")
+  ylab("Meroplankton\neDNA log10(ASV)")
 
 p2 <- ggplot(d_p, aes(x = sample_order, y = y_axis, fill = measurement_value)) +
   geom_tile(color = NA) + ab_scale +
@@ -286,7 +287,7 @@ p2 <- ggplot(d_p, aes(x = sample_order, y = y_axis, fill = measurement_value)) +
     axis.text.y   = element_text(size = FONT_SIZE),
     axis.title.x  = element_blank()
   ) +
-  ylab("Meroplankton\nAbundance (cells/L)")
+  ylab("Meroplankton\nAbundance\n(ind./L)")
 
 p3 <- ggplot(d_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measurement_value)) +
   geom_tile(color = NA) + cov_scale +
@@ -319,7 +320,7 @@ p3 <- ggplot(d_cov, aes(x = as.numeric(sample_order), y = y_axis, fill = measure
 final_plot <- (p1 / p2 / p3) +
   plot_layout(
     ncol    = 1,
-    heights = c(0.5,0.25,0.25), guides = "collect") &
+    heights = c(3,1,1), guides = "collect") &
   theme(
     legend.position   = "right",
     legend.direction = "vertical",

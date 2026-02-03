@@ -1,0 +1,798 @@
+```{r}
+suppressPackageStartupMessages({
+  library(readxl)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(lubridate)
+  library(ggplot2)
+  library(forcats)
+})
+
+# ---- SETTINGS ----
+infile <- "asv_all_with_complete_taxonomy.csv"
+sheet  <- 1
+
+rank_level <- "Order"   # "Class" also works
+top_n_taxa <- 10
+
+# y-scale choice:
+use_log1p <- TRUE   # TRUE = log1p(total_reads) like a "log(cells/L)" style look
+# if you already have log-transformed values, set FALSE
+
+# ---- READ ----
+raw <- read_csv(infile, sheet = sheet)
+
+first_col <- names(raw)[1]
+tax_labels <- c("Kingdom","Phylum","Class","Order","Family","Genus","Species","Taxonomy_source")
+taxa_cols <- names(raw)[grepl("^OTU_", names(raw))]
+if (length(taxa_cols) == 0) stop("No OTU_* columns found (update taxa_cols selection).")
+
+# split taxonomy rows vs data rows
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+# taxonomy lookup per OTU column
+tax_lookup <- tax_block %>%
+  select(all_of(first_col), all_of(taxa_cols)) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+# long abundance table
+long <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = suppressWarnings(as.numeric(abundance))) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+# ---- DATE PARSING (handles 10_12_2021 etc.) ----
+if (!("Date" %in% names(long))) stop("No 'Date' column found.")
+long <- long %>%
+  mutate(
+    Date = dmy(str_replace_all(as.character(Date), "[_./]", "-")),
+    MonthYear = floor_date(Date, "month")
+  )
+
+# ---- AGGREGATE AT TAXONOMIC RANK ----
+if (!(rank_level %in% names(long))) stop(paste0("rank_level '", rank_level, "' not found."))
+
+agg <- long %>%
+  mutate(rank_value = as.character(.data[[rank_level]]),
+         rank_value = ifelse(is.na(rank_value) | rank_value == "", "Unresolved", rank_value)) %>%
+  group_by(MonthYear, rank_value) %>%
+  summarise(total_reads = sum(abundance, na.rm = TRUE), .groups = "drop")
+
+# ---- TOP 10 TAXA OVERALL ----
+top_ranks <- agg %>%
+  group_by(rank_value) %>%
+  summarise(grand_total = sum(total_reads, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(grand_total)) %>%
+  slice_head(n = top_n_taxa) %>%
+  pull(rank_value)
+
+plot_df <- agg %>%
+  mutate(rank_value = ifelse(rank_value %in% top_ranks, rank_value, "Other")) %>%
+  group_by(MonthYear, rank_value) %>%
+  summarise(total_reads = sum(total_reads, na.rm = TRUE), .groups = "drop")
+
+# order legend: biggest on top, then Other last
+legend_order <- plot_df %>%
+  group_by(rank_value) %>%
+  summarise(grand_total = sum(total_reads), .groups = "drop") %>%
+  arrange(desc(grand_total)) %>%
+  pull(rank_value)
+
+plot_df <- plot_df %>%
+  mutate(rank_value = factor(rank_value, levels = legend_order))
+
+# y transform (to mimic log scale look)
+plot_df <- plot_df %>%
+  mutate(y = if (use_log1p) log1p(total_reads) else total_reads)
+
+# ---- PLOT (stacked bars, like your example) ----
+p <- ggplot(plot_df, aes(x = MonthYear, y = y, fill = rank_value)) +
+  geom_col(width = 25) +  # wide bars similar to monthly panels
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %y") +
+  labs(
+    title = paste0("Temporal composition of dominant taxa (Top ", top_n_taxa, " ", rank_level, ")"),
+    x = "Month-Year",
+    y = if (use_log1p) "Abundance (log1p reads)" else "Abundance (reads)",
+    fill = "Taxa"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "right"
+  )
+
+print(p)
+
+ggsave(paste0("dominant_taxa_top", top_n_taxa, "_", tolower(rank_level), "_stacked.png"),
+       p, width = 11, height = 6, dpi = 300)
+
+```
+
+
+```{r}
+# ============================================================
+# Relative abundance (% of total ASV reads) for multiple ranks
+# Time window: Sep 2021 to Jul 2022 (inclusive)
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(readxl)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(lubridate)
+  library(ggplot2)
+  library(forcats)
+})
+
+# ---- SETTINGS ----
+infile <- "asv_all_with_taxonomy.xlsx"
+sheet  <- 1
+
+ranks_to_plot <- c("Kingdom","Phylum","Class","Order","Family","Genus")
+top_n_taxa    <- 10
+date_breaks   <- "1 month"
+date_labels   <- "%b %y"
+out_dir       <- "taxa_relabund_plots_sep21_jul22"
+
+# inclusive window
+start_month <- as.Date("2021-09-01")
+end_month   <- as.Date("2022-07-01")
+
+dir.create(out_dir, showWarnings = FALSE)
+
+# ---- READ ----
+raw <- read_excel(infile, sheet = sheet)
+
+first_col  <- names(raw)[1]
+tax_labels <- c("Kingdom","Phylum","Class","Order","Family","Genus","Species","Taxonomy_source")
+taxa_cols  <- names(raw)[grepl("^OTU_", names(raw))]
+if (length(taxa_cols) == 0) stop("No OTU_* columns found (update taxa_cols selection).")
+
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+tax_lookup <- tax_block %>%
+  select(all_of(first_col), all_of(taxa_cols)) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  mutate(rank = as.character(rank)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+long <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = suppressWarnings(as.numeric(abundance))) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+# ---- DATE PARSING ----
+if (!("Date" %in% names(long))) stop("No 'Date' column found.")
+long <- long %>%
+  mutate(
+    Date = dmy(str_replace_all(as.character(Date), "[_./]", "-")),
+    MonthYear = floor_date(Date, "month")
+  )
+
+if (all(is.na(long$MonthYear))) stop("Date parsing failed: MonthYear is all NA.")
+
+# ---- FILTER WINDOW: Sep 2021 to Jul 2022 inclusive ----
+long <- long %>%
+  filter(MonthYear >= start_month, MonthYear <= end_month)
+
+# ---- total ASV reads per month (denominator) ----
+month_totals <- long %>%
+  group_by(MonthYear) %>%
+  summarise(total_asv_reads = sum(abundance, na.rm = TRUE), .groups = "drop")
+
+# ---- helper: plot one rank as relative abundance ----
+plot_rank_rel <- function(df_long, rank_level, top_n = 10, month_totals_df) {
+
+  if (!(rank_level %in% names(df_long))) {
+    stop(paste0("Rank column not found: ", rank_level))
+  }
+
+  agg <- df_long %>%
+    mutate(rank_value = as.character(.data[[rank_level]]),
+           rank_value = ifelse(is.na(rank_value) | rank_value == "", "Unresolved", rank_value)) %>%
+    group_by(MonthYear, rank_value) %>%
+    summarise(rank_reads = sum(abundance, na.rm = TRUE), .groups = "drop")
+
+  # Top N taxa overall in the window
+  top_vals <- agg %>%
+    group_by(rank_value) %>%
+    summarise(grand_total = sum(rank_reads, na.rm = TRUE), .groups = "drop") %>%
+    arrange(desc(grand_total)) %>%
+    slice_head(n = top_n) %>%
+    pull(rank_value)
+
+  comp <- agg %>%
+    mutate(rank_value = ifelse(rank_value %in% top_vals, rank_value, "Other")) %>%
+    group_by(MonthYear, rank_value) %>%
+    summarise(rank_reads = sum(rank_reads, na.rm = TRUE), .groups = "drop") %>%
+    left_join(month_totals_df, by = "MonthYear") %>%
+    mutate(rel_abund_pct = 100 * rank_reads / total_asv_reads)
+
+  # Legend order by overall contribution (Other last)
+  legend_levels <- comp %>%
+    group_by(rank_value) %>%
+    summarise(grand_total = sum(rank_reads, na.rm = TRUE), .groups = "drop") %>%
+    arrange(desc(grand_total)) %>%
+    pull(rank_value)
+
+  if ("Other" %in% legend_levels) legend_levels <- c(setdiff(legend_levels, "Other"), "Other")
+
+  comp <- comp %>%
+    mutate(rank_value = factor(rank_value, levels = legend_levels))
+
+  p <- ggplot(comp, aes(x = MonthYear, y = rel_abund_pct, fill = rank_value)) +
+    geom_col(width = 25) +
+    scale_x_date(date_breaks = date_breaks, date_labels = date_labels,
+                 expand = expansion(mult = c(0.01, 0.01))) +
+    scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.02))) +
+    labs(
+      title = paste0("Relative abundance of ASV reads (", rank_level, ") — Sep 2021 to Jul 2022"),
+      x = "Month-Year",
+      y = "Relative abundance (% of total ASV reads)",
+      fill = rank_level
+    ) +
+    theme_bw(base_size = 12) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor = element_blank(),
+      legend.position = "right"
+    )
+
+  p
+}
+
+# ---- run all ranks + save ----
+plots <- list()
+
+for (rk in ranks_to_plot) {
+  p <- plot_rank_rel(long, rk, top_n = top_n_taxa, month_totals_df = month_totals)
+  plots[[rk]] <- p
+
+  out_file <- file.path(out_dir, paste0("relabund_top", top_n_taxa, "_", tolower(rk), "_sep21_jul22.png"))
+  ggsave(out_file, p, width = 11, height = 6, dpi = 300)
+}
+
+# print an example
+print(plots[["Order"]])
+
+message("Saved plots to: ", normalizePath(out_dir))
+
+```
+
+```{r}
+
+  library(readxl)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(lubridate)
+  library(ggplot2)
+  library(scales)
+
+# ===============================================================================
+# CONFIGURATION
+# ===============================================================================
+CONFIG <- list(
+  infile = "asv_all_with_taxonomy.xlsx",
+  sheet = 1,
+
+  ranks = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"),
+  top_n = 10,
+
+  date_start = as.Date("2021-09-01"),
+  date_end   = as.Date("2022-07-01"),
+
+  plot_width  = 11,
+  plot_height = 6,
+  plot_dpi    = 300,
+
+  output_dir = "taxa_relabund_plots_sep21_jul22"
+)
+
+dir.create(CONFIG$output_dir, showWarnings = FALSE, recursive = TRUE)
+
+# ===============================================================================
+# DATA LOADING AND PROCESSING
+# ===============================================================================
+message("Reading data from: ", CONFIG$infile)
+raw <- read_excel(CONFIG$infile, sheet = CONFIG$sheet)
+
+first_col <- names(raw)[1]
+tax_labels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus",
+                "Species", "Taxonomy_source")
+taxa_cols <- names(raw)[grepl("^OTU_", names(raw))]
+
+if (length(taxa_cols) == 0) stop("No OTU_* columns found. Check column naming.")
+message("Found ", length(taxa_cols), " OTU columns")
+
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+tax_lookup <- tax_block %>%
+  select(all_of(c(first_col, taxa_cols))) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+long_data <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = as.numeric(abundance)) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+# ===============================================================================
+# DATE PARSING AND FILTERING
+# ===============================================================================
+if (!("Date" %in% names(long_data))) stop("'Date' column not found in data.")
+
+long_data <- long_data %>%
+  mutate(
+    Date = dmy(str_replace_all(as.character(Date), "[_./]", "-")),
+    MonthYear = floor_date(Date, "month")
+  ) %>%
+  filter(
+    MonthYear >= CONFIG$date_start,
+    MonthYear <= CONFIG$date_end,
+    !is.na(abundance),
+    abundance > 0
+  )
+
+if (nrow(long_data) == 0) stop("No data remaining after date filtering.")
+message("Data range: ", min(long_data$MonthYear), " to ", max(long_data$MonthYear))
+
+# Create discrete month label for plotting (removes “timeline gaps”)
+month_levels <- seq(CONFIG$date_start, CONFIG$date_end, by = "month")
+month_levels <- floor_date(month_levels, "month")
+month_labels <- format(month_levels, "%b %y")
+
+# ===============================================================================
+# PLOTTING FUNCTION - RELATIVE ABUNDANCE THAT SUMS TO 100 PER MONTH
+# ===============================================================================
+create_relabund_plot <- function(data, rank_name, top_n) {
+
+  if (!(rank_name %in% names(data))) stop("Rank '", rank_name, "' not found in data.")
+
+  # Aggregate reads per Month x Taxon
+rank_summary <- data %>%
+  mutate(
+    taxon = as.character(.data[[rank_name]]),
+    taxon = str_trim(taxon),
+    taxon = na_if(taxon, ""),                      # blanks -> NA
+    taxon = if_else(is.na(taxon), NA_character_, taxon)
+  ) %>%
+  filter(
+    !is.na(taxon),
+    !str_to_lower(taxon) %in% c("total", "unclassified")
+  ) %>%
+  group_by(MonthYear, taxon) %>%
+  summarise(reads = sum(abundance, na.rm = TRUE), .groups = "drop")
+
+
+  # Top N taxa overall
+  top_taxa <- rank_summary %>%
+    group_by(taxon) %>%
+    summarise(total_reads = sum(reads), .groups = "drop") %>%
+    arrange(desc(total_reads)) %>%
+    slice_head(n = top_n) %>%
+    pull(taxon)
+
+  # Group to top taxa + Other, THEN compute RA so each month totals 100
+  plot_data <- rank_summary %>%
+    mutate(taxon_grouped = if_else(taxon %in% top_taxa, taxon, "Other")) %>%
+    group_by(MonthYear, taxon_grouped) %>%
+    summarise(reads = sum(reads), .groups = "drop") %>%
+    group_by(MonthYear) %>%
+    mutate(rel_abundance = 100 * reads / sum(reads, na.rm = TRUE)) %>%  # <-- key fix
+    ungroup()
+
+  # Consistent legend order; "Other" last
+  taxon_order <- plot_data %>%
+    group_by(taxon_grouped) %>%
+    summarise(total = sum(reads), .groups = "drop") %>%
+    arrange(desc(total)) %>%
+    filter(taxon_grouped != "Other") %>%
+    pull(taxon_grouped)
+  taxon_order <- c(taxon_order, "Other")
+
+  plot_data <- plot_data %>%
+    mutate(
+      taxon_grouped = factor(taxon_grouped, levels = taxon_order),
+      MonthLabel = factor(format(MonthYear, "%b %y"), levels = month_labels)
+    )
+
+  ggplot(plot_data, aes(x = MonthLabel, y = rel_abundance, fill = taxon_grouped)) +
+    geom_col(width = 0.95) +  # discrete bars, no gaps due to date spacing
+    scale_y_continuous(
+      limits = c(0, 100),
+      expand = expansion(mult = c(0, 0.02)),
+      breaks = seq(0, 100, 20)
+    ) +
+    labs(
+      title = sprintf("Relative Abundance by %s (Sep 2021 - Jul 2022)", rank_name),
+      subtitle = sprintf("Top %d taxa shown; remaining grouped as 'Other'", top_n),
+      x = NULL,
+      y = "Relative Abundance (% of total ASV reads)",
+      fill = rank_name
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor = element_blank(),
+      legend.position = "right",
+      plot.title = element_text(face = "bold", size = 14),
+      plot.subtitle = element_text(size = 10, color = "gray30"),
+
+      panel.background  = element_rect(fill = "white", colour = NA),
+      plot.background   = element_rect(fill = "white", colour = NA),
+      legend.background = element_rect(fill = "white", colour = NA),
+      legend.key        = element_rect(fill = "white", colour = NA)
+    )
+}
+
+# ===============================================================================
+# GENERATE AND SAVE ALL PLOTS
+# ===============================================================================
+message("\nGenerating plots...")
+
+for (rank in CONFIG$ranks) {
+  message("  Processing: ", rank)
+
+  p <- create_relabund_plot(
+    data = long_data,
+    rank_name = rank,
+    top_n = CONFIG$top_n
+  )
+
+  filename <- file.path(
+    CONFIG$output_dir,
+    sprintf("relabund_top%d_%s.png", CONFIG$top_n, tolower(rank))
+  )
+
+  ggsave(
+    filename = filename,
+    plot = p,
+    width = CONFIG$plot_width,
+    height = CONFIG$plot_height,
+    dpi = CONFIG$plot_dpi
+  )
+
+  message("    Saved: ", basename(filename))
+}
+
+message("\n✓ Complete! Plots saved to: ", normalizePath(CONFIG$output_dir))
+
+# ===============================================================================
+# SUMMARY STATISTICS (optional sanity check)
+# ===============================================================================
+summary_stats <- long_data %>%
+  group_by(MonthYear) %>%
+  summarise(
+    n_samples = n_distinct(Date),
+    n_otus = n_distinct(taxon_col),
+    total_reads = sum(abundance),
+    .groups = "drop"
+  )
+
+message("\nMonthly summary:")
+print(summary_stats, n = Inf)
+
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(readxl)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(lubridate)
+  library(ggplot2)
+  library(scales)
+})
+
+# ===============================================================================
+# CONFIG
+# ===============================================================================
+CONFIG <- list(
+  infile = "asv_all_with_taxonomy.xlsx",
+  sheet = 1,
+  date_start = as.Date("2021-09-01"),
+  date_end   = as.Date("2022-07-01"),
+  output_dir = "zooplankton_taxa_plots",
+  keep_other = TRUE,            # FALSE to drop "Other"
+  total_log10 = FALSE           # TRUE to plot log10(total_reads + 1)
+)
+
+# Taxa groups to match your figure (exact labels used in legend)
+TAXA_GROUPS <- c(
+  "Bivalvia",
+  "Bryozoa",
+  "Gastropoda",
+  "Balanoida",
+  "Brachiopoda",
+  "Copepoda",
+  "Hydrozoa",
+  "Malacostraca",
+  "Polychaeta"
+)
+
+dir.create(CONFIG$output_dir, showWarnings = FALSE, recursive = TRUE)
+
+# ===============================================================================
+# HELPERS: map taxonomy -> the figure's taxa groups
+# ===============================================================================
+map_to_taxa_group <- function(Kingdom, Phylum, Class, Order, Family, Genus, Species) {
+
+  blob <- paste(Kingdom, Phylum, Class, Order, Family, Genus, Species, sep = " ; ")
+  blob <- str_to_lower(coalesce(blob, ""))
+
+  case_when(
+    str_detect(blob, "bivalv") ~ "Bivalvia",
+    str_detect(blob, "gastropod") ~ "Gastropoda",
+    str_detect(blob, "copepod") ~ "Copepoda",
+    str_detect(blob, "malacostrac") ~ "Malacostraca",
+    str_detect(blob, "polychaet") ~ "Polychaeta",
+    str_detect(blob, "hydrozo") ~ "Hydrozoa",
+    str_detect(blob, "bryozo") ~ "Bryozoa Larvae",
+    str_detect(blob, "balanoid") ~ "Balanoida",
+    str_detect(blob, "brachiopod") ~ "Brachiopoda",
+    TRUE ~ "Other"
+  )
+}
+
+
+# ===============================================================================
+# LOAD + reshape
+# ===============================================================================
+raw <- read_excel(CONFIG$infile, sheet = CONFIG$sheet)
+
+first_col <- names(raw)[1]
+tax_labels <- c("Kingdom","Phylum","Class","Order","Family","Genus","Species","Taxonomy_source")
+taxa_cols <- names(raw)[grepl("^OTU_", names(raw))]
+if (length(taxa_cols) == 0) stop("No OTU_* columns found.")
+
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+tax_lookup <- tax_block %>%
+  select(all_of(c(first_col, taxa_cols))) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+long_data <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = as.numeric(abundance)) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+if (!("Date" %in% names(long_data))) stop("'Date' column not found in data.")
+
+long_data <- long_data %>%
+  mutate(
+    Date = dmy(str_replace_all(as.character(Date), "[_./]", "-")),
+    MonthYear = floor_date(Date, "month")
+  ) %>%
+  filter(
+    MonthYear >= CONFIG$date_start,
+    MonthYear <= CONFIG$date_end,
+    !is.na(abundance),
+    abundance > 0
+  )
+
+
+# Drop any OTUs whose taxonomy contains "total" in any rank field
+tax_fields <- intersect(c("Kingdom","Phylum","Class","Order","Family","Genus","Species"), names(long_data))
+
+long_data <- long_data %>%
+  filter(
+    !if_any(all_of(tax_fields), ~ str_detect(str_to_lower(coalesce(as.character(.x), "")), "total"))
+  )
+
+
+# Discrete months for “no gaps”
+month_levels <- seq(CONFIG$date_start, CONFIG$date_end, by = "month") |> floor_date("month")
+month_labels <- format(month_levels, "%B %y")  # "September 21" style like your figure
+
+# ===============================================================================
+# BUILD taxa-group table (match the figure)
+# ===============================================================================
+legend_levels <- if (CONFIG$keep_other) c(TAXA_GROUPS, "Other") else TAXA_GROUPS
+
+grouped <- long_data %>%
+  mutate(
+    taxa_group = map_to_taxa_group(Kingdom, Phylum, Class, Order, Family, Genus, Species)
+  ) %>%
+  group_by(MonthYear, taxa_group) %>%
+  summarise(reads = sum(abundance, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    MonthLabel = factor(format(MonthYear, "%B %y"), levels = month_labels),
+    taxa_group = factor(taxa_group, levels = legend_levels)
+  ) %>%
+  tidyr::complete(MonthLabel, taxa_group, fill = list(reads = 0))  # ensure missing groups show
+
+
+# Force legend order = your figure order (+ Other last if kept)
+legend_levels <- if (CONFIG$keep_other) c(TAXA_GROUPS, "Other") else TAXA_GROUPS
+
+grouped <- grouped %>%
+  mutate(
+    MonthLabel = factor(format(MonthYear, "%B %y"), levels = month_labels),
+    taxa_group = factor(taxa_group, levels = legend_levels)
+  )
+
+# ===============================================================================
+# A) RELATIVE ABUNDANCE PLOT
+# ===============================================================================
+rel_df <- grouped %>%
+  group_by(MonthYear) %>%
+  mutate(rel_abundance = 100 * reads / sum(reads, na.rm = TRUE)) %>%
+  ungroup() %>% 
+  filter(taxa_group != "Other") 
+
+p_rel <- ggplot(rel_df, aes(x = MonthLabel, y = rel_abundance, fill = taxa_group)) +
+  geom_col(width = 0.92) +
+  scale_y_continuous(
+    limits = c(0, 100),
+    breaks = seq(0, 100, 20),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  labs(
+    title = "Temporal composition of dominant zooplankton taxa",
+    subtitle = "Relative abundance (% of total ASV reads)",
+    x = "Month-Year",
+    y = "Relative abundance (%)",
+    fill = "Taxa"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    panel.background  = element_rect(fill = "white", colour = NA),
+    plot.background   = element_rect(fill = "white", colour = NA),
+    legend.background = element_rect(fill = "white", colour = NA),
+    legend.key        = element_rect(fill = "white", colour = NA)
+  )
+
+p_rel
+
+
+```
+
+
+```{r}
+data <- read.csv("asv_all_with_complete_taxonomy.csv")
+
+CONFIG <- list(
+  infile = "asv_all_with_taxonomy.xlsx",
+  sheet = 1,
+
+  ranks = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus"),
+  top_n = 10,
+
+  date_start = as.Date("2021-09-01"),
+  date_end   = as.Date("2022-07-01"),
+
+  plot_width  = 11,
+  plot_height = 6,
+  plot_dpi    = 300,
+
+  output_dir = "taxa_relabund_plots_sep21_jul22"
+)
+
+dir.create(CONFIG$output_dir, showWarnings = FALSE, recursive = TRUE)
+
+# ===============================================================================
+# DATA LOADING AND PROCESSING
+# ===============================================================================
+message("Reading data from: ", CONFIG$infile)
+raw <- read_excel(CONFIG$infile, sheet = CONFIG$sheet)
+
+first_col <- names(raw)[1]
+tax_labels <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus",
+                "Species", "Taxonomy_source")
+taxa_cols <- names(raw)[grepl("^OTU_", names(raw))]
+
+if (length(taxa_cols) == 0) stop("No OTU_* columns found. Check column naming.")
+message("Found ", length(taxa_cols), " OTU columns")
+
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+tax_lookup <- tax_block %>%
+  select(all_of(c(first_col, taxa_cols))) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+long_data <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = as.numeric(abundance)) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+
+
+dom_plank_taxa <- long_data %>% 
+  filter(!if_any(everything(),
+                 ~ grepl("\\btotal\\b", .x, ignore.case = TRUE)))
+
+dom_plank_taxa <- dom_plank_taxa %>% 
+  select(-matches("total", ignore.case = TRUE))
+
+
+taxa_pat <- paste(
+  c("bivalv", "gastropod", "balanoid", "brachiopod", "copepod",
+    "hydrozo", "malacostrac", "polychaet", "bryozo"),
+  collapse = "|"
+)
+
+
+tax_cols <- intersect(c("Kingdom","Phylum","Class","Order","Family","Genus","Species"), names(long_data))
+
+long_data <- long_data %>%
+  filter(if_any(all_of(tax_cols),
+                ~ grepl(taxa_pat, .x, ignore.case = TRUE)))
+
+dom_plank_taxa <- long_data %>% 
+  filter(!if_any(everything(),
+                 ~ grepl("\\btotal\\b", .x, ignore.case = TRUE)))
+
+dom_plank_taxa <- dom_plank_taxa %>% 
+  select(-matches("total", ignore.case = TRUE))
+
+
+
+```
+
+
+
+```{r}
+plot_df <- dom_plank_taxa %>% 
+  select(Date,Seaweed,Kingdom, Family, Phylum, Order, Class, Genus, Species, abundance) %>% 
+  filter(Seaweed != "Alaria")
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

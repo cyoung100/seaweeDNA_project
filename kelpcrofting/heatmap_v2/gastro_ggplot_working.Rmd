@@ -17,14 +17,14 @@ library(janitor)
 library(forcats)
 
 theme_set(
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 13) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 12),
-      axis.text        = element_text(size = 12),
-      legend.title     = element_text(size = 12),
-      legend.text      = element_text(size = 12),
-      strip.text       = element_text(size = 12)
+      axis.title       = element_text(size = 13),
+      axis.text        = element_text(size = 13),
+      legend.title     = element_text(size = 13),
+      legend.text      = element_text(size = 13),
+      strip.text       = element_text(size = 13)
     )
 )
 
@@ -38,7 +38,7 @@ gastro <- read.csv("gastro_heatmap_full.csv") %>%
         rissoa_p_cm = rissoa / for_standardizing,
         patella_p_cm = patella / for_standardizing,
          parsed_date = make_date(year, month, day)) %>% 
-  select(-for_standardizing)
+  select(-for_standardizing,- plankton_gastropoda_uncorrected)
 ```
 
 ```{r}
@@ -65,7 +65,7 @@ gastro_longer <- gastro %>%
     measurement_origin = case_when(
       measurement_type == "eDNA"                               ~ "Plankton eDNA (RSV)",
       measurement_type == "plankton"                           ~ "Plankton Abundance (cell/L)",
-      measurement_type == "blade"  ~ "Blade Abundance - (ind/cm²)",
+      measurement_type == "blade"  ~ "Blade Abundance - (ind./cm²)",
       TRUE                                                     ~ NA_character_
     ),
     measurement_value = case_when(
@@ -106,7 +106,7 @@ gastro_longer <- gastro_longer %>%
       "Rissoa sp." = "rissoa_p_cm",
       "Patella sp." = "patella_p_cm",
       "Lacuna sp." = "lacuna_p_cm",
-      "Gibbula sp." = "gibbula_p_cm",
+      "Steromphala sp." = "gibbula_p_cm",
       "Gastropoda" = "plankton_gastropoda"
       # (you can add more here if needed)
     )
@@ -156,10 +156,10 @@ station_labels <- paste0("S", raw_stations)
 d_e      <- filter(gastro_longer, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(gastro_longer, measurement_origin == "Plankton Abundance (cell/L)")
 d_b_sacc <- filter(gastro_longer,
-                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   measurement_origin == "Blade Abundance - (ind./cm²)",
                    seaweed == "Saccharina")
 d_b_ala  <- filter(gastro_longer,
-                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   measurement_origin == "Blade Abundance - (ind./cm²)",
                    seaweed == "Alaria")
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -176,19 +176,19 @@ scale_e <- scale_fill_viridis_c(
 
 scale_p <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Meroplankton\nAbundance\n(cells/L)",
+  name      = "Meroplankton\nAbundance\n(ind./L)",
   na.value  = "grey90"
 )
 
 scale_b_a <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Alaria frond\nAbundance\n(ind/cm²)",
+  name      = "Alaria frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 
 scale_b_s <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Saccharina frond\nAbundance\n(ind/cm²)",
+  name      = "Saccharina frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 
@@ -243,7 +243,7 @@ p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
     axis.text.y         = element_text(size = 10),
     axis.title.x        = element_blank()
   ) +
-  ylab("Saccharina\n(ind/cm²)")
+  ylab("Saccharina\n(ind./cm²)")
 
 p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
                           y = fct_rev(species_id),
@@ -266,7 +266,7 @@ p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
           legend.title     = element_text(size = 10),  # <- uniform legend title
       legend.text      = element_text(size = 10),
   ) +
-  ylab("Alaria\n(ind/cm²)")+
+  ylab("Alaria\n(ind./cm²)")+
   theme(axis.title.y = element_text(size = 10))
 
 final_plot <- p1 / p2 / p3 / p4 +
@@ -320,17 +320,17 @@ date_labels <- format(date_levels, "%d %b")
 
 gastro_by_date <- gastro_by_date %>%
   mutate(
-    # numeric index for plotting
+    # numeric ind.ex for plotting
     date_idx = as.numeric(factor(parsed_date, levels = date_levels))
   )
 
 # 3) split into the four panels again
 d_e      <- filter(gastro_by_date, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(gastro_by_date, measurement_origin == "Plankton Abundance (cell/L)")
-d_b_sacc <- filter(gastro_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Saccharina",
+d_b_sacc <- filter(gastro_by_date, measurement_origin == "Blade Abundance - (ind./cm²)", seaweed == "Saccharina",
     species_id != "Corophium sp."
 )
-d_b_ala  <- filter(gastro_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Alaria",
+d_b_ala  <- filter(gastro_by_date, measurement_origin == "Blade Abundance - (ind./cm²)", seaweed == "Alaria",
     species_id != "Corophium sp."
 )
 
@@ -360,7 +360,7 @@ p2 <- ggplot(d_p, aes(x = date_idx, y = species_id, fill = measurement_value)) +
     axis.title.x        = element_blank(),
     axis.text.y      = element_text(size = 10)
   ) +
-  ylab("Meroplankton\nAbundance\n(cells/L)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Meroplankton\nAbundance\n(ind./L)")+ theme(axis.title.y = element_text(size = 11))
 
 p3 <- ggplot(d_b_sacc, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_s +
@@ -371,7 +371,7 @@ p3 <- ggplot(d_b_sacc, aes(x = date_idx, y = fct_rev(species_id), fill = measure
     axis.title.x        = element_blank(),
     axis.text.y      = element_text(size = 10)
   ) +
-  ylab("Saccharina\nfrond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Saccharina\nfrond\nAbundance\n(ind./cm²)")+ theme(axis.title.y = element_text(size = 11))
 
 p4 <- ggplot(d_b_ala, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_a +
@@ -386,7 +386,7 @@ p4 <- ggplot(d_b_ala, aes(x = date_idx, y = fct_rev(species_id), fill = measurem
     axis.ticks.x      = element_blank(),
     axis.text.y       = element_text(size = 10)
   ) +
-  ylab("Alaria frond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Alaria frond\nAbundance\n(ind./cm²)")+ theme(axis.title.y = element_text(size = 11))
 
 # 5) stack & print
 final_plot <- p1 / p2 / p3 / p4 +

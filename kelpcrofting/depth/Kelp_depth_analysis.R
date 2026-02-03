@@ -20,12 +20,10 @@ epi_segment<-subset(epi,Seaweed.species == "Saccharina")
 epi_segment<-subset(epi_segment, Segment == "tip"|Segment == "middle"|Segment == "base")
 epi_segment<-epi_segment[epi_segment$Date < "2022-07-30",]
 
-#epi<-epi %>% drop_na(blade_area)# this keeps only the info on the 
-#epi<-epi %>% drop_na(blade_area)
+epi<-epi %>% drop_na(blade_area)# this keeps only the info on the 
+epi<-epi %>% drop_na(blade_area)
 
-#phyto_mean<-phyto1 %>% group_by(Sample.no) %>%
-  #summarise(across(everything(), ~ mean(.x, na.rm = TRUE)))
-#epi<-epi %>% filter(sample.no <57)
+epi<-epi %>% filter(sample.no <57)
 
 #Epibionts by part blade
 ggplot(epi_segment, aes(x=factor(Date), y=percent_Hydrozoans, fill=Segment)) +
@@ -46,7 +44,10 @@ ggplot(epi_segment, aes(x=factor(Date), y=percent_Hydrozoans, fill=Segment)) +
     axis.line.x      = element_line(color = "black", size = 0.3),
     axis.line.y      = element_line(color = "black", size = 0.3),
     axis.text.x      = element_text(angle = , hjust = 0.5)
-  )
+  ) + 
+  stat_compare_means(method = "anova", label.y = 40)+      # Add global p-value
+  stat_compare_means(label = "p.signif", method = "t.test",
+                     ref.group = ".all.")     
 
 #stats
 model1<-lm(percent_Hydrozoans~Segment+factor(Date), data=epi_segment)
@@ -318,3 +319,64 @@ ggplot(data=plankton_sites, aes(x=Site.x, y=Total_Zooplankton)) +
   ylab("Phytoplankotn cells/L")+
   theme_classic()+
   theme(legend.position = "none",text = element_text(size=14))+scale_fill_brewer(palette="Dark2") 
+
+################ Calum ploit change
+library(dplyr)
+library(ggplot2)
+
+# ensure clean factors (prevents silent plotting issues)
+epi_segment2 <- epi_segment %>%
+  mutate(
+    Date = as.Date(Date),
+    new_date = factor(Date),
+    Segment = trimws(as.character(Segment)),
+    Segment = factor(Segment, levels = c("base", "middle", "tip"))
+  ) %>%
+  filter(!is.na(percent_Hydrozoans), !is.na(Date), !is.na(Segment))
+
+epi_segment2 <- epi_segment2 %>% relocate(new_date, .before = 1)
+
+
+epi_segment2 <- epi_segment %>%
+  mutate(
+    new_date = as.Date(new_date))
+
+# medians per segment x date (for the trend lines)
+med_df <- epi_segment2 %>%
+  group_by(new_date, Segment) %>%
+  summarise(med = median(percent_Hydrozoans, na.rm = TRUE), .groups = "drop")
+
+# model + subtitle (your existing approach)
+model1 <- lm(percent_Hydrozoans ~ Segment + new_date, data = epi_segment2)
+a <- anova(model1)
+p_txt <- paste0(
+  "Two-way ANOVA: Segment p=", format.pval(a["Segment","Pr(>F)"], digits = 3),
+  "; Date p=", format.pval(a["new_date","Pr(>F)"], digits = 3)
+)
+
+ggplot(epi_segment2, aes(x = new_date, y = percent_Hydrozoans, fill = Segment)) +
+  geom_boxplot(position = position_dodge(width = 0.8), width = 0.65, outlier.alpha = 0.4) +
+  # median trend lines (connect medians across dates)
+  geom_line(data = med_df,
+            aes(x = new_date, y = med, group = Segment, color = Segment),
+            position = position_dodge(width = 0.8), linewidth = 0.9) +
+  geom_point(data = med_df,
+             aes(x = new_date, y = med, group = Segment, color = Segment),
+             position = position_dodge(width = 0.8), size = 2) +
+  scale_fill_manual(values = c("base"="darkgreen","middle"="green","tip"="lightgreen")) +
+  scale_color_manual(values = c("base"="darkgreen","middle"="green","tip"="lightgreen")) +
+  labs(
+    x = "Sampling date",
+    y = "Obelia spp. (Hydrozoa) % blade",
+    fill = "Frond segment",
+    subtitle = p_txt
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "top",
+    axis.line.x = element_line(color = "black", linewidth = 0.3),
+    axis.line.y = element_line(color = "black", linewidth = 0.3),
+    axis.text.x = element_text(angle = 0, hjust = 0.5)
+  )

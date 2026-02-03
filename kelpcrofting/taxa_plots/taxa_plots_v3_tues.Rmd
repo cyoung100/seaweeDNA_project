@@ -1,0 +1,31 @@
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+
+
+df <- read_csv("taxa_long_tues_enhanced.csv")
+
+
+```
+
+```{r}
+
+
+
+
+ggplot(plot_df,
+       aes(x = log10(zooplankton + eps),
+           y = log10(reads + eps),
+           colour = Group_precise)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(
+    x = "log10(Zooplankton group relative abundance + eps)",
+    y = "log10(Reads group relative abundance + eps)",
+    colour = "Group"
+  )
+```
+

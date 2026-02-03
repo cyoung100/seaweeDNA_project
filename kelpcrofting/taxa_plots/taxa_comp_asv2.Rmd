@@ -1,0 +1,446 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(lubridate)
+  library(ggplot2)
+})
+
+# =========================
+# SETTINGS
+# =========================
+infile <- "asv_all_with_complete_taxonomy.csv"
+
+# time window (edit or set to NULL to disable)
+date_start <- as.Date("2021-09-01")
+date_end   <- as.Date("2022-07-01")
+
+use_log1p <- TRUE   # TRUE = log1p(reads) like the plankton “log” look
+out_png   <- "edna_designated_taxa_groups_stacked.png"
+
+# Legend order (designated groups ONLY)
+TAXA_GROUPS <- c(
+  "Bivalvia","Bryozoa","Gastropoda","Balanoida","Brachiopoda",
+  "Copepoda","Hydrozoa","Malacostraca","Polychaeta"
+)
+
+# =========================
+# READ + REMOVE OTU_ PREFIX FROM OTU COLUMNS
+# =========================
+raw <- read.csv(infile, check.names = FALSE, stringsAsFactors = FALSE)
+
+first_col  <- names(raw)[1]
+tax_labels <- c("Kingdom","Phylum","Class","Order","Family","Genus","Species","Taxonomy_source")
+
+# capture OTU columns BEFORE renaming
+taxa_cols_raw <- names(raw)[grepl("^OTU_", names(raw))]
+if (length(taxa_cols_raw) == 0) stop("No OTU_* columns found in the CSV.")
+
+# rename OTU_* columns by stripping the prefix
+raw <- raw %>%
+  rename_with(~ str_remove(.x, "^OTU_"), all_of(taxa_cols_raw))
+
+# updated OTU column names after rename
+taxa_cols <- str_remove(taxa_cols_raw, "^OTU_")
+
+# =========================
+# SPLIT TAXONOMY BLOCK vs DATA BLOCK
+# =========================
+tax_block  <- raw %>% filter(.data[[first_col]] %in% tax_labels)
+data_block <- raw %>% filter(!(.data[[first_col]] %in% tax_labels))
+
+# taxonomy lookup per OTU column (now OTU IDs without "OTU_")
+tax_lookup <- tax_block %>%
+  select(all_of(c(first_col, taxa_cols))) %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "value") %>%
+  rename(rank = all_of(first_col)) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+# long abundance table
+long <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "taxon_col", values_to = "abundance") %>%
+  mutate(abundance = suppressWarnings(as.numeric(abundance))) %>%
+  left_join(tax_lookup, by = "taxon_col")
+
+# =========================
+# DATE PARSING + FILTER
+# =========================
+if (!("Date" %in% names(long))) stop("No 'Date' column found in the data rows.")
+
+long <- long %>%
+  mutate(
+    Date      = dmy(str_replace_all(as.character(Date), "[_./]", "-")),
+    MonthYear = floor_date(Date, "month")
+  ) %>%
+  filter(!is.na(MonthYear), !is.na(abundance), abundance > 0)
+
+if (!is.null(date_start)) long <- long %>% filter(MonthYear >= date_start)
+if (!is.null(date_end))   long <- long %>% filter(MonthYear <= date_end)
+
+# drop any rows mentioning the WORD "total" anywhere in taxonomy fields
+tax_cols <- intersect(c("Kingdom","Phylum","Class","Order","Family","Genus","Species"), names(long))
+long <- long %>%
+  filter(!if_any(all_of(tax_cols), ~ grepl("\\btotal\\b", as.character(.x), ignore.case = TRUE)))
+
+# =========================
+# MAP TAXONOMY -> DESIGNATED GROUPS (rank-aware + synonyms)
+# =========================
+map_to_taxa_group <- function(Kingdom, Phylum, Class, Order, Family, Genus, Species) {
+
+  ph <- str_to_lower(str_trim(coalesce(as.character(Phylum),  "")))
+  cl <- str_to_lower(str_trim(coalesce(as.character(Class),   "")))
+  or <- str_to_lower(str_trim(coalesce(as.character(Order),   "")))
+  fa <- str_to_lower(str_trim(coalesce(as.character(Family),  "")))
+  bl <- str_to_lower(paste(Kingdom, Phylum, Class, Order, Family, Genus, Species, sep=" ; "))
+
+  case_when(
+    # Class-level (best when present)
+    cl == "bivalvia"     ~ "Bivalvia",
+    cl == "gastropoda"   ~ "Gastropoda",
+    cl == "copepoda"     ~ "Copepoda",
+    cl == "hydrozoa"     ~ "Hydrozoa",
+    cl == "malacostraca" ~ "Malacostraca",
+    cl == "polychaeta"   ~ "Polychaeta",
+
+    # Phylum-level
+    ph == "bryozoa"      ~ "Bryozoa",
+    ph == "brachiopoda"  ~ "Brachiopoda",
+
+    # Balanoida / barnacles often show as Balanidae / Cirripedia / Sessilia / Balanomorpha / Thecostraca
+    or == "balanoida" | fa == "balanidae" |
+      str_detect(bl, "balanoida|balanomorph|sessil|cirrip|thecostrac|balanidae") ~ "Balanoida",
+
+    # Fallback patterns for when ranks differ
+    str_detect(bl, "bivalv|mytil|ostre|pectin|vener") ~ "Bivalvia",
+    str_detect(bl, "gastropod|littorin|risso|nudibranch|patell") ~ "Gastropoda",
+    str_detect(bl, "copepod|calanoida|cyclopoida|harpacticoida|calanoid|cyclopoid|harpactic") ~ "Copepoda",
+    str_detect(bl, "hydrozo|leptothecat|anthothecat|campanular") ~ "Hydrozoa",
+    str_detect(bl, "malacostrac|amphipod|decapod|isopod|jassa|caprell") ~ "Malacostraca",
+    str_detect(bl, "polychaet|annelid|erranti|sedentari|spion|sabell|phyllodoc|terebell|capitell") ~ "Polychaeta",
+    str_detect(bl, "bryozo|gymnolaemata|cheilostomat|membranipor|electr") ~ "Bryozoa",
+    str_detect(bl, "brachiopod|brachnipod") ~ "Brachiopoda",
+
+    TRUE ~ NA_character_
+  )
+}
+
+grouped <- long %>%
+  mutate(taxa_group = map_to_taxa_group(Kingdom, Phylum, Class, Order, Family, Genus, Species)) %>%
+  filter(!is.na(taxa_group), taxa_group %in% TAXA_GROUPS)
+
+# quick coverage printout (so you can see what matched)
+print(grouped %>% count(taxa_group, sort = TRUE), n = Inf)
+
+# =========================
+# MONTHLY STACKED ABUNDANCE (DESIGNATED GROUPS ONLY)
+# =========================
+month_levels <- seq(floor_date(min(grouped$MonthYear), "month"),
+                    floor_date(max(grouped$MonthYear), "month"),
+                    by = "month")
+month_labels <- format(month_levels, "%b %y")
+
+month_tax <- grouped %>%
+  group_by(MonthYear, taxa_group) %>%
+  summarise(total_reads = sum(abundance, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    MonthLabel = factor(format(MonthYear, "%b %y"), levels = month_labels),
+    taxa_group = factor(taxa_group, levels = TAXA_GROUPS)
+  ) %>%
+  tidyr::complete(MonthLabel, taxa_group, fill = list(total_reads = 0)) %>%
+  mutate(y = if (use_log1p) log1p(total_reads) else total_reads)
+
+# =========================
+# ONE PLOT (STACKED, PLANKTON-STYLE)
+# =========================
+p <- ggplot(month_tax, aes(x = MonthLabel, y = y, fill = taxa_group)) +
+  geom_col(width = 0.92) +
+  labs(
+    title = "Temporal composition of designated taxa groups (eDNA)",
+    subtitle = if (use_log1p) "Stacked log1p(total ASV reads)" else "Stacked total ASV reads",
+    x = "Month-Year",
+    y = if (use_log1p) "Abundance (log1p reads)" else "Abundance (reads)",
+    fill = "Taxa"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "right"
+  )
+
+p
+
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(janitor)
+# df = your wide table exactly like the screenshot:
+# - column headers are the OTU/ASV IDs (currently species-like names)
+# - first 7 rows are taxonomy levels (Kingdom, Phylum, Class, Order, Family, Genus, Species)
+# - rows after that are sample rows with numeric abundances
+
+
+
+df <- read.csv("all_data_kelpcrofting.csv")# <- change to your object
+df <- df %>% 
+  clean_names() %>% 
+  filter(seaweed != "Alaria") %>% 
+  select(-station_no, -seaweed) 
+
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+# df = your wide table like the screenshot
+df <- df  # <- change to your object
+
+# 1) define the metadata columns you want to KEEP (left block)
+meta_cols <- c("Seaweed","Sample_code","Site","Location","Station_no","Date","Day","Month","Year")
+
+# (optional) if names differ slightly, keep only those that exist
+meta_cols <- intersect(meta_cols, names(df))
+
+# 2) all taxa/OTU columns are everything NOT in meta_cols
+taxa_cols <- setdiff(names(df), meta_cols)
+
+# 3) taxonomy rows are the ones where Seaweed column equals taxonomic labels
+tax_labels <- c("kingdom","phylum","class","order","family","genus","species","taxonomy_source")
+tax_block  <- df %>% filter(.data[[meta_cols[1]]] %in% tax_labels)   # uses Seaweed column
+data_block <- df %>% filter(!(.data[[meta_cols[1]]] %in% tax_labels))
+
+# 4) make taxonomy lookup (1 row per OTU column)
+tax_lookup <- tax_block %>%
+  select(all_of(meta_cols[1]), all_of(taxa_cols)) %>%                     # Seaweed holds the rank labels
+  pivot_longer(cols = all_of(taxa_cols), names_to = "id", values_to = "value") %>%
+  rename(rank = all_of(meta_cols[1])) %>%
+  pivot_wider(names_from = rank, values_from = value)
+
+# 5) pivot abundance long, RETAINING the metadata columns
+long_abund <- data_block %>%
+  pivot_longer(cols = all_of(taxa_cols), names_to = "id", values_to = "abundance") %>%
+  mutate(abundance = as.numeric(abundance))
+
+# 6) final long table: metadata + abundance + taxonomy columns
+final_long <- long_abund %>%
+  left_join(tax_lookup, by = "id")
+
+final_long
+
+
+```
+
+
+
+```{r}
+library(janitor)
+
+df <- read.csv("asv_all_with_complete_taxonomy.csv") %>% 
+  clean_names() %>% 
+  filter(seaweed != "Alaria") %>% 
+  filter(site != "Scalpay") %>% 
+  select(-seaweed, -day, -month, year, -location,
+         -sample_code, -site, -year, -station_no)
+  
+
+```
+
+```{r}
+meta_cols <- c("date")
+
+df_long <- df %>%
+  pivot_longer(
+    cols = -all_of(meta_cols),   # everything except meta cols
+    names_to  = "id",            # will become the "id" column
+    values_to = "value"
+  ) %>%
+  mutate(
+    id = match(id, names(df))    # convert column name -> column index (1..n)
+  )
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+
+df<- read.csv("taxon_tablev4_pivoted_nonzero.csv") %>% 
+  filter(group_precise != "no")
+```
+
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(forcats)
+
+# 1) Choose colours (approximate match to your figure)
+taxa_cols <- c(
+  "Bivalvia"        = "#A6CEE3",  # light blue
+  "Bryozoa"  = "#1F78B4",  # blue
+  "Gastropoda"      = "#B2DF8A",  # light green
+  "Balanoida"       = "#33A02C",  # green
+  "Branchiopoda"     = "#8C8C3C",  # olive
+  "Copepoda"        = "#FB6A6A",  # pink/red
+  "Hydrozoa"        = "#E31A1C",  # red
+  "Malacostraca"    = "#FDBF6F",  # light orange
+  "Polychaeta"      = "#FF7F00"   # orange
+)
+
+# 2) Build plotting df (monthly stacks)
+plot_df <- df %>%
+  mutate(
+    Date = dmy(str_replace_all(as.character(Date), "_", "/")),
+    MonthYear = floor_date(Date, unit = "month"),
+    Taxa = recode(group_precise,
+                  "Balanidae"  = "Balanoida",
+                  "Polychaet"  = "Polychaeta",
+                  "Bryozoa"    = "Bryozoa",  # only do this if your Bryozoa are larvae
+                  .default     = group_precise)
+  ) %>%
+  filter(Taxa != "no") %>%
+  group_by(MonthYear, Taxa) %>%
+  summarise(Abundance = sum(Abundance, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    Abundance_log = log10(Abundance + 1),
+    Taxa = factor(Taxa, levels = names(taxa_cols))  # force legend/order
+  )
+
+# 3) Plot
+ggplot(plot_df, aes(x = MonthYear, y = Abundance_log, fill = Taxa)) +
+  geom_col(width = 25) +
+  scale_fill_manual(values = taxa_cols, drop = FALSE) +
+  scale_x_date(
+    date_breaks = "1 month",
+    date_labels = "%B %y",
+    expand = expansion(mult = c(0.01, 0.01))
+  ) +
+  labs(
+    x = "Month-Year",
+    y = "Abundance log(cells/L)",
+    fill = "Taxa"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title.position = "plot"
+  )
+
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+
+df <- read_csv("zoo_reads_combined.csv") %>%
+  filter(site == "Pabay", seaweed != "Alaria", date != "15_6_2021") %>%
+  distinct()
+
+plot_df <- df %>%
+  filter(!is.na(sample_type), !is.na(Group_precise)) %>%
+  group_by(sample_code, site, date, sample_type, Group_precise) %>%
+  summarise(
+    abundance = sum(abundance, na.rm = TRUE),
+    total_sample_abund = first(total_sample_abund),
+    .groups = "drop"
+  ) %>%
+  mutate(rel = abundance / total_sample_abund) %>%
+  select(sample_code, site, date, Group_precise, sample_type, rel) %>%
+  pivot_wider(names_from = sample_type, values_from = rel) %>%
+  filter(!is.na(zooplankton), !is.na(reads))
+
+eps <- 1e-6
+
+ggplot(plot_df,
+       aes(x = log10(zooplankton + eps),
+           y = log10(reads + eps),
+           colour = Group_precise)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(
+    x = "log10(Zooplankton group relative abundance + eps)",
+    y = "log10(Reads group relative abundance + eps)",
+    colour = "Group"
+  )
+
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(forcats)
+
+taxa_cols <- c(
+  "Bivalvia"     = "#A6CEE3",
+  "Bryozoa"      = "#1F78B4",
+  "Gastropoda"   = "#B2DF8A",
+  "Balanoida"    = "#33A02C",
+  "Branchiopoda"  = "#8C8C3C",   # (you had Branchiopoda — change if that was a typo)
+  "Copepoda"     = "#FB6A6A",
+  "Hydrozoa"     = "#E31A1C",
+  "Malacostraca" = "#FDBF6F",
+  "Polychaeta"   = "#FF7F00",
+  "no"           = "gray"
+  )
+
+
+plot_df_3 <- df_2 %>%
+  mutate(
+    taxa = recode(group_precise,
+                  "Balanidae" = "Balanoida",
+                  "Polychaet" = "Polychaeta",
+                  .default    = group_precise)
+  ) %>%
+  filter(taxa != "no") %>%
+  pivot_longer(
+    cols = c(reads, zooplankton),
+    names_to = "sample_type",
+    values_to = "abundance"
+  ) %>%
+  group_by(sample_type, month_year, taxa) %>%
+  summarise(abundance = sum(abundance, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    abundance_log = log10(abundance + 1),
+    taxa = factor(taxa, levels = names(taxa_cols)),
+    sample_type = factor(sample_type, levels = c("reads", "zooplankton"))
+  )
+
+ggplot(plot_df_3, aes(x = month_year, y = abundance_log, fill = taxa)) +
+  geom_col(width = 25) +
+  facet_wrap(~ sample_type, ncol = 1, scales = "free_y") +
+  scale_fill_manual(values = taxa_cols, drop = FALSE) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %y",
+               expand = expansion(mult = c(0.01, 0.01))) +
+  labs(x = "Month-Year", y = "Abundance log10(+1)", fill = "Taxa") +
+  theme_minimal() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text = element_text(face = "bold")
+  )
+
+```
+

@@ -17,14 +17,14 @@ library(janitor)
 library(forcats)
 
 theme_set(
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 13) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 12),
-      axis.text        = element_text(size = 12),
-      legend.title     = element_text(size = 12),
-      legend.text      = element_text(size = 12),
-      strip.text       = element_text(size = 12)
+      axis.title       = element_text(size = 13),
+      axis.text        = element_text(size = 13),
+      legend.title     = element_text(size = 13),
+      legend.text      = element_text(size = 13),
+      strip.text       = element_text(size = 13)
     )
 )
 
@@ -39,7 +39,7 @@ amphi <- read.csv("amphi_heatmap.csv") %>%
          jassa_p_cm = jassa / for_standardizing,
          corophium_p_cm = corophium / for_standardizing,
          parsed_date = make_date(year, month, day)) %>% 
-  select(-total_amphipoda, -for_standardizing)
+  select(-total_amphipoda, -for_standardizing, -amphipod_plankton_uncorrected)
 ```
 
 ```{r}
@@ -66,7 +66,7 @@ amphi_longer <- amphi %>%
     measurement_origin = case_when(
       measurement_type == "eDNA"                               ~ "Plankton eDNA (RSV)",
       measurement_type == "plankton"                           ~ "Plankton Abundance (cell/L)",
-      measurement_type == "blade"  ~ "Blade Abundance - (ind/cm²)",
+      measurement_type == "blade"  ~ "Blade Abundance - (ind./cm²)",
       TRUE                                                     ~ NA_character_
     ),
     measurement_value = case_when(
@@ -87,7 +87,7 @@ amphi_longer <- amphi_longer %>%
       otu_jassa_herdmani    = "Jassa herdmani",
       otu_aora_gracilis     = "Aora gracilis",
       # plankton abundance
-      amphipod_plankton     = "Amphipod Plankton\n Abundance (cells/L)",
+      amphipod_plankton     = "Amphipod Plankton\n Abundance (ind./L)",
       # blade abundances on Saccharina & Alaria
       jassa_p_cm            = "Jassa herdmani",
       gammaridae_p_cm       = "Gammaridae",
@@ -141,11 +141,11 @@ station_labels <- paste0("S", raw_stations)
 d_e      <- filter(amphi_longer, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(amphi_longer, measurement_origin == "Plankton Abundance (cell/L)")
 d_b_sacc <- filter(amphi_longer,
-                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   measurement_origin == "Blade Abundance - (ind./cm²)",
                    seaweed == "Saccharina",
                    species_id != "Corophium sp.")
 d_b_ala  <- filter(amphi_longer,
-                   measurement_origin == "Blade Abundance - (ind/cm²)",
+                   measurement_origin == "Blade Abundance - (ind./cm²)",
                    seaweed == "Alaria",
                    species_id != "Corophium sp.")
 
@@ -163,19 +163,19 @@ scale_e <- scale_fill_viridis_c(
 
 scale_p <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Meroplankton\nAbundance\n(cells/L)",
+  name      = "Meroplankton\nAbundance\n(ind./L)",
   na.value  = "grey90"
 )
 
 scale_b_a <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Alaria frond\nAbundance\n(ind/cm²)",
+  name      = "Alaria frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 
 scale_b_s <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Saccharina frond\nAbundance\n(ind/cm²)",
+  name      = "Saccharina frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 
@@ -197,23 +197,23 @@ p1 <- ggplot(d_e, aes(x = as.numeric(sample_order),
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.x.top     = element_text(size = 10),
+    axis.text.x.top     = element_text(size = 13),
     axis.ticks.x.top    = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = 13),
     axis.title.x        = element_blank()
   ) + ylab("Planktonic eDNA\nRSV rel. abundance (%)") +
-  theme(axis.title.y = element_text(size = 10))
+  theme(axis.title.y = element_text(size = 13))
 
 p2 <- ggplot(d_p, aes(x = sample_order, y = species_id, fill = measurement_value)) +
   geom_tile(color = NA) + scale_p +
   theme(
     axis.text.x   = element_blank(),
     axis.ticks.x  = element_blank(),
-    axis.text.y   = element_text(size = 10),
+    axis.text.y   = element_text(size = 13),
     axis.title.x  = element_blank()
   ) +
-  ylab("Abundance\n(cells/L)")+
-  theme(axis.title.y = element_text(size = 10))
+  ylab("Abundance\n(ind./L)")+
+  theme(axis.title.y = element_text(size = 13))
 
 p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
                            y = fct_rev(species_id),
@@ -228,11 +228,11 @@ p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = 13),
     axis.title.x        = element_blank()
   ) +
-  ylab("Saccharina\n(ind/cm²)") +
-  theme(axis.title.y = element_text(size = 10))
+  ylab("Saccharina\n(ind./cm²)") +
+  theme(axis.title.y = element_text(size = 13))
 
 p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
                           y = fct_rev(species_id),
@@ -247,18 +247,18 @@ p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
   ) +
   theme_minimal(base_size = 14) +
   theme(
-    axis.text.x.bottom  = element_text(size = 10, vjust = 3, hjust = 0),
+    axis.text.x.bottom  = element_text(size = 13, vjust = 3, hjust = 0),
     axis.title.x.bottom = element_text(margin = margin(t = 5)),
     axis.ticks.x        = element_blank(),
     panel.background    = element_blank(),
     panel.grid          = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = 13),
     axis.title.x        = element_blank(),
-          legend.title     = element_text(size = 10),  # <- uniform legend title
-      legend.text      = element_text(size = 10),
+          legend.title     = element_text(size = 13),  # <- uniform legend title
+      legend.text      = element_text(size = 13),
   ) +
-  ylab("Alaria\n(ind/cm²)")+
-  theme(axis.title.y = element_text(size = 10))
+  ylab("Alaria\n(ind./cm²)")+
+  theme(axis.title.y = element_text(size = 13))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 9) Stack panels with shared legends
@@ -270,8 +270,8 @@ final_plot <- p1 / p2 / p3 / p4 +
   theme(
     legend.position   = "top",
     legend.direction = "horizontal",
-    legend.title      = element_text(size = 10),
-    legend.text       = element_text(size = 10),
+    legend.title      = element_text(size = 13),
+    legend.text       = element_text(size = 13),
     legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(1, "lines"),
     plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)
@@ -315,17 +315,17 @@ date_labels <- format(date_levels, "%d %b")
 
 amphi_by_date <- amphi_by_date %>%
   mutate(
-    # numeric index for plotting
+    # numeric ind.ex for plotting
     date_idx = as.numeric(factor(parsed_date, levels = date_levels))
   )
 
 # 3) split into the four panels again
 d_e      <- filter(amphi_by_date, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(amphi_by_date, measurement_origin == "Plankton Abundance (cell/L)")
-d_b_sacc <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Saccharina",
+d_b_sacc <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind./cm²)", seaweed == "Saccharina",
     species_id != "Corophium sp."
 )
-d_b_ala  <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind/cm²)", seaweed == "Alaria",
+d_b_ala  <- filter(amphi_by_date, measurement_origin == "Blade Abundance - (ind./cm²)", seaweed == "Alaria",
     species_id != "Corophium sp."
 )
 
@@ -341,10 +341,10 @@ p1 <- ggplot(d_e, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_
   theme(
     axis.text.x.bottom  = element_blank(),
     axis.ticks.x.bottom = element_blank(),
-    axis.text.y         = element_text(size = 10),
+    axis.text.y         = element_text(size = 13),
     axis.title.x        = element_blank()
   ) +
-  ylab("Meroplankton\neDNA log10(ASV)") + theme(axis.title.y = element_text(size = 11))
+  ylab("Meroplankton\neDNA log10(ASV)") + theme(axis.title.y = element_text(size = 13))
 
 p2 <- ggplot(d_p, aes(x = date_idx, y = species_id, fill = measurement_value)) +
   geom_tile() + scale_p +
@@ -353,9 +353,9 @@ p2 <- ggplot(d_p, aes(x = date_idx, y = species_id, fill = measurement_value)) +
     axis.text.x      = element_blank(),
     axis.ticks.x     = element_blank(),
     axis.title.x        = element_blank(),
-    axis.text.y      = element_text(size = 10)
+    axis.text.y      = element_text(size = 13)
   ) +
-  ylab("Abundance\n(cells/L)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Abundance\n(ind./L)")+ theme(axis.title.y = element_text(size = 13))
 
 p3 <- ggplot(d_b_sacc, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_s +
@@ -364,9 +364,9 @@ p3 <- ggplot(d_b_sacc, aes(x = date_idx, y = fct_rev(species_id), fill = measure
     axis.text.x      = element_blank(),
     axis.ticks.x     = element_blank(),
     axis.title.x        = element_blank(),
-    axis.text.y      = element_text(size = 10)
+    axis.text.y      = element_text(size = 13)
   ) +
-  ylab("Saccharina frond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Saccharina frond\nAbundance\n(ind./cm²)")+ theme(axis.title.y = element_text(size = 13))
 
 p4 <- ggplot(d_b_ala, aes(x = date_idx, y = fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_a +
@@ -377,19 +377,19 @@ p4 <- ggplot(d_b_ala, aes(x = date_idx, y = fct_rev(species_id), fill = measurem
     name   = "Date"
   ) +
   theme(
-    axis.text.x       = element_text(size = 10, angle = 45, hjust = 1, vjust = 1.2),
+    axis.text.x       = element_text(size = 13, angle = 45, hjust = 1, vjust = 1.2),
     axis.ticks.x      = element_blank(),
-    axis.text.y       = element_text(size = 10)
+    axis.text.y       = element_text(size = 13)
   ) +
-  ylab("Alaria frond\nAbundance\n(ind/cm²)")+ theme(axis.title.y = element_text(size = 11))
+  ylab("Alaria frond\nAbundance\n(ind./cm²)")+ theme(axis.title.y = element_text(size = 13))
 
 # 5) stack & print
 final_plot <- p1 / p2 / p3 / p4 +
   plot_layout(ncol = 1, heights = c(0.5,0.2,0.6,0.6), guides = "collect") &
   theme(
     legend.position   = "right",
-    legend.title      = element_text(size = 10),
-    legend.text       = element_text(size = 10),
+    legend.title      = element_text(size = 13),
+    legend.text       = element_text(size = 13),
         legend.key.height = unit(0.8, "lines"),
     legend.key.width  = unit(0.8, "lines"),
     plot.margin       = margin(t = 1, r = 3, b = 1, l = 3)

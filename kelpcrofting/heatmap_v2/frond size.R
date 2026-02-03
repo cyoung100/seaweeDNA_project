@@ -3,9 +3,10 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(viridis)
+library(janitor)
 
 # ==== 1) Create data frame ====
-df <- read.csv("../seaweed_area_kc.csv") %>% 
+df <- read.csv("seaweed_area_kc.csv") %>% 
   clean_names()
 
 # ==== 2) Clean ====
@@ -34,3 +35,4 @@ ggplot(df, aes(x = Month, y = mean_blade_area, fill = seaweed_species)) +
     panel.grid.major.x = element_blank(),
     legend.position = "top"
   )
+

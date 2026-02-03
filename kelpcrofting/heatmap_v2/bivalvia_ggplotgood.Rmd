@@ -20,14 +20,14 @@ library(viridis)
 
 # Base theme
 theme_set(
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 13) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 12),
-      axis.text        = element_text(size = 12),
-      legend.title     = element_text(size = 12),
-      legend.text      = element_text(size = 12),
-      strip.text       = element_text(size = 12)
+      axis.title       = element_text(size = 13),
+      axis.text        = element_text(size = 13),
+      legend.title     = element_text(size = 13),
+      legend.text      = element_text(size = 13),
+      strip.text       = element_text(size = 13)
     )
 )
 ```
@@ -44,7 +44,7 @@ bivalvia <- read.csv("bivalvia_heatmap.csv") %>%
         pecten_p_cm = pecten / for_standardizing,
         scallop_p_cm = scallop_brown / for_standardizing,
          parsed_date = make_date(year, month, day)) %>% 
-  select(-for_standardizing)
+  select(-for_standardizing,-plankton_bivalvia_uncorrected)
 
 
 
@@ -71,7 +71,7 @@ biv_long <- bivalvia %>%
     measurement_origin = case_when(
       measurement_type == "eDNA"     ~ "Plankton eDNA (RSV)",
       measurement_type == "plankton" ~ "Plankton Abundance (cell/L)",
-      measurement_type == "blade"    ~ "Blade Abundance (ind/cm²)",
+      measurement_type == "blade"    ~ "Blade Abundance (ind./cm²)",
       TRUE                            ~ NA_character_
     ),
     measurement_value = if_else(
@@ -174,16 +174,16 @@ d_b_ala  <- filter(biv_long,
 scale_e <- scale_fill_viridis_c(option = "magma", direction = -1,
                                name = "Meroplankton\neDNA log10(ASV)  ", na.value = "grey90")
 scale_p <- scale_fill_viridis_c(option = "magma", direction = -1,
-                               name = "Meroplankton\nAbundance\n(cells/L)", na.value = "grey90")
+                               name = "Meroplankton\nAbundance\n(ind./L)", na.value = "grey90")
 scale_b_a <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Alaria Frond\nAbundance\n(ind/cm²)",
+  name      = "Alaria Frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 
 scale_b_s <- scale_fill_viridis_c(
   option    = "magma", direction = -1,
-  name      = "Saccharina frond\nAbundance\n(ind/cm²)",
+  name      = "Saccharina frond\nAbundance\n(ind./cm²)",
   na.value  = "grey90"
 )
 ```
@@ -236,7 +236,7 @@ p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
     axis.text.y         = element_text(size = 10),
     axis.title.x        = element_blank()
   ) +
-  ylab("Saccharina\n(ind/cm²)") +
+  ylab("Saccharina\n(ind./cm²)") +
   theme(axis.title.y = element_text(size = 10))
 
 p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
@@ -260,7 +260,7 @@ p4 <- ggplot(d_b_ala, aes(x = as.numeric(sample_order),
           legend.title     = element_text(size = 10),  # <- uniform legend title
       legend.text      = element_text(size = 10),
   ) +
-  ylab("Alaria\n(ind/cm²)")+
+  ylab("Alaria\n(ind./cm²)")+
   theme(axis.title.y = element_text(size = 10))
 # ─────────────────────────────────────────────────────────────────────────────
 # 9) Stack panels with shared legends
@@ -310,14 +310,14 @@ library(viridis)
 
 # Base theme
 theme_set(
-  theme_minimal(base_size = 10) +
+  theme_minimal(base_size = 13) +
     theme(
       panel.grid       = element_blank(),
-      axis.title       = element_text(size = 10),
-      axis.text        = element_text(size = 10),
-      legend.title     = element_text(size = 10),
-      legend.text      = element_text(size = 10),
-      strip.text       = element_text(size = 10)
+      axis.title       = element_text(size = 13),
+      axis.text        = element_text(size = 13),
+      legend.title     = element_text(size = 13),
+      legend.text      = element_text(size = 13),
+      strip.text       = element_text(size = 13)
     )
 )
 
@@ -364,12 +364,12 @@ biv_long <- bivalvia %>%
     measurement_origin = case_when(
       measurement_type == "eDNA"           ~ "Plankton eDNA (RSV)",
       measurement_type == "plankton"       ~ "Plankton Abundance (cell/L)",
-      measurement_type == "blade"          ~ "Blade Abundance (ind/cm²)",
+      measurement_type == "blade"          ~ "Blade Abundance (ind./cm²)",
       TRUE                                 ~ NA_character_
     ),
     measurement_value = if_else(
       measurement_type == "eDNA",
-      sqrt(measurement_value),
+      log10(measurement_value+1),
       measurement_value
     ),
     y_axis = case_when(
@@ -481,7 +481,7 @@ p1 <- ggplot(d_e, aes(x = as.numeric(sample_order),
     axis.title.x        = element_blank(),
       axis.title.y      = element_text(size = 12, margin = margin(r = 10))
   ) +
-  ylab("Meroplankton\neDNA sqrt(ASV)")
+  ylab("Meroplankton\neDNA log10(ASV)")
 
 p2 <- ggplot(d_p, aes(x = sample_order, y = species_id,
                       fill = measurement_value)) +
@@ -493,7 +493,7 @@ p2 <- ggplot(d_p, aes(x = sample_order, y = species_id,
     axis.title.x  = element_blank(),
      axis.title.y      = element_text(size = 12, margin = margin(r = 10))
   ) +
-  ylab("Meroplankton\nAbundance\n(cells/L)")
+  ylab("Meroplankton\nAbundance\n(ind./L)")
 
 p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
                            y = fct_rev(species_id),
@@ -511,7 +511,7 @@ p3 <- ggplot(d_b_sacc, aes(x = as.numeric(sample_order),
     axis.text.y         = element_text(size = 10),
     axis.title.x        = element_blank()
   ) +
-  ylab("Saccharina frond\nAbundance\n(ind/cm²)") +
+  ylab("Saccharina\nfrond\nAbundance\n(ind./cm²)") +
   theme(   # y axis
     axis.text.y       = element_text(size = 10),
     axis.title.y      = element_text(size = 12, margin = margin(r = 10)))
@@ -533,7 +533,7 @@ p4 <- ggplot(d_b_ala, aes(
     expand  = c(0, 0),
     name    = "Date"
   ) +
-  ylab("Alaria frond\nAbundance\n(ind/cm²) ") +
+  ylab("Alaria frond\nAbundance\n(ind./cm²) ") +
   theme(
     # x axis
     axis.text.x       = element_text(size = 10, vjust = 1.2, hjust = 1, angle = 45),

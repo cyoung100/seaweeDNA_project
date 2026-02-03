@@ -8,12 +8,12 @@ editor_options:
 # ============================================================================
 # FONT SIZE CONTROL - Change these values to adjust all fonts at once
 # ============================================================================
-FONT_BASE <- 11        # Base font size for most elements
-FONT_AXIS_TITLE <- 12  # Axis titles
-FONT_AXIS_TEXT <- 11  # Axis labels/tick marks
-FONT_LEGEND_TITLE <- 11 # Legend titles
-FONT_LEGEND_TEXT <- 11  # Legend labels
-FONT_STRIP <- 11        # Facet strip text
+FONT_BASE <- 13        # Base font size for most elements
+FONT_AXIS_TITLE <- 13  # Axis titles
+FONT_AXIS_TEXT <- 13 # Axis labels/tick marks
+FONT_LEGEND_TITLE <- 13 # Legend titles
+FONT_LEGEND_TEXT <- 13 # Legend labels
+FONT_STRIP <- 13        # Facet strip text
 # ============================================================================
 
 # 0) Libraries & global theme (no grid lines)
@@ -65,7 +65,7 @@ obelia_long <- obelia %>%
   mutate(
     measurement_origin = case_when(
       str_detect(species_id, "^otu_")    ~ "Plankton eDNA (RSV)",
-      str_detect(species_id, "plankton") ~ "Plankton Abundance (individs/L)",
+      str_detect(species_id, "plankton") ~ "Plankton Abundance (ind./L)",
       species_id == "percent_blade_hydrozoans" ~ "Blade Coverage (%)",
       TRUE                               ~ NA_character_
     ),
@@ -169,9 +169,19 @@ obelia_long <- obelia_long %>%
                           levels = order_ids)
   )
 
+
+
+
 # Split data for the four panels
 d_e      <- filter(obelia_long, measurement_origin == "Plankton eDNA (RSV)")
 d_p      <- filter(obelia_long, measurement_origin == "Plankton Abundance (cells/L)")
+
+d_e <- d_e %>%
+  mutate(
+    species_id = recode_factor(
+      species_id, 
+      "Bougainvillia muscus" ="sgges"))
+
 
 d_b_sacc <- obelia_long %>%
   filter(species_id == "percent_blade_hydrozoans",
@@ -204,7 +214,7 @@ scale_e <- scale_fill_gradientn(
 scale_p <- scale_fill_gradientn(
   colors = c("#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"),
   values = scales::rescale(c(0, 10, 50, 200, 300)),
-  name = "Plankton Abundance\n(individs/L)",
+  name = "Plankton Abundance\n(ind./L)",
   na.value = "grey90"
 )
 
@@ -356,7 +366,14 @@ d_e <- obelia_date %>%
     )
   )
 
-d_p      <- filter(obelia_date, measurement_origin == "Plankton Abundance (individs/L)")
+d_e <- d_e %>%
+  mutate(
+    species_id = recode_factor(
+      species_id, 
+      "Bougainvillia muscus" ="Bougainvillia\nmuscus",
+      "Ectopleura larynx" = "Ectopleura\nlarynx"))
+
+d_p      <- filter(obelia_date, measurement_origin == "Plankton Abundance (ind./L)")
 d_b_sacc <- obelia_date %>%
   filter(species_id == "percent_blade_hydrozoans",
          seaweed    == "Saccharina") %>%
@@ -389,7 +406,7 @@ scale_e <- scale_fill_gradientn(
 scale_p <- scale_fill_gradientn(
   colors = viridis::magma(5, direction = -1),
   values = scales::rescale(c(0, 10, 50, 200, 300)),
-  name = "Meroplankton\nAbundance\n(individs/L)", 
+  name = "Meroplankton\nAbundance\n(ind./L)", 
   na.value = "grey90"
 )
 
@@ -436,7 +453,7 @@ p2 <- ggplot(d_p, aes(date_idx, species_id, fill = measurement_value)) +
     axis.title.x     = element_blank(),
     axis.text.y      = element_text(size = FONT_AXIS_TEXT)
   ) +
-  ylab("Meroplankton\nAbundance\n(individs/L)")
+  ylab("Meroplankton\nAbundance\n(ind./L)")
 
 p3 <- ggplot(d_b_sacc, aes(date_idx, fct_rev(species_id), fill = measurement_value)) +
   geom_tile() + scale_b_sac +
