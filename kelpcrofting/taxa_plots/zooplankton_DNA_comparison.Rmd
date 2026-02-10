@@ -1,0 +1,325 @@
+---
+title: "Comparing DNA Reads with Zooplankton Counts"
+author: "Analysis Notebook"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.width = 10, fig.height = 6)
+```
+
+# Introduction
+
+This notebook compares DNA sequencing reads (eDNA) with traditional zooplankton microscopy counts. The goal is to understand how well DNA-based methods match traditional counting methods for different taxonomic groups.
+
+# Load Required Packages
+
+```{r load-packages}
+# Install packages if needed (uncomment the lines below)
+# install.packages(c("tidyverse", "ggplot2", "scales"))
+
+# Load packages
+library(tidyverse)  # For data manipulation and plotting
+library(scales)     # For nice axis formatting
+```
+
+# Load and Prepare Data
+
+```{r load-data}
+# Read the CSV file
+data <- read.csv("asvtaxonkelp.csv", stringsAsFactors = FALSE)
+
+# Look at the structure
+cat("Total rows in dataset:", nrow(data), "\n")
+cat("Column names:", paste(names(data), collapse = ", "), "\n\n")
+
+# Show first few rows
+head(data) %>% 
+  select(Sample_code, phylum, zooplank_abundance, eDNA_reads, total_reads) %>%
+  print()
+```
+
+## Filter for Zooplankton Data
+
+```{r filter-zooplankton}
+# Keep only zooplankton records (where we have count data)
+zoo_data <- data %>%
+  filter(!is.na(zooplank_abundance) & zooplank_abundance >= 0,
+         !is.na(eDNA_reads),
+         !is.na(total_reads),
+         total_reads > 0) %>%
+  # Focus on key zooplankton phyla
+  filter(phylum %in% c("Arthropoda", "Annelida", "Mollusca", "Cnidaria", 
+                       "Bryozoa", "Echinodermata", "Chordata", "Rotifera"))
+
+cat("Filtered to", nrow(zoo_data), "zooplankton records\n")
+cat("Unique phyla:", paste(unique(zoo_data$phylum), collapse = ", "), "\n")
+```
+
+## Calculate Relative Abundances
+
+```{r calculate-relative}
+# Calculate relative abundances
+zoo_data <- zoo_data %>%
+  mutate(
+    # Relative DNA reads (already calculated in dataset, but we recalculate for clarity)
+    rel_DNA = eDNA_reads / total_reads,
+    
+    # Relative zooplankton abundance (proportion within each sample)
+    rel_zoo = zooplank_abundance / Total_Zooplankton,
+    
+    # Log10 transform (adding small value to avoid log(0))
+    log_rel_DNA = log10(rel_DNA + 1e-10),
+    log_rel_zoo = log10(rel_zoo + 1e-10)
+  )
+
+# Summary statistics
+cat("\nSummary of relative abundances:\n")
+summary(zoo_data[, c("rel_DNA", "rel_zoo")])
+```
+
+## Aggregate by Taxonomic Group
+
+For clearer visualization, we'll aggregate data by phylum for each sample.
+
+```{r aggregate-by-phylum}
+# Sum abundances by sample and phylum
+phylum_data <- zoo_data %>%
+  group_by(Sample_code, phylum, Total_Zooplankton, total_reads) %>%
+  summarize(
+    zoo_count = sum(zooplank_abundance, na.rm = TRUE),
+    DNA_reads = sum(eDNA_reads, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    # Calculate relative abundances
+    rel_zoo = zoo_count / Total_Zooplankton,
+    rel_DNA = DNA_reads / total_reads,
+    
+    # Log10 transform
+    log_rel_zoo = log10(rel_zoo + 1e-10),
+    log_rel_DNA = log10(rel_DNA + 1e-10)
+  )
+
+cat("Aggregated to", nrow(phylum_data), "phylum-level records\n")
+cat("Samples:", length(unique(phylum_data$Sample_code)), "\n")
+cat("Phyla:", length(unique(phylum_data$phylum)), "\n")
+```
+
+# Analysis 1: Per-Group Alignment Strength
+
+This analysis calculates the correlation between DNA reads and zooplankton counts for each taxonomic group.
+
+```{r alignment-strength}
+# Calculate Spearman correlation for each phylum
+alignment_stats <- phylum_data %>%
+  group_by(phylum) %>%
+  summarize(
+    n_samples = n(),
+    spearman_rho = cor(log_rel_zoo, log_rel_DNA, method = "spearman", use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(spearman_rho))
+
+print(alignment_stats)
+```
+
+## Plot: Alignment Strength by Phylum
+
+```{r plot-alignment, fig.height=6}
+# Reorder phyla by correlation strength
+alignment_stats <- alignment_stats %>%
+  mutate(phylum = fct_reorder(phylum, spearman_rho))
+
+# Create the plot
+ggplot(alignment_stats, aes(x = spearman_rho, y = phylum)) +
+  geom_point(size = 4) +
+  labs(
+    title = "Per-group alignment strength",
+    x = "Spearman rho (log10 rel zoo vs log10 rel reads)",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 12)
+  )
+```
+
+**Interpretation:** This plot shows how well DNA reads correlate with microscopy counts for each group. Higher values (closer to 1) mean better agreement between methods.
+
+# Analysis 2: Overall Relationship
+
+Now let's look at the overall relationship between DNA reads and zooplankton counts across all samples and taxa.
+
+```{r overall-correlation}
+# Calculate overall correlation
+overall_cor <- cor(phylum_data$log_rel_zoo, phylum_data$log_rel_DNA, 
+                   method = "spearman", use = "complete.obs")
+
+cat("Overall Spearman correlation:", round(overall_cor, 3), "\n")
+```
+
+## Plot: DNA Reads vs Zooplankton Abundance
+
+```{r plot-overall, fig.height=7, fig.width=10}
+# Create color palette for phyla
+phylum_colors <- scales::hue_pal()(length(unique(phylum_data$phylum)))
+names(phylum_colors) <- sort(unique(phylum_data$phylum))
+
+# Plot with linear fit
+ggplot(phylum_data, aes(x = log_rel_zoo, y = log_rel_DNA, color = phylum)) +
+  geom_point(size = 2, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", linewidth = 1) +
+  scale_color_manual(values = phylum_colors, name = "Taxa") +
+  labs(
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative reads"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank()
+  )
+```
+
+**Interpretation:** This scatterplot shows the overall relationship. Each point is one phylum in one sample. The black line shows the trend - a positive slope means DNA reads tend to increase with microscopy counts.
+
+# Analysis 3: Relationship by Taxonomic Group
+
+Let's examine the relationship separately for each phylum to see if some groups show better agreement than others.
+
+```{r plot-by-phylum, fig.height=10, fig.width=12}
+# Plot with separate trend lines for each phylum
+ggplot(phylum_data, aes(x = log_rel_zoo, y = log_rel_DNA, color = phylum)) +
+  geom_point(size = 2, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = phylum_colors, name = "Taxa") +
+  labs(
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative reads"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank()
+  )
+```
+
+**Interpretation:** This plot shows separate trend lines for each taxonomic group, revealing which groups show positive, negative, or no relationship between DNA and microscopy data.
+
+# Analysis 4: Faceted View by Taxonomic Group
+
+For a clearer view of individual groups, let's create separate panels for each phylum.
+
+```{r plot-faceted, fig.height=10, fig.width=12}
+# Calculate stats for each phylum to display on plots
+phylum_stats <- phylum_data %>%
+  group_by(phylum) %>%
+  summarize(
+    rho = cor(log_rel_zoo, log_rel_DNA, method = "spearman", use = "complete.obs"),
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    label = paste0("ρ = ", round(rho, 2), "\nn = ", n)
+  )
+
+# Join stats to data
+phylum_data_with_stats <- phylum_data %>%
+  left_join(phylum_stats, by = "phylum")
+
+# Create faceted plot
+ggplot(phylum_data_with_stats, aes(x = log_rel_zoo, y = log_rel_DNA)) +
+  geom_point(aes(color = phylum), size = 2, alpha = 0.7, show.legend = FALSE) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue", linewidth = 1) +
+  geom_text(aes(label = label), x = -Inf, y = Inf, hjust = -0.1, vjust = 1.5, size = 3.5) +
+  facet_wrap(~ phylum, scales = "free", ncol = 3) +
+  labs(
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative reads"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(face = "bold")
+  )
+```
+
+**Interpretation:** Each panel shows one taxonomic group. The blue line is the best-fit trend. The correlation coefficient (ρ) and sample size (n) are shown in each panel.
+
+# Summary Statistics
+
+```{r summary-table}
+# Create summary table
+summary_table <- phylum_data %>%
+  group_by(phylum) %>%
+  summarize(
+    n_samples = n(),
+    mean_zoo_abundance = mean(zoo_count, na.rm = TRUE),
+    mean_DNA_reads = mean(DNA_reads, na.rm = TRUE),
+    correlation = cor(log_rel_zoo, log_rel_DNA, method = "spearman", use = "complete.obs"),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(correlation))
+
+print(summary_table)
+```
+
+# Key Findings
+
+```{r findings}
+cat("\n=== KEY FINDINGS ===\n\n")
+
+cat("1. Overall correlation between DNA reads and zooplankton counts:\n")
+cat("   Spearman ρ =", round(overall_cor, 3), "\n\n")
+
+cat("2. Phyla with strongest agreement (top 3):\n")
+top_3 <- alignment_stats %>% arrange(desc(spearman_rho)) %>% head(3)
+for(i in 1:3) {
+  cat("   ", i, ". ", top_3$phylum[i], " (ρ = ", round(top_3$spearman_rho[i], 2), 
+      ", n = ", top_3$n_samples[i], ")\n", sep = "")
+}
+
+cat("\n3. Phyla with weakest agreement (bottom 3):\n")
+bottom_3 <- alignment_stats %>% arrange(spearman_rho) %>% head(3)
+for(i in 1:3) {
+  cat("   ", i, ". ", bottom_3$phylum[i], " (ρ = ", round(bottom_3$spearman_rho[i], 2), 
+      ", n = ", bottom_3$n_samples[i], ")\n", sep = "")
+}
+
+cat("\n4. Sample size: ", length(unique(phylum_data$Sample_code)), " samples\n", sep = "")
+cat("5. Number of phyla analyzed: ", length(unique(phylum_data$phylum)), "\n\n", sep = "")
+```
+
+# Conclusion
+
+This analysis compares eDNA sequencing with traditional microscopy counts for zooplankton. The results show varying levels of agreement across different taxonomic groups, which helps us understand:
+
+- **Which groups** are well-detected by DNA methods
+- **Which groups** may require method refinement
+- **Overall patterns** in the relationship between DNA and morphological identification
+
+The correlation values (Spearman's rho) range from negative to positive, indicating that:
+- **Positive correlations**: DNA reads increase with microscopy counts (good agreement)
+- **Near-zero correlations**: Little relationship between methods
+- **Negative correlations**: Inverse relationship (requires investigation)
+
+---
+
+**How to use this notebook:**
+
+1. Make sure the CSV file `asvtaxonkelp.csv` is in the same directory
+2. Install required packages if needed (see first code chunk)
+3. Run all chunks sequentially (Ctrl/Cmd + Shift + Enter)
+4. Adjust the phyla filter if you want to focus on different groups
+5. Modify plot aesthetics as needed for publication
+
+---
