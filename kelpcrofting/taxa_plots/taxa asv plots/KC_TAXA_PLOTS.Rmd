@@ -1,0 +1,398 @@
+---
+output:
+  word_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+library(tidyverse)
+library(lubridate)
+
+# ----------------------------
+# 1) Read + clean names
+# ----------------------------
+df <- read_csv("focal_group_comparison_main2.csv", show_col_types = FALSE)
+
+names(df) <- names(df) %>%
+  str_replace_all(" ", "_") %>%
+  tolower()
+
+# Identify measurement columns
+zoo_cols   <- names(df)[str_detect(names(df), "^zoo_(count|rel)_")]
+reads_cols <- names(df)[str_detect(names(df), "^reads_")]              # absolute eDNA reads
+edna_rel_cols <- names(df)[str_detect(names(df), "^edna_.*_rel$")]     # relative eDNA reads
+
+# Meta = everything else
+meta_cols <- setdiff(names(df), c(zoo_cols, reads_cols, edna_rel_cols))
+
+# ----------------------------
+# 2) Pivot zoo -> zoo_count / zoo_rel
+# ----------------------------
+zoo_long <- df %>%
+  pivot_longer(
+    cols = all_of(zoo_cols),
+    names_to = c("metric", "taxa"),
+    names_pattern = "^zoo_(count|rel)_(.+)$",
+    values_to = "value"
+  ) %>%
+  mutate(
+    taxa   = str_to_lower(taxa),
+    metric = if_else(metric == "count", "zoo_count", "zoo_rel")
+  ) %>%
+  group_by(across(all_of(meta_cols)), taxa, metric) %>%
+  summarise(value = sum(value, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = metric, values_from = value, values_fill = 0)
+
+# ----------------------------
+# 3) Pivot absolute eDNA reads: reads_* -> edna
+# ----------------------------
+edna_abs_long <- df %>%
+  pivot_longer(
+    cols = all_of(reads_cols),
+    names_to = "taxa",
+    names_pattern = "^reads_(.+)$",
+    values_to = "edna"
+  ) %>%
+  mutate(taxa = str_to_lower(taxa)) %>%
+  group_by(across(all_of(meta_cols)), taxa) %>%
+  summarise(edna = sum(edna, na.rm = TRUE), .groups = "drop")
+
+# ----------------------------
+# 4) Pivot relative eDNA reads: edna_*_rel -> edna_rel
+# ----------------------------
+edna_rel_long <- df %>%
+  pivot_longer(
+    cols = all_of(edna_rel_cols),
+    names_to = "taxa",
+    names_pattern = "^edna_(.+)_rel$",
+    values_to = "edna_rel"
+  ) %>%
+  mutate(taxa = str_to_lower(taxa)) %>%
+  group_by(across(all_of(meta_cols)), taxa) %>%
+  summarise(edna_rel = sum(edna_rel, na.rm = TRUE), .groups = "drop")
+
+# Combine abs + rel eDNA
+edna_long <- full_join(edna_abs_long, edna_rel_long, by = c(meta_cols, "taxa"))
+
+# ----------------------------
+# 5) Join zoo + eDNA -> final df_long
+# ----------------------------
+df_long <- full_join(zoo_long, edna_long, by = c(meta_cols, "taxa")) %>%
+  mutate(
+    zoo_count = replace_na(zoo_count, 0),
+    zoo_rel   = replace_na(zoo_rel, 0),
+    edna      = replace_na(edna, 0),
+    edna_rel  = replace_na(edna_rel, 0),
+    taxa = str_replace_all(taxa, "_", " "),
+    taxa = str_squish(taxa),
+    taxa = str_to_title(taxa)
+  )
+
+df_long
+
+```
+
+```{r}
+
+# ============================================================
+# 6) Plot: log10(zoo_rel) vs log10(edna_rel)
+#    - Other in grey
+# ============================================================
+plot_df <- df_long %>%
+# filter(zoo_rel > 0, edna_rel > 0) %>%
+  mutate(
+    log_rel_zoo   = log10(zoo_rel),
+    log_rel_reads = log10(edna_rel)
+  ) %>%
+  filter(taxa != "Other") %>% 
+  group_by(sample_code)
+
+
+p <- ggplot(plot_df, aes(x = log_rel_zoo, y = log_rel_reads, colour = taxa)) +
+  geom_point(alpha = 0.7, size = 2) +
+  geom_smooth(aes(group = taxa), method = "lm", se = FALSE, linewidth = 1) +
+  theme_classic(base_size = 14) +
+  labs(
+    groups = "Taxa",
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative eDNA reads",
+    colour = NULL
+  )
+
+p
+
+```
+
+
+```{r}
+ggplot(plot_df, aes(log_rel_zoo, log_rel_reads)) +
+  geom_point(alpha = 0.7, size = 2) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ taxa, scales = "free") +
+  theme_classic(base_size = 14)
+
+plot_df %>% count(taxa, sort = TRUE)
+
+
+```
+
+
+```{r}
+ggplot(plot_df, aes(log_rel_zoo, log_rel_reads, colour = taxa)) +
+  geom_point(alpha = 0.7, size = 2) +
+  geom_smooth(aes(group = 1), method = "lm", se = TRUE, colour = "black", linewidth = 1) +
+  theme_classic(base_size = 14) +
+  labs(
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative eDNA reads",
+    colour = NULL
+  )
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+taxa_keep <- plot_df %>%
+  count(taxa) %>%
+  filter(n >= 10) %>%
+  pull(taxa)
+
+ggplot(plot_df, aes(log_rel_zoo, log_rel_reads, colour = taxa)) +
+  geom_point(alpha = 0.7, size = 2) +
+  geom_smooth(
+    data = plot_df %>% filter(taxa %in% taxa_keep),
+    method = "lm", se = TRUE
+  ) +
+  theme_classic(base_size = 14) +
+  labs(x = "Log10 relative zooplankton abundance",
+       y = "Log10 relative eDNA reads",
+       colour = NULL)
+
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+lab_df <- plot_df %>%
+  count(taxa) %>%
+  mutate(taxa_lab = paste0(taxa, " (n=", n, ")"))
+
+plot_df2 <- plot_df %>%
+  left_join(lab_df, by = "taxa")
+
+ggplot(plot_df2, aes(log_rel_zoo, log_rel_reads)) +
+  geom_point(alpha = 0.7, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, colour = "black") +
+  facet_wrap(~ taxa_lab, scales = "free") +
+  theme_classic(base_size = 12) +
+  labs(x = "Log10 relative zooplankton abundance",
+       y = "Log10 relative eDNA reads")
+
+```
+
+```{r}
+library(dplyr)
+
+corr_tbl <- plot_df %>%
+  group_by(taxa) %>%
+  summarise(
+    n = n(),
+    spearman_rho = suppressWarnings(cor(zoo_rel, edna_rel, method = "spearman")),
+    spearman_p   = suppressWarnings(cor.test(zoo_rel, edna_rel, method="spearman")$p.value),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n), desc(spearman_rho))
+
+corr_tbl
+corr_tbl %>% filter(n >= 10)
+
+```
+
+
+```{r}
+
+# ============================================================
+# 7) (Optional) Per-taxa correlations on non-zero pairs
+# ============================================================
+align_tbl <- plot_df %>%
+  group_by(taxa) %>%
+  summarise(
+    n = n(),
+    spearman_rho = suppressWarnings(cor(log_rel_zoo, log_rel_reads, method = "spearman")),
+    pearson_r    = suppressWarnings(cor(log_rel_zoo, log_rel_reads, method = "pearson")),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(spearman_rho))
+
+align_tbl
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Non-zero pairs (for correlation labels)
+df_nz <- df_long %>%
+  filter(zoo_rel > 0, edna_rel > 0)
+
+# Per-taxa Spearman on non-zero pairs
+rho_tbl <- df_nz %>%
+  group_by(taxa) %>%
+  summarise(
+    n = n(),
+    rho = suppressWarnings(cor(zoo_rel, edna_rel, method = "spearman")),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    label = paste0("ρ = ", round(rho, 2), "\n", "n = ", n)
+  )
+
+# Data-driven pseudocounts (half smallest non-zero)
+pc_zoo   <- min(df_long$zoo_rel[df_long$zoo_rel > 0], na.rm = TRUE) / 2
+pc_reads <- min(df_long$edna_rel[df_long$edna_rel > 0], na.rm = TRUE) / 2
+
+# Log-transform with pseudocount; flag zeros
+plot_df0 <- df_long %>%
+  mutate(
+    log_rel_zoo   = log10(zoo_rel + pc_zoo),
+    log_rel_reads = log10(edna_rel + pc_reads),
+    zero_pair = (zoo_rel == 0 | edna_rel == 0)
+  )
+
+ggplot(plot_df0, aes(x = log_rel_zoo, y = log_rel_reads)) +
+  geom_point(aes(alpha = !zero_pair), size = 2) +
+  scale_alpha_manual(values = c(`TRUE` = 0.25, `FALSE` = 0.85), guide = "none") +
+  geom_smooth(
+    data = plot_df0 %>% filter(!zero_pair),
+    aes(group = 1),
+    method = "lm", se = FALSE
+  ) +
+  facet_wrap(~ taxa, scales = "free") +
+  geom_text(
+    data = rho_tbl,
+    aes(x = -Inf, y = Inf, label = label),
+    inherit.aes = FALSE,
+    hjust = -0.05, vjust = 1.1,
+    size = 3.5
+  ) +
+  theme_classic(base_size = 14) +
+  labs(
+    x = "Log10 relative zooplankton abundance",
+    y = "Log10 relative reads"
+  )
+
+```
+
+```{r}
+
+plot_df_2 <- df_long %>% 
+  mutate(
+    date = dmy(str_replace_all(date, "_", "/")),  # handles 15_6_2021 or 15/6/2021
+    day  = day(date),
+    month = month(date),
+    month_name = month(date, label = TRUE, abbr = F),
+    year = year(date),
+    month_year_date = floor_date(date, "month"),
+    month_year = format(month_year_date, "%b-%Y")
+  ) %>%
+  arrange(month_year) %>% 
+  filter(month_year != "Jun-2021")
+
+```
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(scales)
+
+
+# ensure Other is last
+plot_df_2 <- plot_df_2 %>%
+  mutate(taxa = fct_relevel(taxa, "Other", after = Inf))
+
+# build a manual fill palette: grey for Other, default ggplot hues for the rest
+taxa_levels <- levels(plot_df_2$taxa)
+other_col <- "grey70"
+
+pal_rest <- scales::hue_pal()(sum(taxa_levels != "Other"))
+pal <- setNames(rep(NA_character_, length(taxa_levels)), taxa_levels)
+pal[taxa_levels != "Other"] <- pal_rest
+pal["Other"] <- other_col
+
+ggplot(plot_df_2, aes(x = month_year_date, y = zoo_rel, fill = taxa)) +
+  geom_col(position = "fill") +
+  scale_y_continuous(labels = percent) +
+  scale_x_date(date_labels = "%b-%Y", date_breaks = "1 month") +
+  scale_fill_manual(values = pal) +
+  labs(x = NULL, y = "Relative Zooplankton abundance (cells/L)", fill = NULL) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+        
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(scales)
+
+# ensure Other is last
+plot_df_2_edna <- plot_df_2 %>%
+  mutate(taxa = fct_relevel(taxa, "Other", after = Inf))
+
+# manual fill palette: Other grey, others default ggplot hues
+taxa_levels <- levels(plot_df_2_edna$taxa)
+pal_rest <- scales::hue_pal()(sum(taxa_levels != "Other"))
+pal <- setNames(rep(NA_character_, length(taxa_levels)), taxa_levels)
+pal[taxa_levels != "Other"] <- pal_rest
+pal["Other"] <- "grey70"
+
+ggplot(plot_df_2_edna, aes(x = month_year_date, y = edna_rel, fill = taxa)) +
+  geom_col(position = "fill") +
+  scale_y_continuous(labels = percent) +
+  scale_x_date(date_labels = "%b-%Y", date_breaks = "1 month") +
+  scale_fill_manual(values = pal) +
+  labs(x = NULL, y = "Relative eDNA reads (ASV)", fill = NULL) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(scales)
+
+# ensure Other is last
+plot_df_2_edna <- plot_df_2 %>%
+  mutate(taxa = fct_relevel(taxa, "Other", after = Inf)) %>% 
+  filter(taxa != "Other")
+
+# manual fill palette: Other grey, others default ggplot hues
+taxa_levels <- levels(plot_df_2_edna$taxa)
+pal_rest <- scales::hue_pal()(sum(taxa_levels != "Other"))
+pal <- setNames(rep(NA_character_, length(taxa_levels)), taxa_levels)
+pal[taxa_levels != "Other"] <- pal_rest
+pal["Other"] <- "grey70"
+
+ggplot(plot_df_2_edna, aes(x = month_year_date, y = edna_rel, fill = taxa)) +
+  geom_col(position = "fill") +
+  scale_y_continuous(labels = percent) +
+  scale_x_date(date_labels = "%b-%Y", date_breaks = "1 month") +
+  scale_fill_manual(values = pal) +
+  labs(x = NULL, y = "Relative eDNA reads (ASV)", fill = NULL) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
